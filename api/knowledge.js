@@ -1,0 +1,814 @@
+module.exports = `
+## **BLUEWUD CONCEPTS PRIVATE LIMITED - COMPREHENSIVE FAQ DATABASE**
+
+### **COMPANY INFORMATION**
+
+**Q: What is Bluewud?**
+A: Bluewud designs, manufactures and markets range of Innovative & Contemporary Furniture and Decor products. Our designs complement and connect with our Customer's Lifestyle, Imagination and Aspirations.
+
+**Q: When was Bluewud established?**
+A: Bluewud started with a humble beginning in September 2015 when we began with our range of laptop tables.
+
+**Q: Where is Bluewud located?**
+A: We have our manufacturing unit located in Noida (Delhi/NCR, India) which is spread over 30,000 sqft. Our corporate office address is Bluewud Concepts Pvt. Ltd, A-108, Sector 65, Noida, Uttar Pradesh.
+
+**Q: What manufacturing capabilities does Bluewud have?**
+A: Our facility is equipped with all state of the art machinery including computer controlled digital cutters, edge banders, trimmers and polishers, sawing machines, laser cutters, sanders, metal and other material polishers along with our customized and self-designed machines to do specialized tasks.
+
+**Q: Does Bluewud have any patents?**
+A: Currently, we hold one patent and working towards many more patents and design registrations to protect our Intellectual properties.
+
+### **PRODUCT CATEGORIES**
+
+**Q: What products does Bluewud offer?**
+A: Our current product range includes TV units, Coffee Tables, Laptop tables, Study Tables, Shoe Racks, Wall Clocks, Wall Shelves, Book Shelves, Key Holders, Remote Holders, Dressing Table Mirrors and many more.
+
+**Q: What is Bluewud's tagline?**
+A: Bluewud - Designs For Everyone!
+
+**Q: What materials are used in Bluewud furniture?**
+A: Material: Engineering Wood with natural wood grain finish. Most products are made from High grade prelam engineering wood with natural wood grain finish or particle board.
+
+### **ASSEMBLY & INSTALLATION**
+
+**Q: Do Bluewud products require assembly?**
+A: Assembly Required: DIY (Do-It-Yourself) Installation, It means you'll have to install it yourself or arrange for a carpenter to install it for you.
+
+**Q: What comes with DIY products?**
+A: The package includes the necessary hardware and instruction guide. All parts are pre-drilled, and installation is typically easy but requires some technical knowledge.
+
+**Q: Can I get help with installation?**
+A: If you're confident with DIY tasks, you could save time and money by installing it yourself, or else you can hire a professional carpenter from your local market for installation. Please contact us @8800609609 in case of any issue for on-call assistance.
+
+**Q: How long does assembly typically take?**
+A: Assembly time varies by product. Based on customer feedback, it can take 2-3 hours for items like TV units, though this depends on your experience with DIY furniture.
+
+### **ORDERING PROCESS**
+
+**Q: How do I place an order on Bluewud?**
+A: Browse through our ever-growing range of furniture, until you find something of your preference & liking. Tap on the product for a detailed description of it, choose from size, color, and variant, and add the product to your cart by tapping on the 'Add To Cart button on the page.
+
+**Q: Will I receive order confirmation?**
+A: You will be notified through an email and an SMS right after you place an order. However, an order will only get confirmed after we verify the payment of the same.
+
+**Q: Can I add items to my order after placing it?**
+A: Unfortunately, you cannot add an item after you have already placed an order.
+
+**Q: Can I modify my order after placing it?**
+A: In case you desire any changes or edits in your order, please write to us at care@bluewud.com. Our customer care team will help you out with customized solutions wherever possible.
+
+### **SHIPPING & DELIVERY**
+
+**Q: What is the delivery timeframe?**
+A: Orders within India are delivered within 7 - 8 working days. Delivery time may vary depending upon the shipping address.
+
+**Q: What are the shipping charges?**
+A: Within India, Bluewud provides Free Shipping for orders above ₹445. There will be a shipping charge of ₹50 on orders below ₹445.
+
+**Q: Do you ship internationally?**
+A: No, We do not accept international orders through our website as of now.
+
+**Q: What's the difference between Air and Surface shipping?**
+A: Products weighing under 1.5 kg are shipped under the Air mode and the estimated delivery time for Air mode is of 2-4 working days. Whereas, Volumetric products (Above 1.5kg) are shipped through surface mode and estimate delivery for such item is 7-8 working days.
+
+**Q: Can I expect delivery on weekends?**
+A: You can expect delivery of your order on all 7 days except national and state holidays.
+
+**Q: How is my order packaged?**
+A: Your order is packaged under three-layer protection to ensure it reaches the customer in a healthy condition. It is shipped through our respected partnered courier companies to ensure timely delivery.
+
+### **CANCELLATION POLICY**
+
+**Q: Can I cancel my order?**
+A: In case there is an order cancellation, please do so before it is shipped. Shipping charges are non-refundable once the order is dispatched.
+
+**Q: How do I cancel a COD order?**
+A: COD orders can be canceled directly from the registered account before it gets shipped.
+
+**Q: How do I cancel a prepaid order?**
+A: For prepaid orders, please contact our customer care at care@bluewud.com to cancel the order and put in an online refund request.
+
+**Q: What if my order is already shipped?**
+A: If the order is shipped already, unfortunately, we wouldn't be able to cancel it. However, you can politely refuse to accept the shipment and let us know about it. If you have accepted the shipment, no worries, you can return the product and exchange it for something else.
+
+### **RETURNS & REFUNDS**
+
+**Q: What is your return policy?**
+A: Returns are only accepted for damaged, defective, items with missing parts or items not as described cases which are reported within 10 days of delivery. [Assembled or used products are not applicable for return].
+
+**Q: What should I do if I receive damaged product?**
+A: If you have received the product in a bad condition or if the packaging is tampered with, please refuse the package. Mail us at care@bluewud.com mentioning your Order ID or Click on the link 'https.' to raise your Ticket.
+
+**Q: How long do I have to request a return?**
+A: No return and exchange request would be accepted if the return/exchange request is raised after 10 days of receiving the shipment.
+
+**Q: What items cannot be returned?**
+A: Volumetric items like Beds, Wardrobes and large TV units would not be accepted for return. Only part replacements are provided in case any issue is faced with the product. Remote Holders are not eligible for return.
+
+**Q: Can I exchange a product?**
+A: Exchange is not possible if the product has already been installed.
+
+**Q: How does the exchange process work for higher-value items?**
+A: If you want to exchange the product you ordered for with another product of higher amount, we would give you a coupon code for the amount of the product you returned.
+
+**Q: How do I ship back a return?**
+A: Mention the order details & complete shipping address on the packet as stated below – * Order Number and the Name used while placing the order * Shipping Address: Bluewud Concepts Pvt. Ltd. C-5, Sector-65, Noida 201301. Please make sure that the original packing is intact when the product is picked up.
+
+**Q: What if pickup service isn't available in my area?**
+A: In case we do not have pick up service available at your location, you would have to self-ship the product. A maximum of 150 INR would be given to you as a credit note for reverse shipping.
+
+### **WARRANTY**
+
+**Q: What warranty does Bluewud provide?**
+A: Most Bluewud products come with a 2-year warranty on manufacturing defects.
+
+**Q: What does the warranty cover?**
+A: Warranty is applicable on the product whereby only part replacements are shipped free of cost. Any tech visit required to identify the issue is chargeable to the customer.
+
+**Q: Who is covered under warranty?**
+A: Warranty is covered to the original buyer at the original delivery address.
+
+**Q: What is not covered under warranty?**
+A: The warranty does not cover damages due to usage of the product beyond its intended use. Fair wear and tear, abusive, misuse or negligent use, inadequate or improper care.
+
+### **PAYMENT & REFUNDS**
+
+**Q: What payment methods are accepted?**
+A: We accept Debit Cards, Credit Cards, Net Banking, UPI, and Cash on Delivery (COD).
+
+**Q: What if my payment was deducted but the order failed?**
+A: Please check your bank/ credit card account to first ensure if your account has been debited. If your account has been debited after a payment failure, it is normally rolled back by banks within 10 business days. For assistance you can write to us at care@bluewud.com, we will be happy to help you out
+
+### **CUSTOMER SERVICE**
+
+**Q: How can I contact Bluewud customer service?**
+A: For any query, call us or whatsapp us at +918800609609, we are available to take your call between 09:00 AM to 06:00 PM on weekdays For Installation Support, call us or whatsapp us at +918800609609 Also you can mail us at care@bluewud.com
+
+**Q: What are customer service hours?**
+A: We are available to take your call between 09:00 AM to 06:00 PM on weekdays (Monday to Saturday).
+
+**Q: Can I get installation support?**
+A: Yes, for installation support, call or WhatsApp us at +918800609609.
+
+### **OFFERS & DISCOUNTS**
+
+**Q: Are there any current offers?**
+A: Bluewud Winter Sale is Live. Avail Flat Discount of 10%. Use Coupon Code "WINTER10". Please check our website for the latest offers as they are time-limited.
+
+**Q: How do I stay updated on promotions?**
+A: Sign up for our newsletter to find out early about all upcoming promotions and new product releases.
+
+### **PRODUCT SPECIFICS**
+
+**Q: What are the typical dimensions of Bluewud products?**
+A: Product dimensions vary widely. For example:
+- TV Units: Length ranges from 140-211 cm
+- Coffee Tables: Typically 70x70x45 cm
+- Wall Shelves: Various sizes from 60-129 cm in length
+- Wardrobes: Height can be up to 180 cm
+
+**Q: What color options are available?**
+A: Common color options include:
+- Wenge & White
+- Brown Maple & White
+- Walnut & White  
+- Brown Maple & Beige
+- Natural wood grain finishes
+
+**Q: Are products suitable for specific TV sizes?**
+A: Yes, our TV units are designed for specific TV sizes:
+- Smaller units: Ideal for up to 42" TVs
+- Medium units: Suitable for 50-55" TVs
+- Large units: Can accommodate up to 75" TVs
+
+### **QUALITY & PACKAGING**
+
+**Q: How does Bluewud ensure quality?**
+A: We ensure our customers the finest worldliness shopping on our furniture store. Our products go through a 3-step quality check before we ship it to our customers and provide the best possible service.
+
+**Q: When will my order be shipped?**
+A: Your order is generally shipped in a day or two. If there are any delays we will provide you with relevant information for the same.
+
+### **SPECIAL SITUATIONS**
+
+**Q: What if I need help determining product size?**
+A: We have provided detailed dimensions of the product under the description and an image size scale to help you determine the size.
+
+**Q: Can I get a COI (Certificate of Insurance) for building requirements?**
+A: Please contact our customer service team at care@bluewud.com for specific documentation requirements.
+
+**Q: Are Bluewud products available on other platforms?**
+A: Yes, Bluewud products are also available on major e-commerce platforms like Flipkart, Amazon, Pepperfry, and Urban Ladder.
+
+#### 1. Ordering and Checkout (25 FAQs)
+1. **Q: How do I place an order on Bluewud.com?**  
+   **A: Browse our collection of furniture like wall shelves, coffee tables, and bookshelves. Select your preferred size, color, and variant, then click 'Add to Cart'. Review your cart, enter shipping details, choose payment method, and confirm. You'll get an order confirmation email instantly.**
+
+2. **Q: Can I order multiple products at once from Bluewud?**  
+   **A: Yes, add as many items as you want to your cart, such as a coffee table and matching wall shelves. We offer combined shipping for efficiency.**
+
+3. **Q: What payment methods does Bluewud accept?**  
+   **A: We accept credit/debit cards (Visa, Mastercard, etc.), net banking, UPI, wallets (Paytm, PhonePe), EMI options via partners, and cash on delivery (COD) on select orders.**
+
+4. **Q: Is there a minimum order value on Bluewud?**  
+   **A: No minimum order value. Shop for single key holders or full room sets.**
+
+5. **Q: Can I change my order after placing it?**  
+   **A: If not shipped (check status in My Orders), contact support@bluewud.com or call our helpline within 2 hours. Post-shipment changes aren't possible.**
+
+6. **Q: How do I track my Bluewud order?**  
+   **A: Log into your account > My Orders. You'll find a tracking link from our courier partners like Delhivery or Blue Dart. Email notifications also update you.**
+
+7. **Q: What if my promo code isn't working on Bluewud?**  
+   **A: Ensure it's active (check expiry), case-sensitive, and meets conditions (e.g., min. cart value). Apply at checkout. Contact support if issues persist.**
+
+8. **Q: Does Bluewud offer gift wrapping or personalization?**  
+   **A: Currently no gift wrapping, but select products like key holders allow engraving options. Check product pages.**
+
+9. **Q: Can I place a bulk order for office furniture on Bluewud?**  
+   **A: Yes, visit our 'Buy in Bulk' page or email bulk@bluewud.com for quotes on 10+ units of study tables, shelves, etc.**
+
+10. **Q: How do I apply discounts or coupons on Bluewud?**  
+    **A: Enter the code in the 'Apply Coupon' field at checkout before payment.**
+
+11. **Q: What currencies does Bluewud support?**  
+    **A: INR only, as we ship within India.**
+
+12. **Q: Can I save my cart for later on Bluewud?**  
+    **A: Yes, create/login to an account. Items stay in your cart across sessions.**
+
+13. **Q: Does Bluewud have a wishlist feature?**  
+    **A: Yes, click the heart icon on product pages to add to wishlist, accessible from your account.**
+
+14. **Q: How long does checkout take on Bluewud?**  
+    **A: Under 2 minutes. Guest checkout available without account.**
+
+15. **Q: What if I enter wrong shipping address?**  
+    **A: Update before shipment via My Orders or contact support immediately.**
+
+16. **Q: Can I order Bluewud furniture on Amazon or Flipkart too?**  
+    **A: Yes, we're available there, but bluewud.com offers exclusive deals and direct warranty.**
+
+17. **Q: Do you charge extra for custom colors?**  
+    **A: No, all variants (e.g., oak, wenge) are standard pricing.**
+
+18. **Q: How do I cancel an order?**  
+    **A: Go to My Orders > Cancel (if eligible). Refunds process in 5-7 days.**
+
+19. **Q: Are Bluewud products available for international shipping?**  
+    **A: Currently India only. Stay tuned for expansions.**
+
+20. **Q: What is the order confirmation process?**  
+    **A: Email/SMS with order ID, ETA, and invoice sent post-payment.**
+
+21. **Q: Can I pre-order out-of-stock Bluewud items?**  
+    **A: Sign up for notifications on product pages. Restocks announced via email.**
+
+22. **Q: Does Bluewud offer subscription for recurring buys?**  
+    **A: No, but frequent buyers get loyalty discounts via newsletter.**
+
+23. **Q: How do I contact support during checkout?**  
+    **A: Live chat on site, email support@bluewud.com, or call +91-99100-XXXXX (Mon-Sat 10AM-6PM).**
+
+24. **Q: Are taxes included in Bluewud prices?**  
+    **A: Prices shown are exclusive; GST added at checkout based on state.**
+
+25. **Q: What if my order doesn't arrive by promised date?**  
+    **A: Contact support with order ID for resolution, possible compensation.**
+
+#### 2. Shipping and Delivery (20 FAQs)
+26. **Q: How long does shipping take for Bluewud furniture?**  
+    **A: 5-7 days pan-India from dispatch. Metro: 3-5 days; rural: 7-10 days. Track via app/email.**
+
+27. **Q: What areas do you deliver Bluewud products to?**  
+    **A: All India except remote areas. Check PIN code at checkout.**
+
+28. **Q: Is delivery free on Bluewud?**  
+    **A: Free over ₹999; nominal fee (₹99-₹299) for smaller items/order under threshold.**
+
+29. **Q: Do you assemble furniture on delivery?**  
+    **A: No installation included. Products ship flat-packed with easy instructions. DIY or hire local services.**
+
+30. **Q: How is Bluewud furniture packaged?**  
+    **A: Three-layer protection: bubble wrap, foam, carton for damage-free delivery.**
+
+31. **Q: What if my delivery is delayed?**  
+    **A: Courier issues; contact us for rerouting or refund options.**
+
+32. **Q: Can I schedule delivery time?**  
+    **A: Slot booking at checkout where available (e.g., morning/afternoon).**
+
+33. **Q: Who handles Bluewud deliveries?**  
+    **A: Partners like Delhivery, Ecom Express, DTDC for reliable service.**
+
+34. **Q: What if product arrives damaged?**  
+    **A: Don't accept; photo/video proof to support@bluewud.com within 48 hrs for replacement.**
+
+35. **Q: Do you deliver to apartments/gated communities?**  
+    **A: Yes, but ensure lift/elevator access or note ground floor.**
+
+36. **Q: Shipping cost for heavy items like coffee tables?**  
+    **A: Included in free delivery over ₹999; otherwise volume-based.**
+
+37. **Q: Can I pick up from Bluewud warehouse?**  
+    **A: No showroom/warehouse pickup. Home delivery only.**
+
+38. **Q: What is the delivery process?**  
+    **A: OTP verification, inspect before signing. Reject if damaged.**
+
+39. **Q: Do you ship to PO Boxes?**  
+    **A: No, residential/commercial addresses only.**
+
+40. **Q: How to handle wrong delivery?**  
+    **A: Report within 24 hrs with photos; reverse pickup arranged.**
+
+41. **Q: Delivery during festivals/holidays?**  
+    **A: Slight delays possible; check site banners for updates.**
+
+42. **Q: What if I'm not home during delivery?**  
+    **A: Reschedule via courier or authorize neighbor with OTP.**
+
+43. **Q: Shipping for wall shelves vs. full wardrobes?**  
+    **A: Same timeline; lighter items faster.**
+
+44. **Q: Eco-friendly packaging?**  
+    **A: Recyclable cartons; minimal plastic.**
+
+45. **Q: Track international?**  
+    **A: India-only shipping.**
+
+#### 3. Returns, Exchanges, and Refunds (15 FAQs)
+46. **Q: What is Bluewud's return policy?**  
+    **A: 7-day return for unused, undamaged items in original packaging. Initiate via My Orders or support.**
+
+47. **Q: Can I return assembled furniture?**  
+    **A: No, only unopened boxes qualify.**
+
+48. **Q: How to initiate a return on Bluewud?**  
+    **A: Login > My Orders > Return > Reason > Schedule pickup.**
+
+49. **Q: Refund timeline for Bluewud returns?**  
+    **A: 5-7 working days to original payment method.**
+
+50. **Q: Exchange for different color/size?**  
+    **A: Yes, within 7 days if stock available. Same process as return.**
+
+51. **Q: Return shipping cost?**  
+    **A: Free for defective items; customer-paid for change of mind.**
+
+52. **Q: No-return products?**  
+    **A: Customized/engraved items, mattresses, undergarments non-returnable.**
+
+53. **Q: Damaged product return?**  
+    **A: Free replacement, no return needed.**
+
+54. **Q: Refund to wallet?**  
+    **A: Original method: card/bank. COD to bank.**
+
+55. **Q: Cancelled order refund?**  
+    **A: Full within 3-5 days.**
+
+56. **Q: Partial refund for missing parts?**  
+    **A: Yes, after verification.**
+
+57. **Q: Return reasons accepted?**  
+    **A: Wrong product, damaged, size issue, defective.**
+
+58. **Q: International returns?**  
+    **A: Not applicable.**
+
+59. **Q: Festive sale returns?**  
+    **A: Sale items eligible unless specified.**
+
+60. **Q: Proof needed for returns?**  
+    **A: Photos, invoice copy.**
+
+#### 4. Warranty and After-Sales Support (20 FAQs)
+61. **Q: What is Bluewud's warranty period?**  
+    **A: 1-year standard from invoice date on manufacturing defects.**
+
+62. **Q: What does warranty cover?**  
+    **A: Defects from manufacturing, non-standard materials, transport damage. Inspections required.**
+
+63. **Q: How to claim Bluewud warranty?**  
+    **A: Email support@bluewud.com with invoice, photos, order ID. On-site/online inspection.**
+
+64. **Q: Exclusions from warranty?**  
+    **A: Normal wear, misuse, modifications, liquid spills, pet damage.**
+
+65. **Q: Extended warranty available?**  
+    **A: No, but register product for alerts.**
+
+66. **Q: Repair vs. replacement under warranty?**  
+    **A: Case-by-case; aim for quick fix/replacement.**
+
+67. **Q: Warranty for wall shelves?**  
+    **A: 1-year; sagging due to overload not covered.**
+
+68. **Q: How to retain warranty documents?**  
+    **A: Keep invoice and warranty card.**
+
+69. **Q: Support contact details?**  
+    **A: support@bluewud.com, +91-99100-XXXXX, Mon-Sat 10AM-6PM.**
+
+70. **Q: On-site service?**  
+    **A: For major issues post-inspection.**
+
+71. **Q: Warranty transfer on resale?**  
+    **A: No, original buyer only.**
+
+72. **Q: Peeling paint warranty?**  
+    **A: Covered if within 1 year and manufacturing fault.**
+
+73. **Q: Broken screw/parts?**  
+    **A: Free spares sent.**
+
+74. **Q: Lifetime warranty on any product?**  
+    **A: No, 1-year standard.**
+
+75. **Q: Claim process time?**  
+    **A: Resolution in 7-15 days.**
+
+76. **Q: Warranty for bulk purchases?**  
+    **A: Same terms.**
+
+77. **Q: Water damage covered?**  
+    **A: No, unless transport-related.**
+
+78. **Q: How to register warranty?**  
+    **A: Automatic with invoice; optional email registration.**
+
+79. **Q: Reviews impact warranty?**  
+    **A: No, claims independent.**
+
+80. **Q: Second claim possible?**  
+    **A: Yes, within period.**
+
+#### 5. Product Information - General (20 FAQs)
+81. **Q: What materials does Bluewud use?**  
+    **A: Engineered wood (MDF/particleboard), laminates, metal frames. Lab-tested for durability.**
+
+82. **Q: Are Bluewud products termite-proof?**  
+    **A: Yes, treated engineered wood resists termites.**
+
+83. **Q: Sizes available for Bluewud furniture?**  
+    **A: Detailed on pages with scale images (e.g., small/medium/large).**
+
+84. **Q: Colors offered?**  
+    **A: Oak, wenge, walnut, white, etc. Scratch-resistant finishes.**
+
+85. **Q: Weight capacity of shelves?**  
+    **A: 10-25kg per shelf; check product specs.**
+
+86. **Q: Eco-friendly materials?**  
+    **A: FSC-certified wood alternatives, low-VOC laminates.**
+
+87. **Q: Made in India?**  
+    **A: Yes, manufactured in India with innovative designs.**
+
+88. **Q: Product certifications?**  
+    **A: Lab-tested for strength, as per Flipkart/Amazon listings.**
+
+89. **Q: Assembly tools needed?**  
+    **A: Screwdriver, usually included.**
+
+90. **Q: DIY assembly time?**  
+    **A: 20-60 mins with pictorial manuals.**
+
+91. **Q: Wall-mounted or freestanding?**  
+    **A: Specified per product; anchors included for walls.**
+
+92. **Q: Kid/pet-safe?**  
+    **A: Rounded edges, non-toxic finishes.**
+
+93. **Q: Modular furniture?**  
+    **A: Yes, many expandable shelves/tables.**
+
+94. **Q: Odor on delivery?**  
+    **A: Mild new-furniture smell dissipates in 48 hrs.**
+
+95. **Q: Customize dimensions?**  
+    **A: No, standard sizes.**
+
+96. **Q: Product lifespan?**  
+    **A: 5+ years with proper care.**
+
+97. **Q: Compare Bluewud vs. competitors?**  
+    **A: Affordable, stylish engineered wood; better value than particleboard rivals.**
+
+98. **Q: New arrivals?**  
+    **A: Check 'Furniture New' collection.**
+
+99. **Q: Best-sellers?**  
+    **A: Wall shelves, coffee tables – high ratings on site.**
+
+100. **Q: Product videos?**  
+     **A: On pages and YouTube.**
+
+#### 6. Product-Specific: Wall Shelves & Key Holders (15 FAQs)
+101. **Q: How to install Bluewud wall shelves?**  
+     **A: Use level, drill anchors into studs, screw brackets. Instructions included.**
+
+102. **Q: Max weight for Bluewud floating shelves?**  
+     **A: 15-20kg evenly distributed.**
+
+103. **Q: Wall type compatibility?**  
+     **A: Brick/concrete; plastic anchors for drywall.**
+
+104. **Q: Key holder variants?**  
+     **A: 5-12 hooks, wood/metal, wall-mount.**
+
+105. **Q: Shelf sagging issue?**  
+     **A: Avoid overload; use brackets.**
+
+106. **Q: Color matching for rooms?**  
+     **A: Oak for modern, walnut for rustic.**
+
+107. **Q: Clean wall shelves how?**  
+     **A: Damp cloth, no abrasives.**
+
+108. **Q: Outdoor use for shelves?**  
+     **A: Indoor only.**
+
+109. **Q: Corner shelves available?**  
+     **A: Yes, triangle designs.**
+
+110. **Q: Key holder with mirror?**  
+     **A: Select models yes.**
+
+111. **Q: Shelf depth?**  
+     **A: 10-12 inches standard.**
+
+112. **Q: Pack of multiple shelves?**  
+     **A: Yes, sets available.**
+
+113. **Q: Warranty on key holders?**  
+     **A: 1-year.**
+
+114. **Q: Easy removal?**  
+     **A: Yes, without wall damage.**
+
+115. **Q: LED-lit shelves?**  
+     **A: Some premium models.**
+
+#### 7. Product-Specific: Coffee Tables, Bookshelves, TV Units (20 FAQs)
+116. **Q: Coffee table assembly steps?**  
+     **A: Legs first, then top. 20 mins.**
+
+117. **Q: Bookshelf height options?**  
+     **A: 4ft to 6ft; adjustable shelves.**
+
+118. **Q: TV unit sizes for 55-inch TV?**  
+     **A: 4ft+ width recommended.**
+
+119. **Q: Coffee table storage?**  
+     **A: Lift-top or drawer models available.**
+
+120. **Q: Bookshelf weight per shelf?**  
+     **A: 20kg; books safe.**
+
+121. **Q: TV unit cable management?**  
+     **A: Back holes provided.**
+
+122. **Q: Coffee table glass top care?**  
+     **A: Glass cleaner; select models.**
+
+123. **Q: Open vs. closed bookshelf?**  
+     **A: Both; closed for dust-free.**
+
+124. **Q: TV unit for wall mount?**  
+     **A: Freestanding; brackets extra.**
+
+125. **Q: Coffee table nesting sets?**  
+     **A: Yes, space-savers.**
+
+126. **Q: Bookshelf anti-tip kit?**  
+     **A: Included for safety.**
+
+127. **Q: Extendable coffee table?**  
+     **A: Some yes.**
+
+128. **Q: Shoe rack under TV unit?**  
+     **A: Multi-use models.**
+
+129. **Q: Bookshelf color fade?**  
+     **A: UV-resistant laminate.**
+
+130. **Q: Coffee table height standard?**  
+     **A: 16-18 inches.**
+
+131. **Q: Wall-hanging TV unit?**  
+     **A: Select floating ones.**
+
+132. **Q: Bookshelf for kids' room?**  
+     **A: Low-height, colorful options.**
+
+133. **Q: Coffee table round/square?**  
+     **A: Both available.**
+
+134. **Q: TV unit soundbar shelf?**  
+     **A: Yes, dedicated space.**
+
+135. **Q: Heavy books on top shelf?**  
+     **A: No, distribute evenly.**
+
+#### 8. Product-Specific: Study Tables, Beds, Dining (15 FAQs)
+136. **Q: Study table desk sizes?**  
+     **A: 3ft to 6ft; laptop/PC variants.**
+
+137. **Q: Bed frame assembly?**  
+     **A: Headboard, slats, sides – 45 mins.**
+
+138. **Q: Dining table seats how many?**  
+     **A: 4-8 seater options.**
+
+139. **Q: Study table with drawer?**  
+     **A: Yes, keyboard tray too.**
+
+140. **Q: Bed slats included?**  
+     **A: Yes, for mattress support.**
+
+141. **Q: Extendable dining table?**  
+     **A: Butterfly leaf models.**
+
+142. **Q: Study table height adjustable?**  
+     **A: Fixed; ergonomic 29-30 inches.**
+
+143. **Q: Bed base storage?**  
+     **A: Hydraulic options.**
+
+144. **Q: Dining chairs separate?**  
+     **A: Sets or buy individually.**
+
+145. **Q: Study table cable holes?**  
+     **A: Grommets included.**
+
+146. **Q: Queen bed dimensions?**  
+     **A: 60x78 inches frame.**
+
+147. **Q: Glass dining table?**  
+     **A: Tempered glass tops.**
+
+148. **Q: Wall desk for small rooms?**  
+     **A: Foldable study tables.**
+
+149. **Q: Bed weight capacity?**  
+     **A: 250kg+ double.**
+
+150. **Q: Dining table care?**  
+     **A: Coasters for hot items.**
+
+#### 9. Care, Maintenance, and Assembly (15 FAQs)
+151. **Q: How to clean Bluewud furniture?**  
+     **A: Soft damp cloth, mild soap. Dry immediately. No harsh chemicals.**
+
+152. **Q: Assembly video tutorials?**  
+     **A: YouTube channel or product page QR codes.**
+
+153. **Q: Prevent scratches?**  
+     **A: Felt pads under legs, coasters.**
+
+154. **Q: Fixing loose screws?**  
+     **A: Tighten periodically; spares free.**
+
+155. **Q: Humidity effect on wood?**  
+     **A: Engineered wood stable; avoid direct water.**
+
+156. **Q: Disassemble for moving?**  
+     **A: Yes, reverse instructions.**
+
+157. **Q: Polish needed?**  
+     **A: No, laminate finish maintenance-free.**
+
+158. **Q: Pet claw marks?**  
+     **A: Not covered; use protectors.**
+
+159. **Q: Sunlight fading?**  
+     **A: Minimal; indirect light best.**
+
+160. **Q: Overload prevention?**  
+     **A: Follow weight limits.**
+
+161. **Q: Stain removal?**  
+     **A: Baking soda paste for spots.**
+
+162. **Q: Winter care?**  
+     **A: Indoor humidity control.**
+
+163. **Q: Assemble alone or two people?**  
+     **A: Most solo; large tables need help.**
+
+164. **Q: Missing parts?**  
+     **A: Contact support; shipped free.**
+
+165. **Q: Long-term shine?**  
+     **A: Dust weekly.**
+
+#### 10. Payments, Pricing, and Promotions (10 FAQs)
+166. **Q: EMI options on Bluewud?**  
+     **A: 3-24 months via Bajaj Finserv, etc. No cost EMI on select.**
+
+167. **Q: Price match guarantee?**  
+     **A: Email proof; we'll match.**
+
+168. **Q: Flash sales frequency?**  
+     **A: Weekly; newsletter signup.**
+
+169. **Q: Compare prices with Pepperfry/Urban Ladder?**  
+     **A: Often lower + free ship.**
+
+170. **Q: Loyalty program?**  
+     **A: Points on purchases; coming soon.**
+
+171. **Q: GST invoice?**  
+     **A: Download from My Orders.**
+
+172. **Q: Price drop after buy?**  
+     **A: Contact for adjustment.**
+
+173. **Q: Bundle deals?**  
+     **A: Shelf + table combos.**
+
+174. **Q: Coupon stacking?**  
+     **A: One per order.**
+
+175. **Q: Corporate discounts?**  
+     **A: Bulk page inquiries.**
+
+#### 11. Account, Reviews, and Brand (15 FAQs)
+176. **Q: Create Bluewud account?**  
+     **A: Email/password at signup.**
+
+177. **Q: Forgot password?**  
+     **A: Reset via login page.**
+
+178. **Q: Reviews real?**  
+     **A: Verified buyers only; 4.3+ avg.**
+
+179. **Q: Newsletter unsubscribe?**  
+     **A: Footer link.**
+
+180. **Q: Bluewud founded when?**  
+     **A: 2015 by IITian Abhinav Singh.**
+
+181. **Q: Showrooms?**  
+     **A: Online-only; partners on Amazon/Flipkart.**
+
+182. **Q: Mission of Bluewud?**  
+     **A: Affordable, innovative furniture enhancing lifestyles.**
+
+183. **Q: Social media?**  
+     **A: Facebook, Instagram @bluewud.**
+
+184. **Q: Careers at Bluewud?**  
+     **A: LinkedIn/jobs@bluewud.com.**
+
+185. **Q: Customer rating?**  
+     **A: 4.3/5 from 296+ reviews.**
+
+186. **Q: Wholesale?**  
+     **A: Buy in Bulk page.**
+
+187. **Q: Press mentions?**  
+     **A: YourStory feature on success.**
+
+188. **Q: App available?**  
+     **A: Progressive web app; add to home screen.**
+
+189. **Q: Privacy policy?**  
+     **A: Site footer; data secure.**
+
+190. **Q: Contact for partnerships?**  
+     **A: info@bluewud.com.**
+
+#### 12. Miscellaneous/Troubleshooting (15 FAQs)
+191. **Q: Order duplicate?**  
+     **A: Cancel one; refund extra.**
+
+192. **Q: COVID delivery impact?**  
+     **A: Normal; sanitized packaging.**
+
+193. **Q: Gift cards?**  
+     **A: Coming soon.**
+
+194. **Q: Accessibility for disabled?**  
+     **A: Lightweight designs; query support.**
+
+195. **Q: Compare small vs. large shelf?**  
+     **A: Small: 2ft, 10kg; large: 4ft, 25kg.**
+
+196. **Q: Festival offers 2025?**  
+     **A: Diwali sales upcoming; check site.**
+
+197. **Q: Lab tests details?**  
+     **A: Strength/load-bearing certified.**
+
+198. **Q: Move to new home tips?**  
+     **A: Disassemble, wrap parts.**
+
+199. **Q: Competitor switch regrets?**  
+     **A: Many prefer Bluewud for quality/price.**
+
+200. **Q: Future products?**  
+     **A: Sofas, wardrobes expanding.**
+`;
