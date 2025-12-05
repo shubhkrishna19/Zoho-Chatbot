@@ -1,23 +1,38 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
 const { processMessage } = require('./brain');
 
-const app = express();
-app.use(cors({ origin: true }));
-app.use(express.json());
+module.exports = async (req, res) => {
+    // Enable CORS
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
-app.post('*', async (req, res) => {
-    const { message } = req.body;
-    if (!message) return res.status(400).json({ error: 'Missing message' });
+    // Handle preflight
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
+    }
+
+    // Only allow POST
+    if (req.method !== 'POST') {
+        res.status(405).json({ error: 'Method not allowed' });
+        return;
+    }
+
+    const { message } = req.body || {};
+
+    if (!message) {
+        res.status(400).json({ error: 'Missing message' });
+        return;
+    }
 
     try {
         const result = await processMessage(message);
-        res.json(result);
+        res.status(200).json(result);
     } catch (e) {
         console.error('API Error:', e);
-        res.json({ reply: 'I’m having trouble right now, please try again later.' });
+        res.status(200).json({
+            reply: 'I\'m having trouble right now. Please contact us at +918800609609 or care@bluewud.com'
+        });
     }
-});
-
-module.exports = app;
+};
