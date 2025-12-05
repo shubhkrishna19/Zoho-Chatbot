@@ -12,10 +12,11 @@ function loadDatabase() {
         const dbPath = path.join(__dirname, '..', 'data', 'database.json');
         const data = fs.readFileSync(dbPath, 'utf8');
         database = JSON.parse(data);
-        console.log(`✅ Database loaded: ${database._meta.totalFaqs} FAQs in ${database.categories.length} categories`);
+        console.log(`✅ Database loaded: ${database.categories.length} categories`);
         return true;
     } catch (error) {
         console.error('❌ Failed to load database:', error.message);
+        database = null;
         return false;
     }
 }
@@ -23,27 +24,36 @@ function loadDatabase() {
 // Load on startup
 loadDatabase();
 
-// Reload database (call this after edits)
-function reloadDatabase() {
-    return loadDatabase();
-}
-
 // ============================================
 // GET CONFIG & MESSAGES FROM DATABASE
 // ============================================
 function getConfig() {
-    return database?.config || {};
+    return database?.config || {
+        botName: "Bluewud Furniture Expert",
+        contact: {
+            phone: "8800609609",
+            whatsapp: "+918800609609",
+            email: "care@bluewud.com",
+            hours: "09:00 AM - 06:00 PM (Mon-Sat)"
+        }
+    };
 }
 
 function getMessage(key) {
-    return database?.messages?.[key] || '';
+    const defaults = {
+        welcome: "Welcome to Bluewud! 👋 How can I help you today?",
+        error: "I'm having trouble right now. Please contact us at +918800609609 or care@bluewud.com",
+        handoff: "📞 Phone/WhatsApp: +918800609609\n📧 Email: care@bluewud.com\n⏰ Hours: 09:00 AM - 06:00 PM (Mon-Sat)",
+        goodbye: "Thank you for contacting us! Have a great day! 👋"
+    };
+    return database?.messages?.[key] || defaults[key] || '';
 }
 
 // ============================================
 // SEARCH FAQS BY KEYWORDS
 // ============================================
 function searchFaqs(query) {
-    if (!database) return null;
+    if (!database || !database.categories) return null;
 
     const queryLower = query.toLowerCase();
     const words = queryLower.split(/\s+/);
@@ -52,7 +62,7 @@ function searchFaqs(query) {
     let bestScore = 0;
 
     for (const category of database.categories) {
-        for (const faq of category.faqs) {
+        for (const faq of category.faqs || []) {
             let score = 0;
 
             // Check keywords
@@ -63,16 +73,11 @@ function searchFaqs(query) {
             }
 
             // Check question text
-            const qLower = faq.q.toLowerCase();
+            const qLower = (faq.q || '').toLowerCase();
             for (const word of words) {
                 if (word.length > 2 && qLower.includes(word)) {
                     score += 5;
                 }
-            }
-
-            // Exact match bonus
-            if (qLower.includes(queryLower) || queryLower.includes(qLower)) {
-                score += 20;
             }
 
             if (score > bestScore) {
@@ -86,41 +91,27 @@ function searchFaqs(query) {
 }
 
 // ============================================
-// ENHANCED INTENT PATTERNS
+// INTENT PATTERNS FOR QUICK RESPONSES
 // ============================================
 const intents = [
-    // Greetings
     {
-        patterns: [/^hi$/i, /^hello$/i, /^hey$/i, /^hii+$/i, /good\s*(morning|afternoon|evening)/i, /^namaste/i],
-        handler: () => "Hi there! 👋 How can I help you with your furniture needs today?",
+        patterns: [/^hi$/i, /^hello$/i, /^hey$/i, /^hii+$/i, /good\s*(morning|afternoon|evening)/i],
+        reply: "Hi there! 👋 How can I help you with your furniture needs today?",
         category: "greeting"
     },
-
-    // Farewells
     {
-        patterns: [/^bye$/i, /^goodbye$/i, /^thanks?\s*bye/i, /^ok\s*bye/i, /that'?s?\s*all/i],
-        handler: () => getMessage('goodbye'),
+        patterns: [/^bye$/i, /^goodbye$/i, /thank.*bye/i, /^ok\s*bye/i],
+        reply: "Thank you for contacting us! Have a great day! 👋",
         category: "farewell"
     },
-
-    // Gratitude
     {
-        patterns: [/^thanks?$/i, /^thank\s*you$/i, /^thx$/i, /^ty$/i],
-        handler: () => "You're welcome! 😊 Is there anything else I can help you with?",
+        patterns: [/^thanks?$/i, /^thank\s*you$/i, /^thx$/i],
+        reply: "You're welcome! 😊 Is there anything else I can help you with?",
         category: "gratitude"
     },
-
-    // Human Handoff (High Priority)
     {
-        patterns: [
-            /talk\s*to\s*(human|agent|person|someone)/i,
-            /speak\s*(with|to)\s*(human|agent|person)/i,
-            /customer\s*(care|service|support)/i,
-            /call\s*(back|me)/i,
-            /contact\s*(number|details)/i,
-            /^agent$/i, /^human$/i, /^support$/i
-        ],
-        handler: () => getMessage('handoff'),
+        patterns: [/talk\s*to\s*(human|agent|person)/i, /customer\s*(care|service|support)/i, /contact/i, /phone/i, /call/i],
+        reply: "📞 Phone/WhatsApp: +918800609609\n📧 Email: care@bluewud.com\n⏰ Hours: 09:00 AM - 06:00 PM (Mon-Sat)",
         category: "handoff",
         action: "handoff"
     }
@@ -132,7 +123,7 @@ function findIntent(message) {
     for (const intent of intents) {
         if (intent.patterns.some(pattern => pattern.test(cleanMsg))) {
             return {
-                reply: intent.handler(),
+                reply: intent.reply,
                 action: intent.action || null,
                 category: intent.category
             };
@@ -145,12 +136,12 @@ function findIntent(message) {
 // BUILD KNOWLEDGE STRING FOR AI
 // ============================================
 function buildKnowledgeString() {
-    if (!database) return '';
+    if (!database || !database.categories) return '';
 
     let knowledge = '';
     for (const category of database.categories) {
-        knowledge += `\n### ${category.icon} ${category.name}\n`;
-        for (const faq of category.faqs) {
+        knowledge += `\n### ${category.name}\n`;
+        for (const faq of category.faqs || []) {
             knowledge += `Q: ${faq.q}\nA: ${faq.a}\n\n`;
         }
     }
@@ -158,45 +149,51 @@ function buildKnowledgeString() {
 }
 
 // ============================================
-// GEMINI AI FUNCTION (Fallback)
+// GEMINI AI FUNCTION
 // ============================================
 async function callGoogleGemini(userMsg) {
     const apiKey = process.env.GOOGLE_API_KEY;
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    if (!apiKey) {
+        console.error('GOOGLE_API_KEY not set');
+        return "I'm having trouble connecting. Please contact us at +918800609609 or care@bluewud.com";
+    }
+
+    // Use stable Gemini model
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
     const config = getConfig();
     const contact = config.contact || {};
 
-    const systemPrompt = `You are "${config.botName || 'Bluewud Furniture Expert'}" - a friendly AI assistant for Bluewud furniture.
+    const systemPrompt = `You are Bluewud Furniture Expert - a friendly AI assistant for Bluewud, an Indian furniture brand.
 
-## CONTACT INFO (provide when user needs help):
+CONTACT INFO:
 📞 Phone/WhatsApp: ${contact.whatsapp || '+918800609609'}
 📧 Email: ${contact.email || 'care@bluewud.com'}
 ⏰ Hours: ${contact.hours || '09:00 AM - 06:00 PM (Mon-Sat)'}
 
-## CURRENT OFFER:
-${config.currentOffer?.name}: ${config.currentOffer?.discount} off with code "${config.currentOffer?.code}"
-
-## KEY FACTS:
-- We sell ONLY Engineered Wood (NOT solid wood/teak/sheesham)
+KEY FACTS:
+- We sell ONLY Engineered Wood furniture (NOT solid wood/teak/sheesham)
 - Free shipping above ₹999
 - 1-year warranty on manufacturing defects
 - DIY assembly with included hardware
+- Products: TV Units, Coffee Tables, Study Tables, Shoe Racks, Wardrobes, Wall Shelves, etc.
 
-## FAQ DATABASE:
+CURRENT OFFER: Use code WINTER10 for 10% off!
+
+FAQ DATABASE:
 ${buildKnowledgeString()}
 
-## RULES:
+RULES:
 1. Keep responses SHORT (2-4 sentences)
-2. Use the FAQ database for accurate answers
-3. If unsure, offer to connect with human support
-4. Use emojis sparingly (1-2 per response)
-5. Be warm and helpful`;
+2. Use emojis sparingly (1-2 max)
+3. Be warm and helpful
+4. If unsure, offer to connect with human support`;
 
     const body = {
         contents: [{ role: 'user', parts: [{ text: userMsg }] }],
         systemInstruction: { parts: [{ text: systemPrompt }] },
-        generationConfig: { temperature: 0.7, topP: 0.9, maxOutputTokens: 500 }
+        generationConfig: { temperature: 0.7, maxOutputTokens: 300 }
     };
 
     try {
@@ -210,11 +207,12 @@ ${buildKnowledgeString()}
         if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
             return data.candidates[0].content.parts[0].text;
         }
-        console.error('Gemini API error:', JSON.stringify(data));
-        return getMessage('error');
+
+        console.error('Gemini API response:', JSON.stringify(data));
+        return "I'd be happy to help! For detailed assistance, please contact us at +918800609609 or care@bluewud.com 😊";
     } catch (e) {
-        console.error('Gemini API Error:', e);
-        return getMessage('error');
+        console.error('Gemini API Error:', e.message);
+        return "I'm having trouble connecting. Please contact us at +918800609609 or care@bluewud.com";
     }
 }
 
@@ -222,39 +220,38 @@ ${buildKnowledgeString()}
 // MAIN MESSAGE PROCESSOR
 // ============================================
 async function processMessage(message) {
-    if (!message || message.trim() === '') {
-        return { reply: "I didn't catch that. Could you please rephrase?", action: null };
-    }
+    try {
+        if (!message || message.trim() === '') {
+            return { reply: "I didn't catch that. Could you please rephrase?", action: null };
+        }
 
-    // 1. Check hardcoded intents (greetings, farewells, handoff)
-    const intentMatch = findIntent(message);
-    if (intentMatch) {
-        return intentMatch;
-    }
+        // 1. Check quick intents (greetings, farewells, handoff)
+        const intentMatch = findIntent(message);
+        if (intentMatch) {
+            return intentMatch;
+        }
 
-    // 2. Search FAQ database
-    const faqMatch = searchFaqs(message);
-    if (faqMatch) {
+        // 2. Search FAQ database
+        const faqMatch = searchFaqs(message);
+        if (faqMatch) {
+            return {
+                reply: faqMatch.a,
+                action: null,
+                category: faqMatch.category
+            };
+        }
+
+        // 3. Fall back to AI
+        const aiReply = await callGoogleGemini(message);
+        return { reply: aiReply, action: null, category: 'ai_response' };
+
+    } catch (error) {
+        console.error('processMessage error:', error);
         return {
-            reply: `${faqMatch.icon} **${faqMatch.category}**\n\n${faqMatch.a}`,
-            action: null,
-            category: faqMatch.category,
-            faqId: faqMatch.id
+            reply: "I'm having trouble right now. Please contact us at +918800609609 or care@bluewud.com",
+            action: null
         };
     }
-
-    // 3. Fall back to AI for complex queries
-    const aiReply = await callGoogleGemini(message);
-    return { reply: aiReply, action: null, category: 'ai_response' };
 }
 
-// ============================================
-// EXPORTS
-// ============================================
-module.exports = {
-    processMessage,
-    reloadDatabase,
-    getConfig,
-    getMessage,
-    searchFaqs
-};
+module.exports = { processMessage, getConfig, getMessage, searchFaqs };
