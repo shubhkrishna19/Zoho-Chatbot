@@ -171,7 +171,7 @@ async function processMessage(message) {
         const products = searchProducts(message);
         const aiReply = await callGoogleGemini(message, products);
 
-        return { reply: "[v2] " + aiReply, category: 'ai_response' }; // DEBUG MARKER
+        return { reply: aiReply, category: 'ai_response' };
 
     } catch (error) {
         console.error(error);
