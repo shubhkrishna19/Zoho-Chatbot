@@ -354,7 +354,7 @@
 
     } catch (e) {
       if (bodyDiv.contains(typingDiv)) bodyDiv.removeChild(typingDiv);
-      appendMessage('Sorry, something went wrong. Please try again.', 'bot');
+      appendMessage('Connection issue. Contact us at +918800609609 or care@bluewud.com', 'bot');
     }
   }
 
