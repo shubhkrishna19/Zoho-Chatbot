@@ -1,19 +1,10 @@
 {
     "version": 2,
-    "buildCommand": "",
-    "outputDirectory": "",
-    "installCommand": "npm install",
-    "framework": null,
-    "builds": [
-        {
-            "src": "api/*.js",
-            "use": "@vercel/node"
-        },
-        {
-            "src": "public/**",
-            "use": "@vercel/static"
+    "functions": {
+        "api/*.js": {
+            "runtime": "@vercel/node@3"
         }
-    ],
+    },
     "routes": [
         {
             "src": "/api/(.*)",
@@ -31,8 +22,5 @@
             "src": "/(.*)",
             "dest": "/public/$1"
         }
-    ],
-    "regions": [
-        "bom1"
     ]
 }
