@@ -68,7 +68,7 @@ function searchFaqs(query) {
             }
         }
     }
-    return bestScore >= 15 ? bestMatch : null; // Increased threshold
+    return bestScore >= 15 ? bestMatch : null;
 }
 
 function searchProducts(query) {
@@ -117,6 +117,28 @@ async function callGoogleGemini(userMsg, productContext = []) {
     const apiKey = process.env.GOOGLE_API_KEY;
     if (!apiKey) return "API Key missing.";
 
+    const config = getConfig();
+    const contact = config.contact || {};
+
+    const CATEGORY_URLS = {
+        "TV Units": "https://bluewud.com/collections/tv-units-cabinets",
+        "Coffee Tables": "https://bluewud.com/collections/coffee-tables",
+        "Study Tables": "https://bluewud.com/collections/study-tables-desks",
+        "Shoe Racks": "https://bluewud.com/collections/shoe-racks",
+        "Wardrobes": "https://bluewud.com/collections/wardrobes",
+        "Wall Shelves": "https://bluewud.com/collections/wall-shelves",
+        "Beds": "https://bluewud.com/collections/beds",
+        "Bedside Tables": "https://bluewud.com/collections/bedside-tables",
+        "Dressing Console": "https://bluewud.com/collections/dressing-tables",
+        "Dining Tables": "https://bluewud.com/collections/dining-tables",
+        "Laptop Tables": "https://bluewud.com/collections/laptop-tables",
+        "Book Shelves": "https://bluewud.com/collections/bookshelves"
+    };
+
+    const categoryLinks = Object.entries(CATEGORY_URLS)
+        .map(([k, v]) => `- ${k}: ${v}`)
+        .join('\n');
+
     const contextString = productContext.map(p =>
         `- SKU: ${p.sku} (${p.category}) Dims: ${p.dimensions.L}x${p.dimensions.B}x${p.dimensions.H}cm Weight: ${p.weight / 1000}kg`
     ).join('\n');
@@ -129,6 +151,13 @@ STRICT RULES:
 4. Be polite but FACTUAL and CONCISE.
 5. NO informal language.
 
+WHEN USER ASKS TO BUY/SEE PRODUCTS:
+- ALWAYS provide the specific Collection URL from the list below.
+- If specific SKUs are in context, list them with their dimensions.
+
+COLLECTION LINKS:
+${categoryLinks}
+
 DATA:
 ${buildKnowledgeString()}
 ${contextString}
@@ -138,7 +167,7 @@ USER: ${userMsg}`;
     const body = {
         contents: [{ role: 'user', parts: [{ text: userMsg }] }],
         systemInstruction: { parts: [{ text: systemPrompt }] },
-        generationConfig: { temperature: 0.1, maxOutputTokens: 200 }
+        generationConfig: { temperature: 0.1, maxOutputTokens: 300 }
     };
 
     try {
