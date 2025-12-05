@@ -1,0 +1,704 @@
+{
+    "_meta": {
+        "version": "1.0.0",
+        "lastUpdated": "2025-12-05",
+        "totalFaqs": 200,
+        "description": "Bluewud Chatbot FAQ Database - Edit this file to update bot responses"
+    },
+    "config": {
+        "botName": "Bluewud Furniture Expert",
+        "companyName": "Bluewud Concepts Pvt. Ltd.",
+        "tagline": "Every home's a story!",
+        "contact": {
+            "phone": "8800609609",
+            "whatsapp": "+918800609609",
+            "email": "care@bluewud.com",
+            "bulkEmail": "bulk@bluewud.com",
+            "hours": "09:00 AM - 06:00 PM (Mon-Sat)"
+        },
+        "address": {
+            "corporate": "A-108, Sector 65, Noida, Uttar Pradesh",
+            "returns": "Bluewud Concepts Pvt. Ltd. C-5, Sector-65, Noida 201301"
+        },
+        "currentOffer": {
+            "name": "Winter Sale",
+            "discount": "10%",
+            "code": "WINTER10"
+        }
+    },
+    "messages": {
+        "welcome": "Welcome to Bluewud! 👋 I'm your furniture expert.\n\nI can help you with:\n✓ Product recommendations\n✓ Pricing & offers\n✓ Delivery & payment\n✓ Connect with sales team\n\nWhat brings you here today?",
+        "offline": "Our team is currently offline, but your message is important! We'll get back to you as soon as we're online.\n\n📞 Phone: 8800609609\n📧 Email: care@bluewud.com\n\nThank you for your patience! 🙏",
+        "handoff": "I'd be happy to connect you with our team!\n\n📞 Phone/WhatsApp: +918800609609\n📧 Email: care@bluewud.com\n⏰ Hours: 09:00 AM - 06:00 PM (Mon-Sat)",
+        "error": "We encountered a technical issue. Please try again or contact:\n\n📞 Phone: 8800609609\n📧 Email: care@bluewud.com",
+        "goodbye": "Thank you for contacting us! Have a great day! 👋"
+    },
+    "categories": [
+        {
+            "id": "company",
+            "name": "Company Information",
+            "icon": "🏢",
+            "faqs": [
+                {
+                    "id": "C001",
+                    "q": "What is Bluewud?",
+                    "a": "Bluewud designs, manufactures and markets Innovative & Contemporary Furniture and Decor products. Our designs complement and connect with our Customer's Lifestyle, Imagination and Aspirations.",
+                    "keywords": [
+                        "bluewud",
+                        "company",
+                        "about",
+                        "who"
+                    ]
+                },
+                {
+                    "id": "C002",
+                    "q": "When was Bluewud established?",
+                    "a": "Bluewud started in September 2015 with our range of laptop tables.",
+                    "keywords": [
+                        "established",
+                        "founded",
+                        "started",
+                        "when",
+                        "history"
+                    ]
+                },
+                {
+                    "id": "C003",
+                    "q": "Where is Bluewud located?",
+                    "a": "Our manufacturing unit is in Noida (Delhi/NCR, India), spread over 30,000 sqft. Corporate office: A-108, Sector 65, Noida, Uttar Pradesh.",
+                    "keywords": [
+                        "location",
+                        "address",
+                        "where",
+                        "office",
+                        "factory"
+                    ]
+                },
+                {
+                    "id": "C004",
+                    "q": "What manufacturing capabilities does Bluewud have?",
+                    "a": "Our facility has state-of-the-art machinery: computer controlled digital cutters, edge banders, trimmers, polishers, sawing machines, laser cutters, sanders, and customized machines.",
+                    "keywords": [
+                        "manufacturing",
+                        "machinery",
+                        "facility",
+                        "factory"
+                    ]
+                },
+                {
+                    "id": "C005",
+                    "q": "Does Bluewud have patents?",
+                    "a": "Yes, we hold one patent and are working on more to protect our intellectual properties.",
+                    "keywords": [
+                        "patent",
+                        "ip",
+                        "intellectual"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "products",
+            "name": "Product Categories",
+            "icon": "🛋️",
+            "faqs": [
+                {
+                    "id": "P001",
+                    "q": "What products does Bluewud offer?",
+                    "a": "TV units, Coffee Tables, Laptop tables, Study Tables, Shoe Racks, Wall Clocks, Wall Shelves, Book Shelves, Key Holders, Remote Holders, Dressing Table Mirrors and more.",
+                    "keywords": [
+                        "products",
+                        "sell",
+                        "offer",
+                        "range",
+                        "catalog"
+                    ]
+                },
+                {
+                    "id": "P002",
+                    "q": "What materials are used?",
+                    "a": "High-grade Engineered Wood (MDF/Particle Board) with natural wood grain finish. Pre-laminated, moisture & termite resistant.",
+                    "keywords": [
+                        "material",
+                        "wood",
+                        "mdf",
+                        "particle",
+                        "engineered"
+                    ]
+                },
+                {
+                    "id": "P003",
+                    "q": "Do you sell solid wood furniture?",
+                    "a": "No, we exclusively use Engineered Wood (MDF & Particle Board). We do NOT sell solid wood, teak, or sheesham.",
+                    "keywords": [
+                        "solid wood",
+                        "teak",
+                        "sheesham",
+                        "rosewood"
+                    ]
+                },
+                {
+                    "id": "P004",
+                    "q": "What colors are available?",
+                    "a": "Wenge & White, Brown Maple & White, Walnut & White, Brown Maple & Beige, Oak, and natural wood grain finishes.",
+                    "keywords": [
+                        "color",
+                        "colours",
+                        "finish",
+                        "shade"
+                    ]
+                },
+                {
+                    "id": "P005",
+                    "q": "TV unit sizes for different TVs?",
+                    "a": "Smaller units: up to 42\" TVs. Medium units: 50-55\" TVs. Large units: up to 75\" TVs.",
+                    "keywords": [
+                        "tv size",
+                        "inch",
+                        "screen"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "assembly",
+            "name": "Assembly & Installation",
+            "icon": "🔧",
+            "faqs": [
+                {
+                    "id": "A001",
+                    "q": "Do products require assembly?",
+                    "a": "Yes, DIY (Do-It-Yourself) assembly. Package includes hardware and instruction guide. All pre-drilled for easy installation.",
+                    "keywords": [
+                        "assembly",
+                        "diy",
+                        "install",
+                        "build"
+                    ]
+                },
+                {
+                    "id": "A002",
+                    "q": "Can I get help with installation?",
+                    "a": "Call +918800609609 for on-call assistance, or hire a local carpenter. Video tutorials available on YouTube.",
+                    "keywords": [
+                        "help",
+                        "carpenter",
+                        "assistance",
+                        "support"
+                    ]
+                },
+                {
+                    "id": "A003",
+                    "q": "How long does assembly take?",
+                    "a": "20-60 minutes depending on product. TV units may take 2-3 hours based on experience.",
+                    "keywords": [
+                        "time",
+                        "how long",
+                        "hours",
+                        "minutes"
+                    ]
+                },
+                {
+                    "id": "A004",
+                    "q": "What tools are needed?",
+                    "a": "Basic screwdriver (usually included). No special tools required.",
+                    "keywords": [
+                        "tools",
+                        "screwdriver",
+                        "equipment"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "ordering",
+            "name": "Ordering Process",
+            "icon": "🛒",
+            "faqs": [
+                {
+                    "id": "O001",
+                    "q": "How do I place an order?",
+                    "a": "Browse products on bluewud.com, select size/color/variant, add to cart, enter shipping details, choose payment, and confirm. You'll get email confirmation instantly.",
+                    "keywords": [
+                        "order",
+                        "buy",
+                        "purchase",
+                        "how to"
+                    ]
+                },
+                {
+                    "id": "O002",
+                    "q": "Can I modify my order?",
+                    "a": "Email care@bluewud.com before shipment. Post-shipment changes aren't possible.",
+                    "keywords": [
+                        "modify",
+                        "change",
+                        "edit",
+                        "update"
+                    ]
+                },
+                {
+                    "id": "O003",
+                    "q": "How do I track my order?",
+                    "a": "Login to My Orders on bluewud.com for tracking link. Also sent via email from courier partners (Delhivery, Blue Dart).",
+                    "keywords": [
+                        "track",
+                        "tracking",
+                        "status",
+                        "where"
+                    ]
+                },
+                {
+                    "id": "O004",
+                    "q": "Can I order on Amazon/Flipkart?",
+                    "a": "Yes, but bluewud.com offers exclusive deals and direct warranty.",
+                    "keywords": [
+                        "amazon",
+                        "flipkart",
+                        "marketplace"
+                    ]
+                },
+                {
+                    "id": "O005",
+                    "q": "Bulk orders for office?",
+                    "a": "Email bulk@bluewud.com for quotes on 10+ units.",
+                    "keywords": [
+                        "bulk",
+                        "wholesale",
+                        "office",
+                        "corporate"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "shipping",
+            "name": "Shipping & Delivery",
+            "icon": "📦",
+            "faqs": [
+                {
+                    "id": "S001",
+                    "q": "What is delivery timeframe?",
+                    "a": "5-7 business days pan-India. Metro: 3-5 days. Rural: 7-10 days.",
+                    "keywords": [
+                        "delivery",
+                        "time",
+                        "days",
+                        "when"
+                    ]
+                },
+                {
+                    "id": "S002",
+                    "q": "Shipping charges?",
+                    "a": "FREE shipping above ₹999. Below ₹445: ₹50 charge.",
+                    "keywords": [
+                        "shipping",
+                        "charges",
+                        "cost",
+                        "free"
+                    ]
+                },
+                {
+                    "id": "S003",
+                    "q": "International shipping?",
+                    "a": "Currently India only. No international orders.",
+                    "keywords": [
+                        "international",
+                        "abroad",
+                        "overseas",
+                        "foreign"
+                    ]
+                },
+                {
+                    "id": "S004",
+                    "q": "Who delivers?",
+                    "a": "Partners: Delhivery, Ecom Express, Blue Dart, DTDC.",
+                    "keywords": [
+                        "courier",
+                        "delivery partner",
+                        "who delivers"
+                    ]
+                },
+                {
+                    "id": "S005",
+                    "q": "How is packaging?",
+                    "a": "Three-layer protection: bubble wrap, foam, carton for damage-free delivery.",
+                    "keywords": [
+                        "packaging",
+                        "packed",
+                        "protected"
+                    ]
+                },
+                {
+                    "id": "S006",
+                    "q": "Weekend delivery?",
+                    "a": "Yes, all 7 days except national/state holidays.",
+                    "keywords": [
+                        "weekend",
+                        "sunday",
+                        "saturday"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cancellation",
+            "name": "Cancellation",
+            "icon": "❌",
+            "faqs": [
+                {
+                    "id": "X001",
+                    "q": "Can I cancel my order?",
+                    "a": "Yes, before shipment. Go to My Orders > Cancel. Shipping charges non-refundable after dispatch.",
+                    "keywords": [
+                        "cancel",
+                        "cancellation"
+                    ]
+                },
+                {
+                    "id": "X002",
+                    "q": "Cancel COD order?",
+                    "a": "Cancel directly from your account before shipping.",
+                    "keywords": [
+                        "cod",
+                        "cash on delivery"
+                    ]
+                },
+                {
+                    "id": "X003",
+                    "q": "Cancel prepaid order?",
+                    "a": "Email care@bluewud.com for cancellation and refund request.",
+                    "keywords": [
+                        "prepaid",
+                        "online payment"
+                    ]
+                },
+                {
+                    "id": "X004",
+                    "q": "Already shipped, can I cancel?",
+                    "a": "No, but you can refuse delivery or return after receiving.",
+                    "keywords": [
+                        "shipped",
+                        "dispatched",
+                        "in transit"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "returns",
+            "name": "Returns & Refunds",
+            "icon": "↩️",
+            "faqs": [
+                {
+                    "id": "R001",
+                    "q": "Return policy?",
+                    "a": "7-10 day return for damaged, defective, or wrong items in original packaging. Assembled/used products NOT eligible.",
+                    "keywords": [
+                        "return",
+                        "policy"
+                    ]
+                },
+                {
+                    "id": "R002",
+                    "q": "Received damaged product?",
+                    "a": "Refuse delivery OR email care@bluewud.com with photos & Order ID within 48 hours for free replacement.",
+                    "keywords": [
+                        "damaged",
+                        "broken",
+                        "defective"
+                    ]
+                },
+                {
+                    "id": "R003",
+                    "q": "Refund timeline?",
+                    "a": "5-7 working days to original payment method.",
+                    "keywords": [
+                        "refund",
+                        "money back",
+                        "how long"
+                    ]
+                },
+                {
+                    "id": "R004",
+                    "q": "Can I exchange?",
+                    "a": "Yes, within 7 days if stock available. Not possible after installation.",
+                    "keywords": [
+                        "exchange",
+                        "swap",
+                        "replace"
+                    ]
+                },
+                {
+                    "id": "R005",
+                    "q": "Non-returnable items?",
+                    "a": "Beds, Wardrobes, large TV units (only part replacement), Remote Holders, customized items.",
+                    "keywords": [
+                        "non-returnable",
+                        "cannot return"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "warranty",
+            "name": "Warranty",
+            "icon": "🛡️",
+            "faqs": [
+                {
+                    "id": "W001",
+                    "q": "Warranty period?",
+                    "a": "1-year warranty on manufacturing defects from invoice date.",
+                    "keywords": [
+                        "warranty",
+                        "guarantee",
+                        "period"
+                    ]
+                },
+                {
+                    "id": "W002",
+                    "q": "What does warranty cover?",
+                    "a": "Manufacturing defects, non-standard materials, transport damage. Part replacements shipped free.",
+                    "keywords": [
+                        "cover",
+                        "includes",
+                        "what"
+                    ]
+                },
+                {
+                    "id": "W003",
+                    "q": "What's NOT covered?",
+                    "a": "Normal wear & tear, misuse, modifications, water/liquid damage, pet damage, overload.",
+                    "keywords": [
+                        "not covered",
+                        "excluded",
+                        "except"
+                    ]
+                },
+                {
+                    "id": "W004",
+                    "q": "How to claim warranty?",
+                    "a": "Email care@bluewud.com with invoice, photos, order ID. Resolution in 7-15 days.",
+                    "keywords": [
+                        "claim",
+                        "how to",
+                        "process"
+                    ]
+                },
+                {
+                    "id": "W005",
+                    "q": "Broken parts?",
+                    "a": "Free spare parts shipped upon request.",
+                    "keywords": [
+                        "broken",
+                        "spare",
+                        "parts",
+                        "screw"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "payment",
+            "name": "Payment",
+            "icon": "💳",
+            "faqs": [
+                {
+                    "id": "PAY01",
+                    "q": "Payment methods?",
+                    "a": "Credit/Debit Cards, Net Banking, UPI, Wallets (Paytm, PhonePe), EMI (Bajaj Finserv), COD.",
+                    "keywords": [
+                        "payment",
+                        "pay",
+                        "method",
+                        "upi",
+                        "card"
+                    ]
+                },
+                {
+                    "id": "PAY02",
+                    "q": "EMI available?",
+                    "a": "Yes, 3-24 months via Bajaj Finserv and partner banks. No cost EMI on select products.",
+                    "keywords": [
+                        "emi",
+                        "installment",
+                        "monthly"
+                    ]
+                },
+                {
+                    "id": "PAY03",
+                    "q": "Payment failed but money deducted?",
+                    "a": "Usually refunded by bank in 10 business days. Contact care@bluewud.com for help.",
+                    "keywords": [
+                        "failed",
+                        "deducted",
+                        "stuck"
+                    ]
+                },
+                {
+                    "id": "PAY04",
+                    "q": "GST invoice?",
+                    "a": "Download from My Orders after purchase.",
+                    "keywords": [
+                        "gst",
+                        "invoice",
+                        "bill",
+                        "tax"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "offers",
+            "name": "Offers & Discounts",
+            "icon": "🏷️",
+            "faqs": [
+                {
+                    "id": "OF01",
+                    "q": "Current offers?",
+                    "a": "Winter Sale LIVE! Use code WINTER10 for 10% off. Check website for latest offers.",
+                    "keywords": [
+                        "offer",
+                        "discount",
+                        "sale",
+                        "coupon"
+                    ]
+                },
+                {
+                    "id": "OF02",
+                    "q": "How to apply coupon?",
+                    "a": "Enter code in 'Apply Coupon' field at checkout before payment.",
+                    "keywords": [
+                        "apply",
+                        "coupon",
+                        "code",
+                        "promo"
+                    ]
+                },
+                {
+                    "id": "OF03",
+                    "q": "Coupon not working?",
+                    "a": "Check expiry, case-sensitivity, and minimum cart value. Contact support if issue persists.",
+                    "keywords": [
+                        "not working",
+                        "invalid",
+                        "error"
+                    ]
+                },
+                {
+                    "id": "OF04",
+                    "q": "Price match?",
+                    "a": "Email proof from competitor; we'll match it.",
+                    "keywords": [
+                        "price match",
+                        "competitor",
+                        "cheaper"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "care",
+            "name": "Care & Maintenance",
+            "icon": "✨",
+            "faqs": [
+                {
+                    "id": "CA01",
+                    "q": "How to clean furniture?",
+                    "a": "Soft damp cloth, mild soap. Dry immediately. No harsh chemicals or abrasives.",
+                    "keywords": [
+                        "clean",
+                        "cleaning",
+                        "wipe",
+                        "wash"
+                    ]
+                },
+                {
+                    "id": "CA02",
+                    "q": "Prevent scratches?",
+                    "a": "Use felt pads under objects, coasters for glasses/cups.",
+                    "keywords": [
+                        "scratch",
+                        "prevent",
+                        "protect"
+                    ]
+                },
+                {
+                    "id": "CA03",
+                    "q": "Water damage?",
+                    "a": "Avoid direct water. Engineered wood is moisture-resistant but not waterproof.",
+                    "keywords": [
+                        "water",
+                        "moisture",
+                        "wet",
+                        "spill"
+                    ]
+                },
+                {
+                    "id": "CA04",
+                    "q": "Sunlight fading?",
+                    "a": "Minimal with UV-resistant laminate. Keep away from direct sunlight.",
+                    "keywords": [
+                        "sunlight",
+                        "fading",
+                        "sun",
+                        "uv"
+                    ]
+                },
+                {
+                    "id": "CA05",
+                    "q": "Product lifespan?",
+                    "a": "5+ years with proper care.",
+                    "keywords": [
+                        "lifespan",
+                        "last",
+                        "durable",
+                        "years"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "support",
+            "name": "Customer Support",
+            "icon": "📞",
+            "faqs": [
+                {
+                    "id": "SU01",
+                    "q": "Contact customer service?",
+                    "a": "📞 Phone/WhatsApp: +918800609609\n📧 Email: care@bluewud.com\n⏰ Hours: 09:00 AM - 06:00 PM (Mon-Sat)",
+                    "keywords": [
+                        "contact",
+                        "support",
+                        "help",
+                        "customer care",
+                        "phone",
+                        "email"
+                    ]
+                },
+                {
+                    "id": "SU02",
+                    "q": "Installation support?",
+                    "a": "Call +918800609609 for on-call assistance or video guidance.",
+                    "keywords": [
+                        "installation",
+                        "help",
+                        "support"
+                    ]
+                },
+                {
+                    "id": "SU03",
+                    "q": "Talk to human agent?",
+                    "a": "Call +918800609609 during business hours or use live chat on website.",
+                    "keywords": [
+                        "human",
+                        "agent",
+                        "person",
+                        "talk",
+                        "speak"
+                    ]
+                }
+            ]
+        }
+    ]
+}

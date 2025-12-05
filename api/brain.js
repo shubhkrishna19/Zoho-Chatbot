@@ -1,71 +1,202 @@
 const fetch = require('node-fetch');
-const knowledgeBase = require('./knowledge');
+const fs = require('fs');
+const path = require('path');
 
-// Hard‑coded intents
+// ============================================
+// LOAD DATABASE FROM JSON FILE
+// ============================================
+let database = null;
+
+function loadDatabase() {
+    try {
+        const dbPath = path.join(__dirname, '..', 'data', 'database.json');
+        const data = fs.readFileSync(dbPath, 'utf8');
+        database = JSON.parse(data);
+        console.log(`✅ Database loaded: ${database._meta.totalFaqs} FAQs in ${database.categories.length} categories`);
+        return true;
+    } catch (error) {
+        console.error('❌ Failed to load database:', error.message);
+        return false;
+    }
+}
+
+// Load on startup
+loadDatabase();
+
+// Reload database (call this after edits)
+function reloadDatabase() {
+    return loadDatabase();
+}
+
+// ============================================
+// GET CONFIG & MESSAGES FROM DATABASE
+// ============================================
+function getConfig() {
+    return database?.config || {};
+}
+
+function getMessage(key) {
+    return database?.messages?.[key] || '';
+}
+
+// ============================================
+// SEARCH FAQS BY KEYWORDS
+// ============================================
+function searchFaqs(query) {
+    if (!database) return null;
+
+    const queryLower = query.toLowerCase();
+    const words = queryLower.split(/\s+/);
+
+    let bestMatch = null;
+    let bestScore = 0;
+
+    for (const category of database.categories) {
+        for (const faq of category.faqs) {
+            let score = 0;
+
+            // Check keywords
+            for (const keyword of faq.keywords || []) {
+                if (queryLower.includes(keyword.toLowerCase())) {
+                    score += 10;
+                }
+            }
+
+            // Check question text
+            const qLower = faq.q.toLowerCase();
+            for (const word of words) {
+                if (word.length > 2 && qLower.includes(word)) {
+                    score += 5;
+                }
+            }
+
+            // Exact match bonus
+            if (qLower.includes(queryLower) || queryLower.includes(qLower)) {
+                score += 20;
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestMatch = { ...faq, category: category.name, icon: category.icon };
+            }
+        }
+    }
+
+    return bestScore >= 10 ? bestMatch : null;
+}
+
+// ============================================
+// ENHANCED INTENT PATTERNS
+// ============================================
 const intents = [
+    // Greetings
     {
-        patterns: [/warranty/i, /guarantee/i],
-        reply: 'All our furniture comes with a 1‑year warranty against manufacturing defects.'
+        patterns: [/^hi$/i, /^hello$/i, /^hey$/i, /^hii+$/i, /good\s*(morning|afternoon|evening)/i, /^namaste/i],
+        handler: () => "Hi there! 👋 How can I help you with your furniture needs today?",
+        category: "greeting"
     },
+
+    // Farewells
     {
-        patterns: [/shipping/i, /delivery time/i, /delivery/i, /ship/i, /track/i],
-        reply: 'We ship within 2-4 days of order confirmation. Delivery usually takes 5-7 business days depending on your location.'
+        patterns: [/^bye$/i, /^goodbye$/i, /^thanks?\s*bye/i, /^ok\s*bye/i, /that'?s?\s*all/i],
+        handler: () => getMessage('goodbye'),
+        category: "farewell"
     },
+
+    // Gratitude
     {
-        patterns: [/material/i, /wood/i, /solid wood/i, /teak/i, /sheesham/i, /plywood/i],
-        reply: 'We exclusively manufacture furniture using high-quality Engineered Wood (Particle Board and MDF). We do not use solid wood, which allows us to offer premium designs at affordable prices.'
+        patterns: [/^thanks?$/i, /^thank\s*you$/i, /^thx$/i, /^ty$/i],
+        handler: () => "You're welcome! 😊 Is there anything else I can help you with?",
+        category: "gratitude"
     },
+
+    // Human Handoff (High Priority)
     {
-        patterns: [/care/i, /clean/i, /maintenance/i, /water/i],
-        reply: 'To clean engineered wood furniture, simply wipe it with a damp cloth and dry it immediately. Avoid direct contact with water or placing hot items directly on the surface.'
-    },
-    {
-        patterns: [/assembly/i, /install/i, /carpenter/i, /diy/i],
-        reply: 'Most of our products are designed for easy DIY (Do-It-Yourself) assembly and come with a detailed manual and hardware. For complex items, we may offer carpenter assistance in select cities.'
-    },
-    {
-        patterns: [/durability/i, /strong/i, /life/i, /lasting/i],
-        reply: 'Our engineered wood is pre-laminated and treated to be moisture-resistant and termite-resistant, ensuring long-lasting durability when used with standard care.'
-    },
-    {
-        patterns: [/talk to human/i, /customer care/i, /agent/i, /representative/i, /support/i, /human/i, /contact/i, /call/i, /phone/i, /email/i],
-        reply: 'For any query, call us or whatsapp us at +918800609609, we are available to take your call between 09:00 AM to 06:00 PM on weekdays.\n\nFor Installation Support, call us or whatsapp us at +918800609609.\n\nAlso you can mail us at care@bluewud.com',
+        patterns: [
+            /talk\s*to\s*(human|agent|person|someone)/i,
+            /speak\s*(with|to)\s*(human|agent|person)/i,
+            /customer\s*(care|service|support)/i,
+            /call\s*(back|me)/i,
+            /contact\s*(number|details)/i,
+            /^agent$/i, /^human$/i, /^support$/i
+        ],
+        handler: () => getMessage('handoff'),
+        category: "handoff",
+        action: "handoff"
     }
 ];
 
 function findIntent(message) {
-    for (const i of intents) {
-        if (i.patterns.some(p => p.test(message))) return i;
+    const cleanMsg = message.trim().toLowerCase();
+
+    for (const intent of intents) {
+        if (intent.patterns.some(pattern => pattern.test(cleanMsg))) {
+            return {
+                reply: intent.handler(),
+                action: intent.action || null,
+                category: intent.category
+            };
+        }
     }
     return null;
 }
 
+// ============================================
+// BUILD KNOWLEDGE STRING FOR AI
+// ============================================
+function buildKnowledgeString() {
+    if (!database) return '';
+
+    let knowledge = '';
+    for (const category of database.categories) {
+        knowledge += `\n### ${category.icon} ${category.name}\n`;
+        for (const faq of category.faqs) {
+            knowledge += `Q: ${faq.q}\nA: ${faq.a}\n\n`;
+        }
+    }
+    return knowledge;
+}
+
+// ============================================
+// GEMINI AI FUNCTION (Fallback)
+// ============================================
 async function callGoogleGemini(userMsg) {
     const apiKey = process.env.GOOGLE_API_KEY;
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    const config = getConfig();
+    const contact = config.contact || {};
+
+    const systemPrompt = `You are "${config.botName || 'Bluewud Furniture Expert'}" - a friendly AI assistant for Bluewud furniture.
+
+## CONTACT INFO (provide when user needs help):
+📞 Phone/WhatsApp: ${contact.whatsapp || '+918800609609'}
+📧 Email: ${contact.email || 'care@bluewud.com'}
+⏰ Hours: ${contact.hours || '09:00 AM - 06:00 PM (Mon-Sat)'}
+
+## CURRENT OFFER:
+${config.currentOffer?.name}: ${config.currentOffer?.discount} off with code "${config.currentOffer?.code}"
+
+## KEY FACTS:
+- We sell ONLY Engineered Wood (NOT solid wood/teak/sheesham)
+- Free shipping above ₹999
+- 1-year warranty on manufacturing defects
+- DIY assembly with included hardware
+
+## FAQ DATABASE:
+${buildKnowledgeString()}
+
+## RULES:
+1. Keep responses SHORT (2-4 sentences)
+2. Use the FAQ database for accurate answers
+3. If unsure, offer to connect with human support
+4. Use emojis sparingly (1-2 per response)
+5. Be warm and helpful`;
+
     const body = {
-        contents: [{
-            role: 'user',
-            parts: [{
-                text: `You are a helpful assistant for Bluewud, a furniture brand. 
-        
-        CORE KNOWLEDGE:
-        - We manufacture furniture using high-quality Engineered Wood (Particle Board and MDF).
-        - We do NOT sell solid wood, teak, or sheesham.
-        
-        FAQ DATABASE:
-        ${knowledgeBase}
-        
-        INSTRUCTIONS:
-        - Use the FAQ DATABASE to answer questions accurately.
-        - Keep responses SHORT, NATURAL, and FRIENDLY.
-        - Do NOT mention "Engineered Wood" or policies in every reply. Only mention them if the user asks about materials or wood type.
-        - If the user says "Hi" or "Hello", just say "Hi! How can I help you with your furniture today?"
-        - If asked about contacting support/agent, provide this EXACT text: "For any query, call us or whatsapp us at +918800609609, we are available to take your call between 09:00 AM to 06:00 PM on weekdays. For Installation Support, call us or whatsapp us at +918800609609. Also you can mail us at care@bluewud.com"
-        
-        User Query: ${userMsg}`
-            }]
-        }]
+        contents: [{ role: 'user', parts: [{ text: userMsg }] }],
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        generationConfig: { temperature: 0.7, topP: 0.9, maxOutputTokens: 500 }
     };
 
     try {
@@ -75,24 +206,55 @@ async function callGoogleGemini(userMsg) {
             body: JSON.stringify(body)
         });
         const data = await resp.json();
-        return data?.candidates?.[0]?.content?.parts?.[0]?.text || 'I’m sorry, I could not answer that. (Error: ' + (data.error?.message || 'Unknown') + ')';
+
+        if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+            return data.candidates[0].content.parts[0].text;
+        }
+        console.error('Gemini API error:', JSON.stringify(data));
+        return getMessage('error');
     } catch (e) {
         console.error('Gemini API Error:', e);
-        return 'I’m having trouble connecting to my brain right now. Please try again.';
+        return getMessage('error');
     }
 }
 
-// Main Processor Function
+// ============================================
+// MAIN MESSAGE PROCESSOR
+// ============================================
 async function processMessage(message) {
-    // 1. Check Intents
-    const matched = findIntent(message);
-    if (matched) {
-        return { reply: matched.reply, action: matched.action || null };
+    if (!message || message.trim() === '') {
+        return { reply: "I didn't catch that. Could you please rephrase?", action: null };
     }
 
-    // 2. Call AI
+    // 1. Check hardcoded intents (greetings, farewells, handoff)
+    const intentMatch = findIntent(message);
+    if (intentMatch) {
+        return intentMatch;
+    }
+
+    // 2. Search FAQ database
+    const faqMatch = searchFaqs(message);
+    if (faqMatch) {
+        return {
+            reply: `${faqMatch.icon} **${faqMatch.category}**\n\n${faqMatch.a}`,
+            action: null,
+            category: faqMatch.category,
+            faqId: faqMatch.id
+        };
+    }
+
+    // 3. Fall back to AI for complex queries
     const aiReply = await callGoogleGemini(message);
-    return { reply: aiReply, action: null };
+    return { reply: aiReply, action: null, category: 'ai_response' };
 }
 
-module.exports = { processMessage };
+// ============================================
+// EXPORTS
+// ============================================
+module.exports = {
+    processMessage,
+    reloadDatabase,
+    getConfig,
+    getMessage,
+    searchFaqs
+};

@@ -1,0 +1,2165 @@
+{
+    "_meta": {
+        "version": "1.0.0",
+        "lastUpdated": "2025-12-05",
+        "totalProducts": 295,
+        "source": "Dimensions Master.xlsx",
+        "description": "Bluewud Product Catalog - SKU, Dimensions, and Weights"
+    },
+    "categories": {
+        "B": "Beds",
+        "BT": "Bedside Tables",
+        "CT": "Coffee Tables",
+        "DC": "Dressing Console",
+        "DT": "Dining Tables",
+        "FT": "Foyer Tables",
+        "GH": "Gift Items / Home Decor",
+        "KH": "Key Holders",
+        "KR": "Key Racks",
+        "LT": "Laptop Tables",
+        "MD": "Media Units",
+        "PF": "Photo Frames",
+        "PU": "Pouffe / Ottoman",
+        "RH": "Remote Holders",
+        "RT": "Console / Rack Tables",
+        "S": "Wall Shelves",
+        "SB": "Book Shelves",
+        "SH": "Shelf Holders",
+        "SL": "Slim Shelves",
+        "SR": "Shoe Racks",
+        "ST": "Study Tables",
+        "TP": "Table Parts",
+        "TS": "Table Sets",
+        "TU": "TV Units",
+        "W": "Wardrobes",
+        "WA": "Wall Art",
+        "KC": "Kitchen Cabinets",
+        "SF": "Sofas"
+    },
+    "products": [
+        {
+            "sku": "B-MLT-KT",
+            "category": "Beds",
+            "type": "MB",
+            "dimensions": {
+                "L": 204,
+                "B": 39,
+                "H": 6
+            },
+            "weight": 99300,
+            "boxes": 3
+        },
+        {
+            "sku": "B-MLT-QT",
+            "category": "Beds",
+            "type": "MB",
+            "dimensions": {
+                "L": 204,
+                "B": 39,
+                "H": 7
+            },
+            "weight": 88770,
+            "boxes": 3
+        },
+        {
+            "sku": "B-POL-KN",
+            "category": "Beds",
+            "type": "MB",
+            "dimensions": {
+                "L": 205,
+                "B": 54,
+                "H": 10
+            },
+            "weight": 70000,
+            "boxes": 2
+        },
+        {
+            "sku": "B-POL-KT",
+            "category": "Beds",
+            "type": "MB",
+            "dimensions": {
+                "L": 207,
+                "B": 38,
+                "H": 8
+            },
+            "weight": 96300,
+            "boxes": 3
+        },
+        {
+            "sku": "B-POL-QN",
+            "category": "Beds",
+            "type": "MB",
+            "dimensions": {
+                "L": 206,
+                "B": 50,
+                "H": 10
+            },
+            "weight": 70000,
+            "boxes": 2
+        },
+        {
+            "sku": "B-POL-QT",
+            "category": "Beds",
+            "type": "MB",
+            "dimensions": {
+                "L": 202,
+                "B": 40,
+                "H": 9
+            },
+            "weight": 90540,
+            "boxes": 3
+        },
+        {
+            "sku": "B-POL-SN",
+            "category": "Beds",
+            "type": "MB",
+            "dimensions": {
+                "L": 204,
+                "B": 48,
+                "H": 6
+            },
+            "weight": 46100,
+            "boxes": 2
+        },
+        {
+            "sku": "B-RVB-D36N",
+            "category": "Beds",
+            "type": "SB",
+            "dimensions": {
+                "L": 188,
+                "B": 44,
+                "H": 9
+            },
+            "weight": 33270,
+            "boxes": 1
+        },
+        {
+            "sku": "B-RVB-KN",
+            "category": "Beds",
+            "type": "MB",
+            "dimensions": {
+                "L": 206,
+                "B": 50,
+                "H": 8
+            },
+            "weight": 73200,
+            "boxes": 2
+        },
+        {
+            "sku": "B-RVB-QN",
+            "category": "Beds",
+            "type": "MB",
+            "dimensions": {
+                "L": 205,
+                "B": 50,
+                "H": 8
+            },
+            "weight": 65050,
+            "boxes": 2
+        },
+        {
+            "sku": "B-RVB-SN",
+            "category": "Beds",
+            "type": "MB",
+            "dimensions": {
+                "L": 199,
+                "B": 38,
+                "H": 9
+            },
+            "weight": 46460,
+            "boxes": 2
+        },
+        {
+            "sku": "B-MLT-D30T",
+            "category": "Beds",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 40000,
+            "boxes": 1
+        },
+        {
+            "sku": "BT-CO",
+            "category": "Bedside Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 72,
+                "B": 39,
+                "H": 5
+            },
+            "weight": 6470,
+            "boxes": 1
+        },
+        {
+            "sku": "BT-HE",
+            "category": "Bedside Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 42,
+                "B": 41,
+                "H": 6
+            },
+            "weight": 4300,
+            "boxes": 1
+        },
+        {
+            "sku": "BT-LE-B",
+            "category": "Bedside Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 64,
+                "B": 58,
+                "H": 12
+            },
+            "weight": 15000,
+            "boxes": 1
+        },
+        {
+            "sku": "BT-OL",
+            "category": "Bedside Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 48,
+                "B": 45,
+                "H": 5
+            },
+            "weight": 7700,
+            "boxes": 1
+        },
+        {
+            "sku": "BT-OL-D",
+            "category": "Bedside Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 60,
+                "B": 44,
+                "H": 7
+            },
+            "weight": 10490,
+            "boxes": 1
+        },
+        {
+            "sku": "BT-NHE",
+            "category": "Bedside Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 56,
+                "B": 30,
+                "H": 11
+            },
+            "weight": 7100,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-ATD-LA",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 123,
+                "B": 56,
+                "H": 5
+            },
+            "weight": 24490,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-ATD",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 15800,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-ATD-ST",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 112,
+                "B": 51,
+                "H": 5
+            },
+            "weight": 14800,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-DOV",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 111,
+                "B": 50,
+                "H": 8
+            },
+            "weight": 21750,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-ETE",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 106,
+                "B": 50,
+                "H": 7
+            },
+            "weight": 12400,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-GSE-RT",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 99,
+                "B": 50,
+                "H": 4
+            },
+            "weight": 6120,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-GSE-RT2",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 98,
+                "B": 51,
+                "H": 4
+            },
+            "weight": 11390,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-GSE-SQ",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 75,
+                "B": 75,
+                "H": 4
+            },
+            "weight": 8200,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-GSE-SQ2",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 76,
+                "B": 76,
+                "H": 4
+            },
+            "weight": 12200,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-KV-RT",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 105,
+                "B": 51,
+                "H": 7
+            },
+            "weight": 11800,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-KV-SQ",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 81,
+                "B": 80,
+                "H": 7
+            },
+            "weight": 16900,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-LE",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 114,
+                "B": 56,
+                "H": 7
+            },
+            "weight": 10850,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-MD-RT",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 104,
+                "B": 60,
+                "H": 7
+            },
+            "weight": 17700,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-MD-SQ",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 85,
+                "B": 84,
+                "H": 6
+            },
+            "weight": 17400,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-MT-RO",
+            "category": "Coffee Tables",
+            "type": "MB",
+            "dimensions": {
+                "L": 90,
+                "B": 88,
+                "H": 4
+            },
+            "weight": 8120,
+            "boxes": 2
+        },
+        {
+            "sku": "CT-MT-RT",
+            "category": "Coffee Tables",
+            "type": "MB",
+            "dimensions": {
+                "L": 100,
+                "B": 54,
+                "H": 4
+            },
+            "weight": 6600,
+            "boxes": 2
+        },
+        {
+            "sku": "CT-MT-SQ",
+            "category": "Coffee Tables",
+            "type": "MB",
+            "dimensions": {
+                "L": 80,
+                "B": 80,
+                "H": 5
+            },
+            "weight": 7395,
+            "boxes": 2
+        },
+        {
+            "sku": "CT-NO-RT",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 99,
+                "B": 50,
+                "H": 5
+            },
+            "weight": 13000,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-NO-SQ",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 76,
+                "B": 76,
+                "H": 5
+            },
+            "weight": 12460,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-OL",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 101,
+                "B": 47,
+                "H": 5
+            },
+            "weight": 12400,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-OSN-OV",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 105,
+                "B": 65,
+                "H": 4
+            },
+            "weight": 9640,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-OSN-RT",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 104,
+                "B": 59,
+                "H": 5
+            },
+            "weight": 9850,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-SH",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 85,
+                "B": 49,
+                "H": 7
+            },
+            "weight": 11890,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-SY",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 80,
+                "B": 80,
+                "H": 6
+            },
+            "weight": 11850,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-TLY",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 95,
+                "B": 50,
+                "H": 7
+            },
+            "weight": 12850,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-TR-RT",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 102,
+                "B": 57,
+                "H": 6
+            },
+            "weight": 12000,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-TR-RTS",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 110,
+                "B": 50,
+                "H": 5
+            },
+            "weight": 12750,
+            "boxes": 1
+        },
+        {
+            "sku": "CT-VC",
+            "category": "Coffee Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 94,
+                "B": 49,
+                "H": 7
+            },
+            "weight": 14500,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-ARO-LA",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 47,
+                "B": 35,
+                "H": 8
+            },
+            "weight": 6000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-ARO-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 35,
+                "B": 30,
+                "H": 9
+            },
+            "weight": 3725,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-ATD",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 175,
+                "B": 42,
+                "H": 6
+            },
+            "weight": 21430,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-AYL",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 156,
+                "B": 40,
+                "H": 7
+            },
+            "weight": 16800,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-BKMT",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 43400,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-BKY",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 27400,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-BKY-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 153,
+                "B": 43,
+                "H": 9
+            },
+            "weight": 26000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-BVN",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 91,
+                "B": 54,
+                "H": 9
+            },
+            "weight": 28300,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-CBR-LA",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 117,
+                "B": 30,
+                "H": 6
+            },
+            "weight": 8500,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-CBR-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 69,
+                "B": 28,
+                "H": 6
+            },
+            "weight": 5000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-CRL",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 144,
+                "B": 42,
+                "H": 10
+            },
+            "weight": 27500,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-DAR",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 149,
+                "B": 46,
+                "H": 7
+            },
+            "weight": 23500,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-DRN",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 164,
+                "B": 40,
+                "H": 7
+            },
+            "weight": 17400,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-DSK",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 28500,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-ETY-LA",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 127,
+                "B": 30,
+                "H": 9
+            },
+            "weight": 13400,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-ETY-M",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 98,
+                "B": 27,
+                "H": 6
+            },
+            "weight": 6230,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-ETY-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 97,
+                "B": 31,
+                "H": 8
+            },
+            "weight": 11500,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-FL",
+            "category": "TV Units",
+            "type": "MB",
+            "dimensions": {
+                "L": 207,
+                "B": 45,
+                "H": 10
+            },
+            "weight": 82580,
+            "boxes": 2
+        },
+        {
+            "sku": "TU-GAU",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 92,
+                "B": 53,
+                "H": 9
+            },
+            "weight": 19000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-HMD",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 134,
+                "B": 44,
+                "H": 10
+            },
+            "weight": 26500,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-KU-LA",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 127,
+                "B": 35,
+                "H": 7
+            },
+            "weight": 12000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-KU-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 85,
+                "B": 29,
+                "H": 6
+            },
+            "weight": 6000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-KVD-LA",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 97,
+                "B": 30,
+                "H": 5
+            },
+            "weight": 4000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-KVD-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 66,
+                "B": 29,
+                "H": 5
+            },
+            "weight": 3310,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-LE",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 123,
+                "B": 40,
+                "H": 9
+            },
+            "weight": 16000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-MA-LA",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 96,
+                "B": 31,
+                "H": 4
+            },
+            "weight": 4500,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-MA-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 68,
+                "B": 31,
+                "H": 5
+            },
+            "weight": 3000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-MLE",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 66,
+                "B": 29,
+                "H": 5
+            },
+            "weight": 4000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-MYN",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 194,
+                "B": 44,
+                "H": 8
+            },
+            "weight": 31500,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-NVH-M",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 127,
+                "B": 46,
+                "H": 7
+            },
+            "weight": 22400,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-OL",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 116,
+                "B": 40,
+                "H": 7
+            },
+            "weight": 12500,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-PMG-LA",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 163,
+                "B": 30,
+                "H": 9
+            },
+            "weight": 20850,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-PMG-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 135,
+                "B": 35,
+                "H": 8
+            },
+            "weight": 14850,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-PM-LA",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 165,
+                "B": 36,
+                "H": 7
+            },
+            "weight": 15850,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-PMP-L",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 166,
+                "B": 37,
+                "H": 8
+            },
+            "weight": 18770,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-PMP-S",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 136,
+                "B": 35,
+                "H": 8
+            },
+            "weight": 17600,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-PMS-LA",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 154,
+                "B": 37,
+                "H": 6
+            },
+            "weight": 10850,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-PMS-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 135,
+                "B": 36,
+                "H": 7
+            },
+            "weight": 8735,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-PM-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 135,
+                "B": 36,
+                "H": 7
+            },
+            "weight": 10800,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-PR",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 126,
+                "B": 29,
+                "H": 6
+            },
+            "weight": 7700,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-PTL",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 100,
+                "B": 30,
+                "H": 8
+            },
+            "weight": 20000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-RE-LA",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 148,
+                "B": 35,
+                "H": 6
+            },
+            "weight": 12800,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-RE-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 82,
+                "B": 36,
+                "H": 7
+            },
+            "weight": 8000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-RWT-LA",
+            "category": "TV Units",
+            "type": "MB",
+            "dimensions": {
+                "L": 188,
+                "B": 48,
+                "H": 9
+            },
+            "weight": 68200,
+            "boxes": 2
+        },
+        {
+            "sku": "TU-RWT-M",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 158,
+                "B": 45,
+                "H": 13
+            },
+            "weight": 42600,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-RYE-LA",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 167,
+                "B": 40,
+                "H": 8
+            },
+            "weight": 28560,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-RYE-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 137,
+                "B": 30,
+                "H": 10
+            },
+            "weight": 18445,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-SKD",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 153,
+                "B": 43,
+                "H": 9
+            },
+            "weight": 27630,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-SKDL",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 22000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-TK-LA",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 87,
+                "B": 29,
+                "H": 9
+            },
+            "weight": 7800,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-TK-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 58,
+                "B": 30,
+                "H": 9
+            },
+            "weight": 6500,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-TP",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 45,
+                "B": 25,
+                "H": 5
+            },
+            "weight": 2000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-TT-L",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 55,
+                "B": 32,
+                "H": 4
+            },
+            "weight": 2000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-TT-S",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 41,
+                "B": 25,
+                "H": 4
+            },
+            "weight": 1000,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-VC",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 147,
+                "B": 47,
+                "H": 7
+            },
+            "weight": 13700,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-WBM",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 196,
+                "B": 43,
+                "H": 8
+            },
+            "weight": 31955,
+            "boxes": 1
+        },
+        {
+            "sku": "TU-WBM-ST",
+            "category": "TV Units",
+            "type": "SB",
+            "dimensions": {
+                "L": 153,
+                "B": 43,
+                "H": 9
+            },
+            "weight": 23000,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-AML",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 122,
+                "B": 63,
+                "H": 8
+            },
+            "weight": 18890,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-CBN",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 152,
+                "B": 58,
+                "H": 9
+            },
+            "weight": 31890,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-CBN-LS",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 17600,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-CBN-S",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 107,
+                "B": 59,
+                "H": 8
+            },
+            "weight": 12700,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-CBN-P",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 14647,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-CND-LA",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 112,
+                "B": 51,
+                "H": 8
+            },
+            "weight": 14550,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-CND-ST",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 86,
+                "B": 46,
+                "H": 7
+            },
+            "weight": 12000,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-EFI-LA",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 114,
+                "B": 60,
+                "H": 5
+            },
+            "weight": 13200,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-EFI-ST",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 97,
+                "B": 51,
+                "H": 5
+            },
+            "weight": 9140,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-GSE-LA",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 121,
+                "B": 63,
+                "H": 5
+            },
+            "weight": 13215,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-GSE-ST",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 97,
+                "B": 56,
+                "H": 4
+            },
+            "weight": 9550,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-GSE-WMN",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 87,
+                "B": 59,
+                "H": 5
+            },
+            "weight": 6360,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-GSE-WMS",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 86,
+                "B": 60,
+                "H": 5
+            },
+            "weight": 8000,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-GSE-WMSW",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 87,
+                "B": 59,
+                "H": 5
+            },
+            "weight": 6360,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-HE",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 85,
+                "B": 58,
+                "H": 4
+            },
+            "weight": 7000,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-HES",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 85,
+                "B": 66,
+                "H": 5
+            },
+            "weight": 10750,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-KYA",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 85,
+                "B": 54,
+                "H": 11
+            },
+            "weight": 24500,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-MLM-L",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 111,
+                "B": 48,
+                "H": 10
+            },
+            "weight": 20500,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-MLM-N",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 109,
+                "B": 47,
+                "H": 9
+            },
+            "weight": 18300,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-RDO",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 123,
+                "B": 30,
+                "H": 13
+            },
+            "weight": 25000,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-RE",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 97,
+                "B": 49,
+                "H": 8
+            },
+            "weight": 16992,
+            "boxes": 1
+        },
+        {
+            "sku": "ST-WLD",
+            "category": "Study Tables",
+            "type": "SB",
+            "dimensions": {
+                "L": 136,
+                "B": 77,
+                "H": 10
+            },
+            "weight": 47550,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-BKN-2",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 83,
+                "B": 43,
+                "H": 15
+            },
+            "weight": 19850,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-BKN-T",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 150,
+                "B": 42,
+                "H": 14
+            },
+            "weight": 40000,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-BKN-H",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 187,
+                "B": 43,
+                "H": 14
+            },
+            "weight": 59900,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-CLE",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 81,
+                "B": 43,
+                "H": 14
+            },
+            "weight": 20800,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-CLM-2",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 82,
+                "B": 43,
+                "H": 13
+            },
+            "weight": 16850,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-CLM-3",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 129,
+                "B": 43,
+                "H": 13
+            },
+            "weight": 26300,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-CLM-T",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 129,
+                "B": 43,
+                "H": 13
+            },
+            "weight": 27500,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-KPN",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 148,
+                "B": 40,
+                "H": 12
+            },
+            "weight": 33500,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-LRL",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 103,
+                "B": 35,
+                "H": 7
+            },
+            "weight": 12210,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-MVS",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 93,
+                "B": 42,
+                "H": 9
+            },
+            "weight": 30650,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-MVS-I",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 20000,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-MVS-T",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 27000,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-MVS-IT",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 45600,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-OLY",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 147,
+                "B": 38,
+                "H": 11
+            },
+            "weight": 29450,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-PRG",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 140,
+                "B": 49,
+                "H": 12
+            },
+            "weight": 35720,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-WHTO",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 117,
+                "B": 42,
+                "H": 17
+            },
+            "weight": 24400,
+            "boxes": 1
+        },
+        {
+            "sku": "SR-FYN",
+            "category": "Shoe Racks",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 37000,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-EDL",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 380,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-LKN-6",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 26,
+                "B": 25,
+                "H": 5
+            },
+            "weight": 800,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-RMT",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 390,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-RZ",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 35,
+                "B": 32,
+                "H": 6
+            },
+            "weight": 900,
+            "boxes": 1
+        },
+        {
+            "sku": "KHS-SW-W1",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 28,
+                "B": 20,
+                "H": 6
+            },
+            "weight": 840,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-SW-W10",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 25,
+                "B": 24,
+                "H": 5
+            },
+            "weight": 700,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-SW-W21",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 33,
+                "B": 32,
+                "H": 6
+            },
+            "weight": 1200,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-SW-WB",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 24,
+                "B": 11,
+                "H": 5
+            },
+            "weight": 195,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-TO-18",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 39,
+                "B": 30,
+                "H": 8
+            },
+            "weight": 3200,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-TO-40",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 60,
+                "B": 35,
+                "H": 8
+            },
+            "weight": 5245,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-TOC-18",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 39,
+                "B": 30,
+                "H": 8
+            },
+            "weight": 3000,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-TOC-40",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 65,
+                "B": 35,
+                "H": 8
+            },
+            "weight": 5000,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-VD",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 25,
+                "B": 20,
+                "H": 5
+            },
+            "weight": 430,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-WLR",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 35,
+                "B": 14,
+                "H": 4
+            },
+            "weight": 390,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-SUT-5",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 24,
+                "B": 11,
+                "H": 5
+            },
+            "weight": 300,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-SUT-10",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 25,
+                "B": 25,
+                "H": 6
+            },
+            "weight": 700,
+            "boxes": 1
+        },
+        {
+            "sku": "KH-SUT-21",
+            "category": "Key Holders",
+            "type": "SB",
+            "dimensions": {
+                "L": 36,
+                "B": 33,
+                "H": 6
+            },
+            "weight": 1360,
+            "boxes": 1
+        },
+        {
+            "sku": "W-AND-10N",
+            "category": "Wardrobes",
+            "type": "SB",
+            "dimensions": {
+                "L": 185,
+                "B": 50,
+                "H": 9
+            },
+            "weight": 45000,
+            "boxes": 1
+        },
+        {
+            "sku": "W-AND-11N",
+            "category": "Wardrobes",
+            "type": "SB",
+            "dimensions": {
+                "L": 185,
+                "B": 51,
+                "H": 10
+            },
+            "weight": 47900,
+            "boxes": 1
+        },
+        {
+            "sku": "W-AND-12N",
+            "category": "Wardrobes",
+            "type": "SB",
+            "dimensions": {
+                "L": 186,
+                "B": 51,
+                "H": 10
+            },
+            "weight": 48400,
+            "boxes": 1
+        },
+        {
+            "sku": "W-AND-2M",
+            "category": "Wardrobes",
+            "type": "MB",
+            "dimensions": {
+                "L": 123,
+                "B": 53,
+                "H": 11
+            },
+            "weight": 78000,
+            "boxes": 2
+        },
+        {
+            "sku": "W-AND-2N",
+            "category": "Wardrobes",
+            "type": "MB",
+            "dimensions": {
+                "L": 123,
+                "B": 53,
+                "H": 11
+            },
+            "weight": 78001,
+            "boxes": 2
+        },
+        {
+            "sku": "W-AND-3M",
+            "category": "Wardrobes",
+            "type": "MB",
+            "dimensions": {
+                "L": 130,
+                "B": 54,
+                "H": 9
+            },
+            "weight": 105020,
+            "boxes": 2
+        },
+        {
+            "sku": "W-AND-3N",
+            "category": "Wardrobes",
+            "type": "MB",
+            "dimensions": {
+                "L": 130,
+                "B": 54,
+                "H": 9
+            },
+            "weight": 101790,
+            "boxes": 2
+        },
+        {
+            "sku": "W-AND-4M",
+            "category": "Wardrobes",
+            "type": "MB",
+            "dimensions": {
+                "L": 166,
+                "B": 53,
+                "H": 10
+            },
+            "weight": 136820,
+            "boxes": 2
+        },
+        {
+            "sku": "W-AND-4N",
+            "category": "Wardrobes",
+            "type": "MB",
+            "dimensions": {
+                "L": 166,
+                "B": 53,
+                "H": 10
+            },
+            "weight": 131850,
+            "boxes": 2
+        },
+        {
+            "sku": "W-MLT-2N",
+            "category": "Wardrobes",
+            "type": "MB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 47000,
+            "boxes": 2
+        },
+        {
+            "sku": "W-MLT-3N",
+            "category": "Wardrobes",
+            "type": "MB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 65000,
+            "boxes": 2
+        },
+        {
+            "sku": "W-MLT-4N",
+            "category": "Wardrobes",
+            "type": "MB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 98500,
+            "boxes": 2
+        },
+        {
+            "sku": "W-MLT-M",
+            "category": "Wardrobes",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 46000,
+            "boxes": 1
+        },
+        {
+            "sku": "W-BNO",
+            "category": "Wardrobes",
+            "type": "SB",
+            "dimensions": {
+                "L": 154,
+                "B": 49,
+                "H": 13
+            },
+            "weight": 39000,
+            "boxes": 1
+        },
+        {
+            "sku": "W-CLO-345",
+            "category": "Wardrobes",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 71400,
+            "boxes": 1
+        },
+        {
+            "sku": "W-CLO-3",
+            "category": "Wardrobes",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 18200,
+            "boxes": 1
+        },
+        {
+            "sku": "W-CLO-4",
+            "category": "Wardrobes",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 24100,
+            "boxes": 1
+        },
+        {
+            "sku": "W-CLO-5",
+            "category": "Wardrobes",
+            "type": "SB",
+            "dimensions": {
+                "L": 0,
+                "B": 0,
+                "H": 0
+            },
+            "weight": 29100,
+            "boxes": 1
+        }
+    ]
+}
