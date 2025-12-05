@@ -1,5 +1,9 @@
 {
     "version": 2,
+    "buildCommand": "",
+    "outputDirectory": "",
+    "installCommand": "npm install",
+    "framework": null,
     "builds": [
         {
             "src": "api/*.js",
@@ -16,8 +20,22 @@
             "dest": "/api/$1"
         },
         {
+            "src": "/chat-widget.js",
+            "dest": "/public/chat-widget.js"
+        },
+        {
+            "src": "/test.html",
+            "dest": "/public/test.html"
+        },
+        {
             "src": "/(.*)",
             "dest": "/public/$1"
         }
+    ],
+    "env": {
+        "GOOGLE_API_KEY": "@google_api_key"
+    },
+    "regions": [
+        "bom1"
     ]
 }
