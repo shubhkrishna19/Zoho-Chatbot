@@ -301,18 +301,64 @@
     bodyDiv.scrollTop = bodyDiv.scrollHeight;
   }
 
+  // --- CUSTOMER RECOGNITION (LOCALSTORAGE) ---
+  const LS_KEY = 'bluewud_user_data';
+
+  function safeLocalStorage() {
+    try { return window.localStorage; } catch (e) { return null; }
+  }
+
+  function saveCustomerData(data) {
+    const storage = safeLocalStorage();
+    if (!storage) return;
+    const current = JSON.parse(storage.getItem(LS_KEY) || '{}');
+    storage.setItem(LS_KEY, JSON.stringify({ ...current, ...data, lastVisit: new Date().toISOString() }));
+  }
+
+  function loadCustomerData() {
+    const storage = safeLocalStorage();
+    if (!storage) return null;
+    return JSON.parse(storage.getItem(LS_KEY) || 'null');
+  }
+
+  // --- CONTEXT AWARENESS ---
+  function getContextGreeting() {
+    const path = window.location.pathname.toLowerCase();
+    if (path.includes('tv-units')) return "Looking for the perfect **TV Unit**? I can help you compare models.";
+    if (path.includes('coffee-tables')) return "Need a **Coffee Table** to complete your living room? Ask me anything.";
+    if (path.includes('study-tables')) return "Planning your home office? Check out our **Study Tables**.";
+    if (path.includes('shoe-racks')) return "Organizing your footwear? Let's find a **Shoe Rack**.";
+    return "Hi! Welcome to Bluewud. I'm your furniture expert. How can I help you today?";
+  }
+
   // --- INITIALIZE CHAT ---
   function initChat() {
     bodyDiv.innerHTML = ''; // Clear context
-    appendMessage("Hi! Welcome to Bluewud. I'm your furniture expert. How can I help you today?", 'bot');
+
+    // 1. Check Previous Customer Data
+    const customer = loadCustomerData();
+    let greeting = getContextGreeting();
+
+    if (customer && customer.lastOrderId) {
+      greeting = `Welcome back! Do you want to check the status of **Order #${customer.lastOrderId}** again?`;
+    }
+
+    appendMessage(greeting, 'bot');
 
     // Quick Action Chips
-    appendChips([
+    const chips = [
       { label: "📦 Track Order", query: "Track my order" },
       { label: "🛡️ Warranty Info", query: "Warranty policy" },
       { label: "↩️ Return Policy", query: "Return policy" },
       { label: "📞 Support", query: "Talk to human agent" }
-    ]);
+    ];
+
+    // If returning user, put "Track Order" first and highlight it
+    if (customer && customer.lastOrderId) {
+      // Already first, but logic could personalize this further
+    }
+
+    appendChips(chips);
   }
 
   // Toggle Modal
@@ -351,6 +397,9 @@
       if (bodyDiv.contains(typingDiv)) bodyDiv.removeChild(typingDiv);
 
       if (data.found) {
+        // SAVE TO LOCALSTORAGE
+        saveCustomerData({ lastOrderId: data.orderId });
+
         const statusHtml = `
                   <div style="background:#f0f9ff; padding:12px; border-radius:8px; border:1px solid #bae6fd;">
                       <strong style="color:#0284c7;">📦 Order #${data.orderId}</strong><br/>
