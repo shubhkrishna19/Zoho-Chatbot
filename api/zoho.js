@@ -16,14 +16,17 @@ module.exports = async (req, res) => {
     }
 
     try {
-        // Handle Zoho "Trigger" Event
+        console.log("--- ZOHO PAYLOAD ---");
+        console.log(JSON.stringify(req.body, null, 2));
+
+        // 1. Handle "Trigger" Event (Chat Started)
         if (req.body && req.body.handler === 'trigger') {
             return res.json({
                 replies: [{ text: "Hi! How can I help you with your furniture today?" }]
             });
         }
 
-        // Extract message from Zoho format
+        // 2. Extract message from Zoho format
         let userMessage = '';
         let rawMessage = (req.body?.data?.message) || req.body?.message || req.body?.text;
 
@@ -35,9 +38,11 @@ module.exports = async (req, res) => {
             }
         }
 
+        // 3. Fallback if no message found
         if (!userMessage) {
+            console.log("No user message found. Sending debug reply.");
             return res.json({
-                replies: [{ text: "I didn't catch that. Could you say it again?" }]
+                replies: [{ text: "DEBUG: I received your request but no message text. Handler: " + (req.body.handler || 'unknown') }]
             });
         }
 
@@ -47,7 +52,7 @@ module.exports = async (req, res) => {
     } catch (e) {
         console.error('Zoho Adapter Error:', e);
         res.json({
-            replies: [{ text: "I'm having trouble right now. Please contact +918800609609." }]
+            replies: [{ text: "I'm having trouble right now. Error: " + e.message }]
         });
     }
 };
