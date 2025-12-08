@@ -10,7 +10,6 @@
   zohoScript.defer = true;
   document.head.appendChild(zohoScript);
 
-  // Initialize Zoho object & Configuration
   window.$zoho = window.$zoho || {};
   window.$zoho.salesiq = window.$zoho.salesiq || { ready: function () { } };
 
@@ -23,7 +22,6 @@
   document.head.appendChild(zohoHideStyle);
 
   // --- ENFORCER: MutationObserver + Interval ---
-  // 1. MutationObserver for immediate reaction
   const observer = new MutationObserver((mutations) => {
     if (!window.bluewudHandoffActive) {
       const zohoFloat = document.querySelector('.zsiq_float') || document.getElementById('zsiq_float');
@@ -34,14 +32,11 @@
   });
   observer.observe(document.body, { childList: true, subtree: true, attributes: true });
 
-  // 2. Interval Backup (Every 100ms) - To catch anything the observer misses or race conditions
   setInterval(() => {
     if (!window.bluewudHandoffActive) {
-      // Ensure Style Tag Exists
       if (!document.getElementById('bluewud-zoho-hide')) {
         document.head.appendChild(zohoHideStyle);
       }
-      // Force Inline Styles on Zoho Elements
       const zohoElements = document.querySelectorAll('.zsiq_float, #zsiq_float, .zsiq-new-theme');
       zohoElements.forEach(el => {
         el.setAttribute('style', 'display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;');
@@ -54,54 +49,45 @@
     window.$zoho.salesiq.floatbutton.visible('hide');
     window.$zoho.salesiq.theme.basecolor('#0066ff');
 
-    // --- HANDLE ZOHO EXIT / MINIMIZE ---
     function restoreCustomWidget() {
-      // Reset Flag
       window.bluewudHandoffActive = false;
-
-      // 1. Force Hide Zoho
       window.$zoho.salesiq.floatbutton.visible('hide');
       window.$zoho.salesiq.floatwindow.visible('hide');
 
-      // 2. Re-apply aggressive CSS hiding
       if (!document.getElementById('bluewud-zoho-hide')) {
         document.head.appendChild(zohoHideStyle);
       }
 
-      // 3. Restore Custom Widget Button
       const btn = document.getElementById('bluewud-chat-btn');
       if (btn) {
         btn.style.display = 'flex';
         btn.style.animation = 'pulse 2s infinite';
       }
-
-      // 4. Reset Custom Widget Modal
       const modal = document.getElementById('bluewud-chat-modal');
       if (modal) modal.style.display = 'none';
     }
 
-    // Listen for ALL close/minimize events
     window.$zoho.salesiq.floatwindow.close(restoreCustomWidget);
     window.$zoho.salesiq.floatwindow.minimize(restoreCustomWidget);
     window.$zoho.salesiq.chat.close(restoreCustomWidget);
   };
 
-  // --- 2. Custom Widget Styles (Modern & Badass) ---
+  // --- 2. Custom Widget Styles (Modern V2) ---
   const style = document.createElement('style');
   style.textContent = `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
     
-    /* Animations */
     @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 102, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(0, 102, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 102, 255, 0); } }
-    
+    @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
     #bluewud-chat-btn { 
       position: fixed; bottom: 30px; right: 30px; 
       background: linear-gradient(135deg, #0066ff, #0044aa); 
       color: #fff; border: none; 
       border-radius: 50%; width: 64px; height: 64px; 
       cursor: pointer; font-size: 28px; 
-      z-index: 2147483647; /* MAX Z-INDEX */
+      z-index: 2147483647; 
       box-shadow: 0 8px 24px rgba(0, 68, 170, 0.3);
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       display: flex; align-items: center; justify-content: center;
@@ -111,12 +97,13 @@
     
     #bluewud-chat-modal { 
       display: none; position: fixed; bottom: 110px; right: 30px; 
-      width: 380px; height: 600px; max-height: 80vh;
-      background: #fff; border: none; border-radius: 24px; 
+      width: 380px; height: 650px; max-height: 85vh;
+      background: #f8f9fa; border: none; border-radius: 24px; 
       box-shadow: 0 20px 60px rgba(0,0,0,0.15); 
-      z-index: 2147483647; /* MAX Z-INDEX */
+      z-index: 2147483647; 
       flex-direction: column; overflow: hidden; 
       font-family: 'Inter', sans-serif; 
+      border: 1px solid rgba(0,0,0,0.05);
       animation: slideIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
     
@@ -127,7 +114,6 @@
       flex-shrink: 0;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    
     #bluewud-chat-header::before {
       content: ''; position: absolute; top: -50%; right: -20%;
       width: 200px; height: 200px; background: rgba(255,255,255,0.1);
@@ -149,79 +135,91 @@
       position: absolute; top: 20px; right: 20px; z-index: 2;
       display: flex; gap: 12px; align-items: center;
     }
-    
-    #bluewud-chat-agent {
-      font-size: 11px; background: rgba(255,255,255,0.15); 
-      padding: 6px 12px; border-radius: 20px; cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.3);
-      font-weight: 600; transition: background 0.2s;
-      backdrop-filter: blur(4px);
-    }
-    #bluewud-chat-agent:hover { background: rgba(255,255,255,0.25); }
-
     #bluewud-chat-close { cursor: pointer; font-size: 24px; opacity: 0.8; transition: opacity 0.2s; }
     #bluewud-chat-close:hover { opacity: 1; }
 
     #bluewud-chat-body { 
       flex: 1; padding: 24px; overflow-y: auto; 
-      font-size: 15px; background: #f8f9fa; 
-      display: flex; flex-direction: column; gap: 16px;
+      font-size: 14px; background: #fff; 
+      display: flex; flex-direction: column; gap: 12px;
       scroll-behavior: smooth;
     }
     
-    #bluewud-chat-input-area { 
-      padding: 20px; background: #fff; 
-      display: flex; align-items: center; gap: 12px;
-      border-top: 1px solid rgba(0,0,0,0.05);
-    }
-    #bluewud-chat-input { 
-      flex: 1; padding: 14px 20px; border: 1px solid #eef0f2; 
-      background: #f8f9fa;
-      border-radius: 30px; outline: none; font-family: inherit; font-size: 15px;
-      transition: all 0.2s;
-    }
-    #bluewud-chat-input:focus { border-color: #0066ff; background: #fff; box-shadow: 0 0 0 4px rgba(0,102,255,0.1); }
-    #bluewud-chat-send { 
-      background: #0066ff; color: #fff; border: none; 
-      width: 44px; height: 44px; border-radius: 50%; 
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: transform 0.2s, background 0.2s;
-      box-shadow: 0 4px 12px rgba(0,102,255,0.2);
-    }
-    #bluewud-chat-send:hover { background: #0052cc; transform: scale(1.05); }
-    
+    /* V2 MESSAGES */
     .bluewud-msg { 
-      padding: 14px 18px; max-width: 80%; line-height: 1.5; font-size: 15px;
+      padding: 12px 16px; max-width: 85%; line-height: 1.5; font-size: 14px;
       position: relative; animation: slideIn 0.2s ease-out;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
     .bluewud-user { 
       align-self: flex-end; 
       background: linear-gradient(135deg, #0066ff, #0052cc); 
       color: #fff; 
-      border-radius: 20px 20px 4px 20px; 
+      border-radius: 18px 18px 4px 18px; 
     }
     .bluewud-bot { 
       align-self: flex-start; 
-      background: #fff; 
+      background: #f1f3f5; 
       color: #1c1e21; 
-      border-radius: 20px 20px 20px 4px; 
-      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 18px 18px 18px 4px; 
     }
-    .bluewud-typing { 
-      font-style: italic; color: #888; font-size: 13px; margin-left: 12px; 
-      display: flex; align-items: center; gap: 4px;
+
+    /* V2 CHIPS */
+    .bluewud-chips-container {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;
+      animation: slideIn 0.3s ease-out;
     }
-    .bluewud-typing::after { content: '...'; animation: pulse 1s infinite; }
+    .bluewud-chip {
+      background: #fff; border: 1px solid #e9ecef; color: #0066ff;
+      padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .bluewud-chip:hover {
+      background: #0066ff; color: #fff; transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,102,255,0.2); border-color: #0066ff;
+    }
+
+    /* V2 MENU / ACCORDION */
+    .bluewud-menu-card {
+      background: #fff; border: 1px solid #e9ecef; border-radius: 16px;
+      overflow: hidden; margin-top: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      width: 100%; animation: slideIn 0.3s ease-out;
+    }
+    .bluewud-menu-item {
+      padding: 14px 16px; border-bottom: 1px solid #f1f3f5;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; transition: background 0.2s; font-size: 14px; color: #343a40; font-weight: 500;
+    }
+    .bluewud-menu-item:hover { background: #f8f9fa; color: #0066ff; }
+    .bluewud-menu-item:last-child { border-bottom: none; }
+    .bluewud-menu-arrow { font-size: 12px; color: #adb5bd; }
+
+    #bluewud-chat-input-area { 
+      padding: 16px; background: #fff; 
+      display: flex; align-items: center; gap: 10px;
+      border-top: 1px solid #f1f3f5;
+    }
+    #bluewud-chat-input { 
+      flex: 1; padding: 12px 18px; border: 1px solid #e9ecef; 
+      background: #f8f9fa;
+      border-radius: 24px; outline: none; font-family: inherit; font-size: 14px;
+      transition: all 0.2s;
+    }
+    #bluewud-chat-input:focus { border-color: #0066ff; background: #fff; box-shadow: 0 0 0 3px rgba(0,102,255,0.1); }
+    #bluewud-chat-send { 
+      background: #0066ff; color: #fff; border: none; 
+      width: 40px; height: 40px; border-radius: 50%; 
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: transform 0.2s, background 0.2s;
+      box-shadow: 0 4px 10px rgba(0,102,255,0.2);
+    }
+    #bluewud-chat-send:hover { background: #0052cc; transform: scale(1.05); }
+
+    .bluewud-typing { font-style: italic; color: #adb5bd; font-size: 12px; margin-left: 14px; margin-bottom: 8px; }
+    #bluewud-footer { text-align: center; font-size: 10px; color: #dee2e6; padding-bottom: 8px; background: #fff; }
     
-    #bluewud-footer {
-      text-align: center; font-size: 11px; color: #adb5bd; padding-bottom: 12px; background: #fff;
-    }
-    
-    /* Scrollbar */
-    #bluewud-chat-body::-webkit-scrollbar { width: 6px; }
-    #bluewud-chat-body::-webkit-scrollbar-track { background: transparent; }
-    #bluewud-chat-body::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 3px; }
+    #bluewud-chat-body::-webkit-scrollbar { width: 5px; }
+    #bluewud-chat-body::-webkit-scrollbar-thumb { background: #e9ecef; border-radius: 3px; }
   `;
   document.head.appendChild(style);
 
@@ -236,7 +234,6 @@
   modal.innerHTML = `
     <div id="bluewud-chat-header">
       <div id="bluewud-chat-controls">
-        <span id="bluewud-chat-agent">🎧 Support</span>
         <span id="bluewud-chat-close">×</span>
       </div>
       <div class="bluewud-header-content">
@@ -247,9 +244,7 @@
         </div>
       </div>
     </div>
-    <div id="bluewud-chat-body">
-      <div class="bluewud-msg bluewud-bot">Hi! How can I help you with your furniture today?</div>
-    </div>
+    <div id="bluewud-chat-body"></div>
     <div id="bluewud-chat-input-area">
       <input id="bluewud-chat-input" placeholder="Type a message..." autocomplete="off"/>
       <button id="bluewud-chat-send">
@@ -260,11 +255,74 @@
   `;
   document.body.appendChild(modal);
 
+  // --- UI HELPERS ---
+  const bodyDiv = document.getElementById('bluewud-chat-body');
+
+  function appendMessage(text, sender) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `bluewud-msg bluewud-${sender}`;
+    msgDiv.innerHTML = text.replace(/\n/g, '<br/>'); // Simple markdown support
+    bodyDiv.appendChild(msgDiv);
+    bodyDiv.scrollTop = bodyDiv.scrollHeight;
+  }
+
+  function appendChips(chips) {
+    const container = document.createElement('div');
+    container.className = 'bluewud-chips-container';
+
+    chips.forEach(chip => {
+      const btn = document.createElement('div');
+      btn.className = 'bluewud-chip';
+      btn.textContent = chip.label;
+      btn.onclick = () => {
+        // Disable after click to prevent spam
+        // btn.style.pointerEvents = 'none';
+        // btn.style.opacity = '0.7';
+        sendMessage(chip.query || chip.label);
+      };
+      container.appendChild(btn);
+    });
+
+    bodyDiv.appendChild(container);
+    bodyDiv.scrollTop = bodyDiv.scrollHeight;
+  }
+
+  function appendMenu(items) {
+    const card = document.createElement('div');
+    card.className = 'bluewud-menu-card';
+    items.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'bluewud-menu-item';
+      row.innerHTML = `<span>${item.label}</span> <span class="bluewud-menu-arrow">›</span>`;
+      row.onclick = () => sendMessage(item.query || item.label);
+      card.appendChild(row);
+    });
+    bodyDiv.appendChild(card);
+    bodyDiv.scrollTop = bodyDiv.scrollHeight;
+  }
+
+  // --- INITIALIZE CHAT ---
+  function initChat() {
+    bodyDiv.innerHTML = ''; // Clear context
+    appendMessage("Hi! Welcome to Bluewud. I'm your furniture expert. How can I help you today?", 'bot');
+
+    // Quick Action Chips
+    appendChips([
+      { label: "📦 Track Order", query: "Track my order" },
+      { label: "🛡️ Warranty Info", query: "Warranty policy" },
+      { label: "↩️ Return Policy", query: "Return policy" },
+      { label: "📞 Support", query: "Talk to human agent" }
+    ]);
+  }
+
   // Toggle Modal
   btn.addEventListener('click', () => {
-    modal.style.display = 'flex';
-    btn.style.display = 'none';
-    document.getElementById('bluewud-chat-input').focus();
+    if (modal.style.display !== 'flex') {
+      modal.style.display = 'flex';
+      btn.style.display = 'none';
+      if (bodyDiv.children.length === 0) initChat();
+      document.getElementById('bluewud-chat-input').focus();
+    }
   });
 
   document.getElementById('bluewud-chat-close').addEventListener('click', () => {
@@ -272,54 +330,30 @@
     btn.style.display = 'flex';
   });
 
-  // Manual Handoff Button
-  document.getElementById('bluewud-chat-agent').addEventListener('click', () => {
-    triggerHandoff("I would like to speak to a support agent.");
-  });
-
-  // --- 4. Communication Logic ---
+  // --- COMMUNICATION LOGIC ---
   const apiUrl = 'https://bluewud-chatbot.vercel.app/api/message';
 
-  function appendMessage(text, sender) {
-    const bodyDiv = document.getElementById('bluewud-chat-body');
-    const msgDiv = document.createElement('div');
-    msgDiv.className = `bluewud-msg bluewud-${sender}`;
-    msgDiv.textContent = text;
-    bodyDiv.appendChild(msgDiv);
-    bodyDiv.scrollTop = bodyDiv.scrollHeight;
-  }
-
   function triggerHandoff(contextMessage) {
-    appendMessage("Connecting you to a live agent...", 'bot');
-
-    // Set Flag to Allow Zoho
+    appendMessage("Connecting you to a live support agent...", 'bot');
     window.bluewudHandoffActive = true;
-
     setTimeout(() => {
-      // Hide Custom UI
       modal.style.display = 'none';
       btn.style.display = 'none';
+      if (document.getElementById('bluewud-zoho-hide')) document.getElementById('bluewud-zoho-hide').remove();
 
-      // Remove Aggressive Hide Style
-      if (document.getElementById('bluewud-zoho-hide')) {
-        document.getElementById('bluewud-zoho-hide').remove();
-      }
-
-      // Show Zoho
       if (window.$zoho && window.$zoho.salesiq) {
         window.$zoho.salesiq.visitor.question(contextMessage);
         window.$zoho.salesiq.floatwindow.visible('show');
         window.$zoho.salesiq.chat.start();
       } else {
-        alert("Connecting to agent... (Please wait for Zoho to load)");
-        // Fallback
+        alert("Connecting... Please wait.");
         setTimeout(() => {
           if (window.$zoho && window.$zoho.salesiq) {
             window.$zoho.salesiq.visitor.question(contextMessage);
             window.$zoho.salesiq.floatwindow.visible('show');
             window.$zoho.salesiq.chat.start();
           }
-        }, 2000);
+        }, 3000);
       }
     }, 1000);
   }
@@ -329,10 +363,9 @@
     const input = document.getElementById('bluewud-chat-input');
     input.value = '';
 
-    const bodyDiv = document.getElementById('bluewud-chat-body');
     const typingDiv = document.createElement('div');
     typingDiv.className = 'bluewud-typing';
-    typingDiv.textContent = 'Bluewud is typing';
+    typingDiv.textContent = 'Bluewud is typing...';
     bodyDiv.appendChild(typingDiv);
     bodyDiv.scrollTop = bodyDiv.scrollHeight;
 
@@ -350,11 +383,12 @@
         triggerHandoff(text);
       } else {
         appendMessage(data.reply, 'bot');
+        // Smart Follow-up Chips based on category? (Future feature)
       }
 
     } catch (e) {
       if (bodyDiv.contains(typingDiv)) bodyDiv.removeChild(typingDiv);
-      appendMessage('Connection issue. Contact us at +918800609609 or care@bluewud.com', 'bot');
+      appendMessage('Connection issue. Contact us at +918800609609', 'bot');
     }
   }
 
@@ -362,15 +396,11 @@
   const sendBtn = document.getElementById('bluewud-chat-send');
 
   input.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && input.value.trim()) {
-      sendMessage(input.value.trim());
-    }
+    if (e.key === 'Enter' && input.value.trim()) sendMessage(input.value.trim());
   });
 
   sendBtn.addEventListener('click', () => {
-    if (input.value.trim()) {
-      sendMessage(input.value.trim());
-    }
+    if (input.value.trim()) sendMessage(input.value.trim());
   });
 
 })();

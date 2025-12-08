@@ -12,9 +12,11 @@ let productsDb = null;
 function loadDatabases() {
     try {
         const dbPath = path.join(__dirname, 'data', 'database.json');
-        const data = fs.readFileSync(dbPath, 'utf8');
-        database = JSON.parse(data);
-        console.log(`✅ FAQs loaded: ${database.categories.length} categories`);
+        if (fs.existsSync(dbPath)) {
+            const data = fs.readFileSync(dbPath, 'utf8');
+            database = JSON.parse(data);
+            console.log(`✅ FAQs loaded: ${database.categories.length} categories`);
+        }
 
         const prodPath = path.join(__dirname, 'data', 'products.json');
         if (fs.existsSync(prodPath)) {
@@ -29,65 +31,98 @@ function loadDatabases() {
 loadDatabases();
 
 // ============================================
-// GET CONFIG & MESSAGES
+// CONFIG & CONSTANTS
 // ============================================
-function getConfig() {
-    return database?.config || {
-        botName: "Bluewud Bot",
-        contact: { phone: "8800609609", email: "care@bluewud.com", hours: "09:00 AM - 06:00 PM" }
-    };
-}
+const CONFIG = {
+    botName: "Bluewud Bot",
+    contact: { phone: "+918800609609", email: "care@bluewud.com" }
+};
 
-function getMessage(key) {
-    return database?.messages?.[key] || '';
-}
+const CATEGORY_URLS = {
+    "TV Units": "https://bluewud.com/collections/tv-units-cabinets",
+    "Coffee Tables": "https://bluewud.com/collections/coffee-tables",
+    "Study Tables": "https://bluewud.com/collections/study-tables-desks",
+    "Shoe Racks": "https://bluewud.com/collections/shoe-racks",
+    "Wardrobes": "https://bluewud.com/collections/wardrobes",
+    "Wall Shelves": "https://bluewud.com/collections/wall-shelves",
+    "Beds": "https://bluewud.com/collections/beds",
+    "Bedside Tables": "https://bluewud.com/collections/bedside-tables",
+    "Dressing Console": "https://bluewud.com/collections/dressing-tables",
+    "Dining Tables": "https://bluewud.com/collections/dining-tables",
+    "Laptop Tables": "https://bluewud.com/collections/laptop-tables",
+    "Book Shelves": "https://bluewud.com/collections/bookshelves"
+};
 
 // ============================================
-// SEARCH
+// SEARCH LOGIC (RAG)
 // ============================================
 function searchFaqs(query) {
-    if (!database || !database.categories) return null;
+    if (!database || !database.categories) return [];
+
     const queryLower = query.toLowerCase();
     const words = queryLower.split(/\s+/).filter(w => w.length > 2);
-    let bestMatch = null;
-    let bestScore = 0;
+
+    let matches = [];
 
     for (const category of database.categories) {
         for (const faq of category.faqs || []) {
             let score = 0;
-            for (const keyword of faq.keywords || []) {
-                if (queryLower.includes(keyword.toLowerCase())) score += 10;
-            }
             const qLower = (faq.q || '').toLowerCase();
-            for (const word of words) {
-                if (qLower.includes(word)) score += 5;
+            const keywords = faq.keywords || [];
+
+            // 1. Keyword Exact Match (High weight)
+            for (const kw of keywords) {
+                if (queryLower.includes(kw.toLowerCase())) score += 15;
             }
-            if (score > bestScore) {
-                bestScore = score;
-                bestMatch = { ...faq, category: category.name };
+
+            // 2. Question Word Match (Medium weight)
+            let wordMatches = 0;
+            for (const word of words) {
+                if (qLower.includes(word)) {
+                    score += 5;
+                    wordMatches++;
+                }
+            }
+
+            // Must match at least some context
+            if (score > 10 || wordMatches >= 2) {
+                matches.push({ ...faq, category: category.name, score });
             }
         }
     }
-    return bestScore >= 15 ? bestMatch : null;
+
+    // Sort by score and return top 3
+    return matches.sort((a, b) => b.score - a.score).slice(0, 3);
 }
 
 function searchProducts(query) {
     if (!productsDb || !productsDb.products) return [];
     const queryLower = query.toLowerCase();
     const terms = queryLower.split(/[\s,]+/).filter(w => w.length > 2);
+
     return productsDb.products.filter(p => {
-        const sku = p.sku.toLowerCase();
-        return sku === queryLower || terms.some(t => sku.includes(t));
-    }).slice(0, 3);
+        const sku = (p.sku || '').toLowerCase();
+        const name = (p.name || '').toLowerCase();
+        const cat = (p.category || '').toLowerCase();
+
+        // Exact SKU match
+        if (sku === queryLower) return true;
+
+        // Name/SKU contains term
+        if (terms.some(t => sku.includes(t) || name.includes(t))) return true;
+
+        return false;
+    }).slice(0, 3); // Top 3 products
 }
 
 // ============================================
-// INTENT
+// INTENTS
 // ============================================
 const intents = [
-    { patterns: [/^hi$/i, /^hello$/i], reply: "Hi! I'm Bluewud's AI assistant. I can help with products, specs, and policies.", category: "greeting" },
-    { patterns: [/^bye$/i], reply: "Goodbye! Have a nice day!", category: "farewell" },
-    { patterns: [/talk.*human/i, /customer\s*care/i], reply: "📞 Call +918800609609 (9AM-6PM) or email care@bluewud.com", category: "handoff", action: "handoff" }
+    { patterns: [/^hi[!.]?$/i, /^hello[!.]?$/i, /^hey$/i], reply: "Hi! I'm Bluewud's AI assistant. I can help with products, specs, and policies.", category: "greeting" },
+    { patterns: [/^bye[!.]?$/i, /^goodbye$/i], reply: "Goodbye! Have a nice day!", category: "farewell" },
+    // Strict handoff: Must ask for human/agent specifically
+    { patterns: [/talk.*human/i, /speak.*agent/i, /customer\s*care/i, /contact\s*support/i], reply: "📞 Call +918800609609 (9AM-6PM) or email care@bluewud.com", category: "handoff", action: "handoff" }
 ];
 
 function findIntent(message) {
@@ -99,111 +134,96 @@ function findIntent(message) {
 }
 
 // ============================================
-// KNOWLEDGE
+// GEMINI AI CALL
 // ============================================
-function buildKnowledgeString() {
-    if (!database) return '';
-    let k = '';
-    for (const c of database.categories) {
-        for (const f of c.faqs || []) k += `Q: ${f.q} A: ${f.a}\n`;
-    }
-    return k;
-}
-
-// ============================================
-// GEMINI
-// ============================================
-async function callGoogleGemini(userMsg, productContext = []) {
+async function callGoogleGemini(userMsg, productContext, faqContext) {
     const apiKey = process.env.GOOGLE_API_KEY;
-    if (!apiKey) return "API Key missing.";
+    if (!apiKey) return "My brain is offline (API Key missing).";
 
-    const config = getConfig();
-    const contact = config.contact || {};
+    // Format Context
+    const prodStr = productContext.length > 0
+        ? "RELEVANT PRODUCTS:\n" + productContext.map(p => `- SKU: ${p.sku} | Name: ${p.name} | Dims: ${p.dimensions?.L}x${p.dimensions?.B}x${p.dimensions?.H}cm | Price: ₹${p.price}`).join('\n')
+        : "NO SPECIFIC PRODUCTS FOUND.";
 
-    const CATEGORY_URLS = {
-        "TV Units": "https://bluewud.com/collections/tv-units-cabinets",
-        "Coffee Tables": "https://bluewud.com/collections/coffee-tables",
-        "Study Tables": "https://bluewud.com/collections/study-tables-desks",
-        "Shoe Racks": "https://bluewud.com/collections/shoe-racks",
-        "Wardrobes": "https://bluewud.com/collections/wardrobes",
-        "Wall Shelves": "https://bluewud.com/collections/wall-shelves",
-        "Beds": "https://bluewud.com/collections/beds",
-        "Bedside Tables": "https://bluewud.com/collections/bedside-tables",
-        "Dressing Console": "https://bluewud.com/collections/dressing-tables",
-        "Dining Tables": "https://bluewud.com/collections/dining-tables",
-        "Laptop Tables": "https://bluewud.com/collections/laptop-tables",
-        "Book Shelves": "https://bluewud.com/collections/bookshelves"
-    };
+    const faqStr = faqContext.length > 0
+        ? "RELEVANT FAQs:\n" + faqContext.map(f => `Q: ${f.q}\nA: ${f.a}`).join('\n\n')
+        : "NO SPECIFIC FAQs FOUND.";
 
     const categoryLinks = Object.entries(CATEGORY_URLS)
         .map(([k, v]) => `- ${k}: ${v}`)
         .join('\n');
 
-    const contextString = productContext.map(p =>
-        `- SKU: ${p.sku} (${p.category}) Dims: ${p.dimensions.L}x${p.dimensions.B}x${p.dimensions.H}cm Weight: ${p.weight / 1000}kg`
-    ).join('\n');
+    const systemPrompt = `You are Bluewud's smart AI assistant.
+    
+    CORE DATA:
+    ${prodStr}
+    
+    ${faqStr}
+    
+    SHOPPING LINKS:
+    ${categoryLinks}
+    
+    CONTACT INFO:
+    Phone: ${CONFIG.contact.phone}
+    Email: ${CONFIG.contact.email}
 
-    const systemPrompt = `You are Bluewud's AI assistant. 
-STRICT RULES:
-1. ONLY USE THE PROVIDED DATA. DO NOT INVENT ANSWERS.
-2. DO NOT mention carpenters, YouTube, or third-party services unless explicitly in the FAQs.
-3. If specific info is missing, say "I don't have that detail, please contact support."
-4. Be polite but FACTUAL and CONCISE.
-5. NO informal language.
+    INSTRUCTIONS:
+    1. ANSWER ONLY based on the "RELEVANT PRODUCTS" and "RELEVANT FAQs" provided above.
+    2. If the user asks about a product NOT listed in "RELEVANT PRODUCTS", say "I couldn't find that specific product, but here are links to our collections:" and show relevant links.
+    3. If the user query is about policies (shipping, warranty) and you have a matching FAQ, paraphrase the answer naturally.
+    4. DO NOT invent information.
+    5. Be friendly, professional, and concise.
+    6. If unsure, tell them to contact support using the provided phone/email.
 
-WHEN USER ASKS TO BUY/SEE PRODUCTS:
-- ALWAYS provide the specific Collection URL from the list below.
-- If specific SKUs are in context, list them with their dimensions.
-
-COLLECTION LINKS:
-${categoryLinks}
-
-DATA:
-${buildKnowledgeString()}
-${contextString}
-
-USER: ${userMsg}`;
+    USER QUERY: ${userMsg}`;
 
     const body = {
         contents: [{ role: 'user', parts: [{ text: userMsg }] }],
         systemInstruction: { parts: [{ text: systemPrompt }] },
-        generationConfig: { temperature: 0.1, maxOutputTokens: 300 }
+        generationConfig: { temperature: 0.1, maxOutputTokens: 400 }
     };
 
     try {
-        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         });
         const data = await resp.json();
+        console.error("Gemini Response FULL:", JSON.stringify(data, null, 2));
         const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-        return text ? text : "I'm not sure, please call +918800609609.";
+
+        return text || "I'm having trouble thinking. Please contact support.";
     } catch (e) {
-        return "Connection error.";
+        console.error("Gemini Error:", e.message);
+        if (e.response) {
+            console.error("Response:", await e.response.text());
+        }
+        return "I'm having trouble connecting to my brain.";
     }
 }
 
 // ============================================
-// PROCESS
+// MAIN PROCESS
 // ============================================
 async function processMessage(message) {
     try {
         if (!message?.trim()) return { reply: "Please say something." };
 
+        // 1. Check Intents (Strict Handcoded)
         const intent = findIntent(message);
         if (intent) return intent;
 
-        const faq = searchFaqs(message);
-        if (faq) return { reply: faq.a, category: faq.category };
-
+        // 2. RAG: Search DB
         const products = searchProducts(message);
-        const aiReply = await callGoogleGemini(message, products);
+        const faqs = searchFaqs(message);
 
+        // 3. AI Generation
+        const aiReply = await callGoogleGemini(message, products, faqs);
         return { reply: aiReply, category: 'ai_response' };
 
     } catch (error) {
-        console.error(error);
+        console.error("Brain Error:", error);
         return { reply: "Error processing request, please call support." };
     }
 }
