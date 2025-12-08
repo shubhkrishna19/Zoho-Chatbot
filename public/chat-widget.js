@@ -330,37 +330,76 @@
     btn.style.display = 'flex';
   });
 
+  // --- TRACK ORDER LOGIC ---
+  async function handleOrderTracking(orderId) {
+    appendMessage(orderId, 'user');
+
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'bluewud-typing';
+    typingDiv.textContent = 'Checking order status...';
+    bodyDiv.appendChild(typingDiv);
+    bodyDiv.scrollTop = bodyDiv.scrollHeight;
+
+    try {
+      const resp = await fetch('https://bluewud-chatbot.vercel.app/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId: orderId })
+      });
+      const data = await resp.json();
+
+      if (bodyDiv.contains(typingDiv)) bodyDiv.removeChild(typingDiv);
+
+      if (data.found) {
+        const statusHtml = `
+                  <div style="background:#f0f9ff; padding:12px; border-radius:8px; border:1px solid #bae6fd;">
+                      <strong style="color:#0284c7;">📦 Order #${data.orderId}</strong><br/>
+                      <div style="margin-top:8px; font-size:16px;">${data.status}</div>
+                      <div style="font-size:12px; color:#64748b; margin-top:4px;">Date: ${data.date}</div>
+                  </div>
+              `;
+        appendMessage(statusHtml, 'bot');
+      } else {
+        appendMessage(`❌ ${data.message}`, 'bot');
+      }
+
+      // Reset Input Mode
+      const input = document.getElementById('bluewud-chat-input');
+      input.placeholder = "Type a message...";
+      input.dataset.mode = "chat";
+
+    } catch (e) {
+      if (bodyDiv.contains(typingDiv)) bodyDiv.removeChild(typingDiv);
+      appendMessage("⚠️ Connection failed. Please try again.", 'bot');
+    }
+  }
+
   // --- COMMUNICATION LOGIC ---
   const apiUrl = 'https://bluewud-chatbot.vercel.app/api/message';
 
-  function triggerHandoff(contextMessage) {
-    appendMessage("Connecting you to a live support agent...", 'bot');
-    window.bluewudHandoffActive = true;
-    setTimeout(() => {
-      modal.style.display = 'none';
-      btn.style.display = 'none';
-      if (document.getElementById('bluewud-zoho-hide')) document.getElementById('bluewud-zoho-hide').remove();
-
-      if (window.$zoho && window.$zoho.salesiq) {
-        window.$zoho.salesiq.visitor.question(contextMessage);
-        window.$zoho.salesiq.floatwindow.visible('show');
-        window.$zoho.salesiq.chat.start();
-      } else {
-        alert("Connecting... Please wait.");
-        setTimeout(() => {
-          if (window.$zoho && window.$zoho.salesiq) {
-            window.$zoho.salesiq.visitor.question(contextMessage);
-            window.$zoho.salesiq.floatwindow.visible('show');
-            window.$zoho.salesiq.chat.start();
-          }
-        }, 3000);
-      }
-    }, 1000);
-  }
-
   async function sendMessage(text) {
-    appendMessage(text, 'user');
     const input = document.getElementById('bluewud-chat-input');
+
+    // SPECIAL MODES
+    if (input.dataset.mode === 'order_tracking') {
+      handleOrderTracking(text);
+      input.value = '';
+      return;
+    }
+
+    if (text === "Track my order" || text === "📦 Track Order") {
+      appendMessage(text, 'user');
+      setTimeout(() => {
+        appendMessage("Please enter your 5-digit **Order ID** (e.g., 12345).", 'bot');
+        input.placeholder = "Enter Order ID here...";
+        input.dataset.mode = "order_tracking";
+        input.focus();
+      }, 500);
+      return;
+    }
+
+    // NORMAL CHAT FLOW
+    appendMessage(text, 'user');
     input.value = '';
 
     const typingDiv = document.createElement('div');
@@ -383,7 +422,6 @@
         triggerHandoff(text);
       } else {
         appendMessage(data.reply, 'bot');
-        // Smart Follow-up Chips based on category? (Future feature)
       }
 
     } catch (e) {
