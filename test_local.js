@@ -1,19 +1,20 @@
 require('dotenv').config();
-const { processMessage } = require('./api/brain');
+const brain = require('./api/brain');
 
-async function runTest() {
+// Run Test
+(async () => {
     console.log("--- TESTING BRAIN ---");
-    const key = process.env.GOOGLE_API_KEY;
-    console.log("API Key Present:", !!key);
+    console.log("API Key Present:", !!process.env.GOOGLE_API_KEY);
 
-    const q = "dimensions of Malt Bed";
-    console.log(`\nQ: "${q}"`);
+    const queries = [
+        "dimensions of skiddo tv unit",
+        "dimensions of andre wardrobe",
+        "buy me tv unit"
+    ];
 
-    // This query tests the "Product Name Mapping" logic.
-    // "Malt Bed" is mapped to SKU "B-MLT-KT" in product_names.json
-
-    const result = await processMessage(q);
-    console.log("A:", result);
-}
-
-runTest();
+    for (const q of queries) {
+        console.log(`\nQ: "${q}"`);
+        const result = await brain.processMessage(q);
+        console.log("A:", result);
+    }
+})();
