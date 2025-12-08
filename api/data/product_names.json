@@ -1,0 +1,49 @@
+[
+    {
+        "name": "Skiddo TV Unit",
+        "sku": "TU-SKD-XX",
+        "keywords": [
+            "skiddo",
+            "tv unit",
+            "entertainment center"
+        ]
+    },
+    {
+        "name": "Andre Study Table",
+        "sku": "ST-AND-XX",
+        "keywords": [
+            "andre",
+            "study table",
+            "desk",
+            "office"
+        ]
+    },
+    {
+        "name": "Reynolds Coffee Table",
+        "sku": "CT-REY-XX",
+        "keywords": [
+            "reynolds",
+            "center table",
+            "coffee table"
+        ]
+    },
+    {
+        "name": "Malt Bed",
+        "sku": "B-MLT-KT",
+        "keywords": [
+            "malt",
+            "bed",
+            "king",
+            "queen"
+        ]
+    },
+    {
+        "name": "Pollock Bed",
+        "sku": "B-POL-KN",
+        "keywords": [
+            "pollock",
+            "bed",
+            "sleeping"
+        ]
+    }
+]

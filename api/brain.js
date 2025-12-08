@@ -4,33 +4,6 @@ const fs = require('fs');
 const path = require('path');
 
 // ============================================
-// LOAD DATABASES (FAQs + Products)
-// ============================================
-let database = null;
-let productsDb = null;
-
-function loadDatabases() {
-    try {
-        const dbPath = path.join(__dirname, 'data', 'database.json');
-        if (fs.existsSync(dbPath)) {
-            const data = fs.readFileSync(dbPath, 'utf8');
-            database = JSON.parse(data);
-            console.log(`✅ FAQs loaded: ${database.categories.length} categories`);
-        }
-
-        const prodPath = path.join(__dirname, 'data', 'products.json');
-        if (fs.existsSync(prodPath)) {
-            const prodData = fs.readFileSync(prodPath, 'utf8');
-            productsDb = JSON.parse(prodData);
-            console.log(`✅ Products loaded: ${productsDb.products.length} items`);
-        }
-    } catch (error) {
-        console.error('❌ Failed to load databases:', error.message);
-    }
-}
-loadDatabases();
-
-// ============================================
 // CONFIG & CONSTANTS
 // ============================================
 const CONFIG = {
@@ -52,6 +25,41 @@ const CATEGORY_URLS = {
     "Laptop Tables": "https://bluewud.com/collections/laptop-tables",
     "Book Shelves": "https://bluewud.com/collections/bookshelves"
 };
+
+// ============================================
+// LOAD DATABASES (FAQs + Products + Names)
+// ============================================
+let database = null;
+let productsDb = null;
+let productNames = [];
+
+function loadDatabases() {
+    try {
+        const dbPath = path.join(__dirname, 'data', 'database.json');
+        if (fs.existsSync(dbPath)) {
+            const data = fs.readFileSync(dbPath, 'utf8');
+            database = JSON.parse(data);
+            console.log(`✅ FAQs loaded: ${database.categories.length} categories`);
+        }
+
+        const prodPath = path.join(__dirname, 'data', 'products.json');
+        if (fs.existsSync(prodPath)) {
+            const prodData = fs.readFileSync(prodPath, 'utf8');
+            productsDb = JSON.parse(prodData);
+            console.log(`✅ Products loaded: ${productsDb.products.length} items`);
+        }
+
+        const namePath = path.join(__dirname, 'data', 'product_names.json');
+        if (fs.existsSync(namePath)) {
+            const nameData = fs.readFileSync(namePath, 'utf8');
+            productNames = JSON.parse(nameData);
+            console.log(`✅ Product Names loaded: ${productNames.length} mappings`);
+        }
+    } catch (error) {
+        console.error('❌ Failed to load databases:', error.message);
+    }
+}
+loadDatabases();
 
 // ============================================
 // SEARCH LOGIC (RAG)
@@ -99,17 +107,41 @@ function searchFaqs(query) {
 function searchProducts(query) {
     if (!productsDb || !productsDb.products) return [];
     const queryLower = query.toLowerCase();
+
+    // 1. CHECK NAME MAPPING FIRST
+    let targetSku = null;
+    let targetName = null;
+
+    if (productNames.length > 0) {
+        const found = productNames.find(p =>
+            queryLower.includes(p.name.toLowerCase()) ||
+            p.keywords.some(k => queryLower.includes(k.toLowerCase()))
+        );
+        if (found) {
+            targetSku = found.sku;
+            targetName = found.name;
+        }
+    }
+
+    // 2. SEARCH PRODUCTS
     const terms = queryLower.split(/[\s,]+/).filter(w => w.length > 2);
 
     return productsDb.products.filter(p => {
         const sku = (p.sku || '').toLowerCase();
-        const name = (p.name || '').toLowerCase();
-        // Exact SKU match
+
+        // Exact SKU match (or mapped SKU)
+        if (targetSku && sku.includes(targetSku.toLowerCase().replace('-xx', ''))) return true;
         if (sku === queryLower) return true;
+
         // Name/SKU contains term
-        if (terms.some(t => sku.includes(t) || name.includes(t))) return true;
+        if (terms.some(t => sku.includes(t))) return true;
+
         return false;
-    }).slice(0, 3); // Top 3 products
+    }).map(p => {
+        // Attach English Name if found
+        if (targetName) p.name = targetName;
+        return p;
+    }).slice(0, 3);
 }
 
 // ============================================
