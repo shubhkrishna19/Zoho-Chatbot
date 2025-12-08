@@ -11,12 +11,12 @@ let productsDb = null;
 
 function loadDatabases() {
     try {
-        const dbPath = path.join(__dirname, '..', 'data', 'database.json');
+        const dbPath = path.join(__dirname, 'data', 'database.json');
         const data = fs.readFileSync(dbPath, 'utf8');
         database = JSON.parse(data);
         console.log(`✅ FAQs loaded: ${database.categories.length} categories`);
 
-        const prodPath = path.join(__dirname, '..', 'data', 'products.json');
+        const prodPath = path.join(__dirname, 'data', 'products.json');
         if (fs.existsSync(prodPath)) {
             const prodData = fs.readFileSync(prodPath, 'utf8');
             productsDb = JSON.parse(prodData);
