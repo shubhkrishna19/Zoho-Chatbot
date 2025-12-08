@@ -216,14 +216,29 @@ async function callGoogleGemini(userMsg, productContext, faqContext) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         });
+
         const data = await resp.json();
-        console.error("Gemini Response DEBUG:", JSON.stringify(data, null, 2));
+
+        // DEBUG: Check for API Errors (Non-200 OK)
+        if (!resp.ok) {
+            console.error("Gemini API Error:", JSON.stringify(data, null, 2));
+            const errMsg = data?.error?.message || "Unknown API Error";
+            return `I'm having trouble thinking (Error ${resp.status}: ${errMsg}). Please contact support.`;
+        }
+
+        console.log("Gemini Success:", JSON.stringify(data, null, 2));
         const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-        return text || "I'm having trouble thinking. Please contact support.";
+        // DEBUG: Safety Blocks
+        if (!text && data.promptFeedback) {
+            return `I cannot answer this (Safety Block: ${JSON.stringify(data.promptFeedback)}).`;
+        }
+
+        return text || "I'm having trouble thinking (Empty Response).";
+
     } catch (e) {
-        console.error("Gemini Error:", e.message);
-        return "I'm having trouble connecting to my brain.";
+        console.error("Gemini Network Error:", e.message);
+        return `I'm having trouble connecting to my brain (${e.message}).`;
     }
 }
 
