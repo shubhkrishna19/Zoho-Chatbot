@@ -84,8 +84,9 @@ function searchFaqs(query) {
                 }
             }
 
-            // Must match at least some context
-            if (score > 10 || wordMatches >= 2) {
+            // Must match at least some context (STRICTER)
+            // 1 keyword (15) OR 3+ context words (15)
+            if (score >= 15 || wordMatches >= 3) {
                 matches.push({ ...faq, category: category.name, score });
             }
         }
@@ -103,14 +104,10 @@ function searchProducts(query) {
     return productsDb.products.filter(p => {
         const sku = (p.sku || '').toLowerCase();
         const name = (p.name || '').toLowerCase();
-        const cat = (p.category || '').toLowerCase();
-
         // Exact SKU match
         if (sku === queryLower) return true;
-
         // Name/SKU contains term
         if (terms.some(t => sku.includes(t) || name.includes(t))) return true;
-
         return false;
     }).slice(0, 3); // Top 3 products
 }
@@ -121,7 +118,7 @@ function searchProducts(query) {
 const intents = [
     { patterns: [/^hi[!.]?$/i, /^hello[!.]?$/i, /^hey$/i], reply: "Hi! I'm Bluewud's AI assistant. I can help with products, specs, and policies.", category: "greeting" },
     { patterns: [/^bye[!.]?$/i, /^goodbye$/i], reply: "Goodbye! Have a nice day!", category: "farewell" },
-    // Strict handoff: Must ask for human/agent specifically
+    // Strict handoff: Must ask for human
     { patterns: [/talk.*human/i, /speak.*agent/i, /customer\s*care/i, /contact\s*support/i], reply: "📞 Call +918800609609 (9AM-6PM) or email care@bluewud.com", category: "handoff", action: "handoff" }
 ];
 
@@ -140,14 +137,14 @@ async function callGoogleGemini(userMsg, productContext, faqContext) {
     const apiKey = process.env.GOOGLE_API_KEY;
     if (!apiKey) return "My brain is offline (API Key missing).";
 
-    // Format Context
-    const prodStr = productContext.length > 0
-        ? "RELEVANT PRODUCTS:\n" + productContext.map(p => `- SKU: ${p.sku} | Name: ${p.name} | Dims: ${p.dimensions?.L}x${p.dimensions?.B}x${p.dimensions?.H}cm | Price: ₹${p.price}`).join('\n')
-        : "NO SPECIFIC PRODUCTS FOUND.";
+    const hasProducts = productContext.length > 0;
+    const prodStr = hasProducts
+        ? "RELEVANT PRODUCTS FOUND:\n" + productContext.map(p => `- SKU: ${p.sku} | Name: ${p.name} | Dims: ${p.dimensions?.L}x${p.dimensions?.B}x${p.dimensions?.H}cm | Price: ₹${p.price}`).join('\n')
+        : "NO MATCHING PRODUCTS FOUND IN DATABASE.";
 
     const faqStr = faqContext.length > 0
         ? "RELEVANT FAQs:\n" + faqContext.map(f => `Q: ${f.q}\nA: ${f.a}`).join('\n\n')
-        : "NO SPECIFIC FAQs FOUND.";
+        : "NO RELEVANT FAQs FOUND.";
 
     const categoryLinks = Object.entries(CATEGORY_URLS)
         .map(([k, v]) => `- ${k}: ${v}`)
@@ -167,20 +164,18 @@ async function callGoogleGemini(userMsg, productContext, faqContext) {
     Phone: ${CONFIG.contact.phone}
     Email: ${CONFIG.contact.email}
 
-    INSTRUCTIONS:
-    1. ANSWER ONLY based on the "RELEVANT PRODUCTS" and "RELEVANT FAQs" provided above.
-    2. If the user asks about a product NOT listed in "RELEVANT PRODUCTS", say "I couldn't find that specific product, but here are links to our collections:" and show relevant links.
-    3. If the user query is about policies (shipping, warranty) and you have a matching FAQ, paraphrase the answer naturally.
-    4. DO NOT invent information.
-    5. Be friendly, professional, and concise.
-    6. If unsure, tell them to contact support using the provided phone/email.
-
+    CRITICAL RULES:
+    1. IF "NO MATCHING PRODUCTS FOUND" is shown above, and the user asks for specific product details (dimensions, price, material of a specific item), YOU MUST SAY: "I couldn't find details for that specific product in my database. Please contact support or check our website."
+    2. DO NOT use the "RELEVANT FAQs" to answer specific product sizing questions unless the FAQ is explicitly about that specific model.
+    3. If the user asks general questions (warranty, shipping), use the "RELEVANT FAQs".
+    4. Be helpful but truthful. Do not Hallucinate or guess dimensions.
+    
     USER QUERY: ${userMsg}`;
 
     const body = {
         contents: [{ role: 'user', parts: [{ text: userMsg }] }],
         systemInstruction: { parts: [{ text: systemPrompt }] },
-        generationConfig: { temperature: 0.1, maxOutputTokens: 400 }
+        generationConfig: { temperature: 0.1, maxOutputTokens: 1000 }
     };
 
     try {
@@ -190,15 +185,12 @@ async function callGoogleGemini(userMsg, productContext, faqContext) {
             body: JSON.stringify(body)
         });
         const data = await resp.json();
-        console.error("Gemini Response FULL:", JSON.stringify(data, null, 2));
+        console.error("Gemini Response DEBUG:", JSON.stringify(data, null, 2));
         const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
         return text || "I'm having trouble thinking. Please contact support.";
     } catch (e) {
         console.error("Gemini Error:", e.message);
-        if (e.response) {
-            console.error("Response:", await e.response.text());
-        }
         return "I'm having trouble connecting to my brain.";
     }
 }
