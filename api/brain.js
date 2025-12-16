@@ -3,6 +3,8 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
 
+const DEBUG_LOGGING = (process.env.DEBUG_LOGGING || '').toLowerCase() === 'true';
+
 // ============================================
 // CONFIG & CONSTANTS
 // ============================================
@@ -104,44 +106,100 @@ function searchFaqs(query) {
     return matches.sort((a, b) => b.score - a.score).slice(0, 3);
 }
 
-function searchProducts(query) {
-    if (!productsDb || !productsDb.products) return [];
-    const queryLower = query.toLowerCase();
+function normalizeText(value = '') {
+    return value
+        .toString()
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
 
-    // 1. CHECK NAME MAPPING FIRST
-    let targetSku = null;
-    let targetName = null;
-
-    if (productNames.length > 0) {
-        const found = productNames.find(p =>
-            queryLower.includes(p.name.toLowerCase()) ||
-            p.keywords.some(k => queryLower.includes(k.toLowerCase()))
-        );
-        if (found) {
-            targetSku = found.sku;
-            targetName = found.name;
+function levenshtein(a, b) {
+    if (a === b) return 0;
+    if (!a) return b.length;
+    if (!b) return a.length;
+    const matrix = Array.from({ length: b.length + 1 }, (_, i) => [i]);
+    for (let j = 0; j <= a.length; j++) {
+        matrix[0][j] = j;
+    }
+    for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+            const cost = a[j - 1] === b[i - 1] ? 0 : 1;
+            matrix[i][j] = Math.min(
+                matrix[i - 1][j] + 1,
+                matrix[i][j - 1] + 1,
+                matrix[i - 1][j - 1] + cost
+            );
         }
     }
+    return matrix[b.length][a.length];
+}
 
-    // 2. SEARCH PRODUCTS
-    const terms = queryLower.split(/[\s,]+/).filter(w => w.length > 2);
+function similarityScore(a, b) {
+    const distance = levenshtein(a, b);
+    const longest = Math.max(a.length, b.length) || 1;
+    return 1 - distance / longest;
+}
 
-    return productsDb.products.filter(p => {
-        const sku = (p.sku || '').toLowerCase();
+function searchProducts(query) {
+    if (!productsDb || !productsDb.products) return [];
+    const normalizedQuery = normalizeText(query);
+    const queryTokens = normalizedQuery.split(' ').filter(Boolean);
 
-        // Exact SKU match (or mapped SKU)
-        if (targetSku && sku.includes(targetSku.toLowerCase().replace('-xx', ''))) return true;
-        if (sku === queryLower) return true;
+    const nameMatches = productNames.map(p => ({
+        ...p,
+        normName: normalizeText(p.name),
+        normKeywords: (p.keywords || []).map(normalizeText)
+    }));
 
-        // Name/SKU contains term
-        if (terms.some(t => sku.includes(t))) return true;
+    const candidates = productsDb.products.map(product => {
+        const sku = normalizeText(product.sku);
+        const category = normalizeText(product.category || '');
+        const nameEntry = nameMatches.find(n => sku.startsWith(normalizeText(n.sku).replace(/-xx$/, '')));
+        const matchedKeywords = [];
+        let score = 0;
 
-        return false;
-    }).map(p => {
-        // Attach English Name if found
-        if (targetName) p.name = targetName;
-        return p;
-    }).slice(0, 3);
+        // Exact SKU match
+        if (normalizedQuery === sku) score += 30;
+
+        // SKU token overlap
+        if (queryTokens.some(t => sku.includes(t))) score += 10;
+
+        // Category cues
+        if (category && queryTokens.some(t => category.includes(t))) score += 6;
+
+        if (nameEntry) {
+            if (normalizedQuery.includes(nameEntry.normName)) score += 25;
+            nameEntry.normKeywords.forEach(keyword => {
+                if (keyword && normalizedQuery.includes(keyword)) {
+                    matchedKeywords.push(keyword);
+                    score += 12;
+                }
+            });
+
+            // Fuzzy name match as fallback
+            const similarity = similarityScore(normalizedQuery, nameEntry.normName);
+            if (similarity > 0.6) score += Math.round(similarity * 10);
+        }
+
+        // Fuzzy SKU partials
+        const skuSimilarity = similarityScore(normalizedQuery, sku);
+        if (skuSimilarity > 0.6) score += Math.round(skuSimilarity * 8);
+
+        return {
+            ...product,
+            name: nameEntry?.name,
+            _score: score,
+            _matchedKeywords: matchedKeywords
+        };
+    });
+
+    return candidates
+        .filter(c => c._score > 0)
+        .sort((a, b) => b._score - a._score)
+        .slice(0, 3)
+        .map(({ _score, _matchedKeywords, ...rest }) => rest);
 }
 
 // ============================================
@@ -210,23 +268,57 @@ async function callGoogleGemini(userMsg, productContext, faqContext) {
         generationConfig: { temperature: 0.1, maxOutputTokens: 1000 }
     };
 
-    try {
-        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        });
+    const attemptGeminiCall = async () => {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
 
-        const data = await resp.json();
+        try {
+            const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+                signal: controller.signal
+            });
+
+            const data = await resp.json();
+            return { resp, data };
+        } finally {
+            clearTimeout(timeout);
+        }
+    };
+
+    try {
+        let responseData = null;
+        const maxAttempts = 3;
+        for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+            try {
+                responseData = await attemptGeminiCall();
+                break;
+            } catch (error) {
+                const isLastAttempt = attempt === maxAttempts;
+                if (error.name === 'AbortError') {
+                    if (DEBUG_LOGGING) console.error(`Gemini request timed out on attempt ${attempt}`);
+                } else {
+                    if (DEBUG_LOGGING) console.error(`Gemini request failed on attempt ${attempt}:`, error.message);
+                }
+                if (isLastAttempt) throw error;
+                const backoff = 300 * Math.pow(2, attempt - 1);
+                await new Promise(resolve => setTimeout(resolve, backoff));
+            }
+        }
+
+        if (!responseData) return "I'm having trouble thinking (no response).";
+
+        const { resp, data } = responseData;
 
         // DEBUG: Check for API Errors (Non-200 OK)
         if (!resp.ok) {
-            console.error("Gemini API Error:", JSON.stringify(data, null, 2));
+            if (DEBUG_LOGGING) console.error("Gemini API Error:", JSON.stringify(data, null, 2));
             const errMsg = data?.error?.message || "Unknown API Error";
             return `I'm having trouble thinking (Error ${resp.status}: ${errMsg}). Please contact support.`;
         }
 
-        console.log("Gemini Success:", JSON.stringify(data, null, 2));
+        if (DEBUG_LOGGING) console.log("Gemini Success:", JSON.stringify(data, null, 2));
         const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
         // DEBUG: Safety Blocks

@@ -32,6 +32,8 @@
 | Date | Developer | Changes Made | Tested? |
 |------|-----------|--------------|---------|
 | Dec 5 | Shubh | Initial setup, Zoho integration | ✅ |
+| Feb 9 | AI | Added Gemini timeout/retry, debug logging flag, fuzzy product search | ⚠️ Not run |
+| Feb 10 | AI | Documented how to publish changes to GitHub/Vercel | ⚠️ Not run |
 | | | | |
 
 ---
@@ -147,6 +149,44 @@ vercel --prod
 # Check status
 git status
 ```
+
+---
+
+## 🛫 HOW TO PUBLISH CHANGES TO GITHUB & VERCEL
+
+Follow this checklist any time you need to ship updates:
+
+1) **Add the GitHub remote** (only once per machine):
+```bash
+git remote add origin https://github.com/shubhkrishna19/Zoho-Chatbot.git
+```
+
+2) **Sync the latest code** before you start working:
+```bash
+git pull origin main
+```
+
+3) **Stage and commit** your changes locally:
+```bash
+git add .
+git commit -m "Describe your change"
+```
+
+4) **Pull again** to merge any teammate updates, resolve conflicts if shown, then **push** to GitHub:
+```bash
+git pull origin main
+git push origin main
+```
+
+5) **Deploy to production on Vercel** using the same commit that is now on GitHub:
+```bash
+vercel --prod
+```
+
+6) **Verify live**:
+- Chat widget: https://bluewud-chatbot.vercel.app/test.html
+- Zoho webhook: https://bluewud-chatbot.vercel.app/api/zoho
+- Confirm Zoho SalesIQ shows the new behavior.
 
 ---
 

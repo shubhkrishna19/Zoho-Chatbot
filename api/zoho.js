@@ -1,5 +1,18 @@
 const { processMessage } = require('./brain');
 
+const DEBUG_LOGGING = (process.env.DEBUG_LOGGING || '').toLowerCase() === 'true';
+
+function sanitizePayload(body) {
+    if (!body || typeof body !== 'object') return body;
+    const clone = { ...body };
+    if (clone.data && clone.data.message) {
+        clone.data = { ...clone.data, message: '[redacted]' };
+    }
+    if (clone.message) clone.message = '[redacted]';
+    if (clone.text) clone.text = '[redacted]';
+    return clone;
+}
+
 module.exports = async (req, res) => {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Credentials', true);
@@ -16,8 +29,12 @@ module.exports = async (req, res) => {
     }
 
     try {
-        console.log("--- ZOHO PAYLOAD ---");
-        console.log(JSON.stringify(req.body, null, 2));
+        if (DEBUG_LOGGING) {
+            console.log("--- ZOHO PAYLOAD ---");
+            console.log(JSON.stringify(req.body, null, 2));
+        } else {
+            console.log("Zoho request received", JSON.stringify(sanitizePayload(req.body)));
+        }
 
         // 1. Handle "Trigger" Event (Chat Started)
         if (req.body && req.body.handler === 'trigger') {
