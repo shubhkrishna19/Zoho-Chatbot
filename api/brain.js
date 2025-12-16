@@ -315,7 +315,8 @@ async function callGoogleGemini(userMsg, productContext, faqContext) {
         if (!resp.ok) {
             if (DEBUG_LOGGING) console.error("Gemini API Error:", JSON.stringify(data, null, 2));
             const errMsg = data?.error?.message || "Unknown API Error";
-            return `I'm having trouble thinking (Error ${resp.status}: ${errMsg}). Please contact support.`;
+            const maskedKey = apiKey ? apiKey.substring(0, 8) + "..." : "MISSING";
+            return `I'm having trouble thinking (Error ${resp.status}: ${errMsg} | Key: ${maskedKey}). Please contact support.`;
         }
 
         if (DEBUG_LOGGING) console.log("Gemini Success:", JSON.stringify(data, null, 2));
