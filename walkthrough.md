@@ -1,4 +1,4 @@
-# Bluewud Chatbot - Final Walkthrough
+# Bluebot Chatbot - Final Walkthrough
 
 ## ✅ Current Status: LIVE & SYNCED
 

@@ -1,4 +1,4 @@
-# 🤖 Bluewud AI Chatbot
+# 🤖 Bluebot AI Chatbot
 
 > **⚠️ AI ASSISTANT: READ THIS ENTIRE FILE BEFORE STARTING ANY WORK**
 

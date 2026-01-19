@@ -1,4 +1,4 @@
-# Bluewud Chatbot - Development Workflow
+# Bluebot Chatbot - Development Workflow
 
 ## 🔗 Quick Links
 - **GitHub:** https://github.com/shubhkrishna19/Zoho-Chatbot

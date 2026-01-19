@@ -9,7 +9,7 @@ const DEBUG_LOGGING = (process.env.DEBUG_LOGGING || '').toLowerCase() === 'true'
 // CONFIG & CONSTANTS
 // ============================================
 const CONFIG = {
-    botName: "Bluewud Bot",
+    botName: "Bluebot",
     contact: { phone: "+918800609609", email: "care@bluewud.com" }
 };
 
@@ -206,7 +206,7 @@ function searchProducts(query) {
 // INTENTS
 // ============================================
 const intents = [
-    { patterns: [/^hi[!.]?$/i, /^hello[!.]?$/i, /^hey$/i], reply: "Hi! I'm Bluewud's AI assistant. I can help with products, specs, and policies.", category: "greeting" },
+    { patterns: [/^hi[!.]?$/i, /^hello[!.]?$/i, /^hey$/i], reply: "Hi! I'm Bluebot, Bluewud's AI assistant. I can help with products, specs, and policies.", category: "greeting" },
     { patterns: [/^bye[!.]?$/i, /^goodbye$/i], reply: "Goodbye! Have a nice day!", category: "farewell" },
     // Strict handoff: Must ask for human
     { patterns: [/talk.*human/i, /speak.*agent/i, /customer\s*care/i, /contact\s*support/i], reply: "📞 Call +918800609609 (9AM-6PM) or email care@bluewud.com", category: "handoff", action: "handoff" }
@@ -240,7 +240,7 @@ async function callGoogleGemini(userMsg, productContext, faqContext) {
         .map(([k, v]) => `- ${k}: ${v}`)
         .join('\n');
 
-    const systemPrompt = `You are Bluewud's smart AI assistant.
+    const systemPrompt = `You are Bluebot, Bluewud's smart AI assistant.
     
     CORE DATA:
     ${prodStr}
