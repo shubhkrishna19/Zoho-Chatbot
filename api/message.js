@@ -21,8 +21,13 @@ module.exports = async (req, res) => {
 
     const { message } = req.body || {};
 
-    if (!message) {
+    if (!message || typeof message !== 'string' || !message.trim()) {
         res.status(400).json({ error: 'Missing message' });
+        return;
+    }
+
+    if (message.length > 500) {
+        res.status(400).json({ error: 'Message too long. Please keep it under 500 characters.' });
         return;
     }
 

@@ -1,11 +1,26 @@
 # Dependencies
 node_modules/
 
-# Environment variables (KEEP SECRET!)
+# Environment variables — NEVER COMMIT THESE
 .env
+.env.local
+.env*.local
+.env.production
+.env.development
 
-# Vercel
+# Vercel build output
 .vercel/
+.output/
+
+# Raw data exports (use the structured data files in api/data/ instead)
+products_export_1.csv
+*.export.csv
+
+# Working notes / scratch files (not part of the deployable app)
+ChatbotDatabaseQuestions.txt
+
+# Zoho SalesIQ bot config folders (auto-generated, not for git)
+521481000010339001-*/
 
 # OS files
 .DS_Store
@@ -18,5 +33,3 @@ npm-debug.log*
 # IDE
 .idea/
 .vscode/
-.vercel
-.env*.local

@@ -57,9 +57,9 @@ module.exports = async (req, res) => {
 
         // 3. Fallback if no message found
         if (!userMessage) {
-            console.log("No user message found. Sending debug reply.");
+            console.log("No user message found in Zoho payload. Handler:", req.body?.handler || 'unknown');
             return res.json({
-                replies: [{ text: "DEBUG: I received your request but no message text. Handler: " + (req.body.handler || 'unknown') }]
+                replies: [{ text: "Hi! I'm BlueBot. How can I help you with your furniture today?" }]
             });
         }
 
@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
     } catch (e) {
         console.error('Zoho Adapter Error:', e);
         res.json({
-            replies: [{ text: "I'm having trouble right now. Error: " + e.message }]
+            replies: [{ text: "I'm having trouble right now. Please call +918800609609 or email care@bluewud.com for assistance." }]
         });
     }
 };
