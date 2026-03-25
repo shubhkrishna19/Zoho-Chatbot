@@ -1,100 +1,59 @@
-# PROJECT IDENTITY — ZohoChatbot (BlueBot)
+﻿# PROJECT IDENTITY - ZohoChatbot (BlueBot)
 
-> **🔒 This file is locked. Do not modify without Shubh's explicit approval.**
-> Last updated: 2026-02-28 | Owner: Shubh Krishna / Bluewud Industries
-
----
+> Locked identity context updated on 2026-03-18 to match the current MiniMax and OrderHub runtime.
 
 ## What This Project Is
 
-**BlueBot** is Bluewud's AI-powered customer support chatbot, live in production.
+BlueBot is Bluewud's live customer support chatbot.
 
-- Customer-facing: embedded on bluewud.com via Zoho SalesIQ widget
-- Also accessible directly at: https://bluewud-chatbot.vercel.app
-- Handles: product queries, order tracking, shipping/returns FAQs, handoff to human support
-
----
+- Customer-facing storefront widget on bluewud.com
+- Also accessible directly at https://bluewud-chatbot.vercel.app
+- Handles product questions, FAQ and policy answers, order tracking, and human handoff
 
 ## Deployment Target
 
 | Layer | Technology | Details |
 |---|---|---|
-| Hosting | **Vercel** | `bluewud-chatbot.vercel.app` |
-| Runtime | **Node.js** (Vercel Serverless Functions) | api/ folder auto-detected by Vercel |
-| AI Engine | **Google Gemini 2.0 Flash** | via REST API (`gemini-2.0-flash`) |
-| Widget | **Zoho SalesIQ** | custom widget posts to `/api/zoho` |
-| Direct API | Custom POST `/api/message` | for custom chat-widget.js |
-
-Deploy command: `vercel --prod` (from project root)
-
----
+| Hosting | Vercel | `bluewud-chatbot.vercel.app` |
+| Runtime | Node.js serverless functions | `api/` routes |
+| AI Engine | MiniMax M2.5 | OpenAI-compatible REST endpoint |
+| Widget | Zoho SalesIQ plus custom widget | storefront plus test page |
+| Order tracking | OrderHub | `api/orders.js` |
 
 ## Approved Tech Stack
 
-| Component | Approved | NOT Allowed |
+| Component | Approved | Not approved |
 |---|---|---|
-| Runtime | Node.js | Python, Deno |
-| AI | Google Gemini Flash | OpenAI, Anthropic direct, MiniMax |
-| Framework | Vercel Serverless Functions | Express server, Nest.js, tRPC |
-| Data | JSON files (database.json, products.json) | PostgreSQL, MongoDB, Redis |
-| Auth | None (public chatbot) | JWT, sessions |
+| Runtime | Node.js on Vercel | Python, Deno |
+| AI | MiniMax M2.5 | direct provider swaps without approval |
+| Data | JSON files plus Zoho context plus OrderHub | PostgreSQL, MongoDB, Redis |
+| Auth | Public chatbot, env-based upstream keys | sessions, JWT |
 
----
+## Important Files
 
-## Folder Structure
+- `api/brain.js` - AI core and deterministic flow routing
+- `api/message.js` - custom widget endpoint
+- `api/orders.js` - order tracking endpoint
+- `api/zoho.js` - Zoho and SalesIQ context builder
+- `public/chat-widget.js` - storefront widget
+- `.env.example` - env reference
+- `docs/vercel_deploy_readiness.md` - Vercel env list and smoke tests
 
-```
-api/
-  brain.js          — AI core: RAG search + Gemini call
-  message.js        — /api/message endpoint (custom widget)
-  zoho.js           — /api/zoho endpoint (Zoho SalesIQ webhook)
-  orders.js         — /api/orders endpoint (order tracking)
-  data/
-    database.json   — 12 FAQ categories, 60+ Q&As
-    products.json   — 295 products with dimensions/prices
-    product_names.json — SKU → human-readable name mappings
+## Environment Variables
 
-public/
-  chat-widget.js    — custom 493-line chat widget UI
-  test.html         — test page for the widget
+Required in Vercel:
 
-vercel.json         — Vercel routing config
-.env.example        — documents required env vars
-```
+- `MINIMAX_API_KEY`
+- `ORDER_HUB_BASE_URL`
 
----
+Optional:
 
-## Environment Variables (set in Vercel dashboard)
+- `MINIMAX_MODEL`
+- `MINIMAX_BASE_URL`
+- `DEBUG_LOGGING`
 
-| Variable | Purpose | Where to rotate |
-|---|---|---|
-| `GOOGLE_API_KEY` | Gemini AI API access | console.cloud.google.com |
-| `DEBUG_LOGGING` | Set `true` to log payloads locally | Set in `.env` only, never Vercel prod |
+## Untouchable Without Approval
 
----
-
-## Data Update Rules
-
-- **FAQ updates** → edit `api/data/database.json` — follow existing schema exactly
-- **Product updates** → edit `api/data/products.json` — never delete the `sku` field
-- **Product name mappings** → edit `api/data/product_names.json`
-- **Offer codes** → update the "Offers & Discounts" category in `database.json`
-- Raw CSV exports go in `.gitignore` — NOT in the repo
-
----
-
-## Untouchable Files (do not modify without asking Shubh)
-
-- `vercel.json` — breaks routing if changed
-- `api/data/products.json` structure — 295 products; bulk changes via script only
-- `GOOGLE_API_KEY` — must rotate in Vercel dashboard AND in `.env` locally
-- This file (`PROJECT_IDENTITY.md`)
-
----
-
-## Business Context
-
-- Company: Bluewud Concepts Pvt. Ltd.
-- Support: care@bluewud.com | +91 88006 09609 (9AM–6PM IST)
-- Website: bluewud.com
-- Products: Contemporary flat-pack furniture for Indian homes
+- `vercel.json`
+- `api/data/products.json` structure
+- real env secrets
