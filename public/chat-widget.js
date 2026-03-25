@@ -94,20 +94,20 @@
     .bluewud-header-main {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
     }
 
     .bluewud-avatar {
-      width: 118px;
-      height: 50px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.94);
+      width: 124px;
+      height: 36px;
+      border-radius: 0;
+      background: transparent;
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 8px 12px;
+      justify-content: flex-start;
+      padding: 0;
       box-sizing: border-box;
-      box-shadow: inset 0 0 0 1px rgba(15, 76, 129, 0.08);
+      box-shadow: none;
       flex-shrink: 0;
     }
 
@@ -115,7 +115,9 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
+      object-position: left center;
       display: block;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.18));
     }
 
     .bluewud-title {
@@ -129,7 +131,8 @@
       display: block;
       margin-top: 4px;
       font-size: 12px;
-      opacity: 0.86;
+      line-height: 1.35;
+      color: rgba(227, 238, 249, 0.92);
     }
 
     #bluewud-chat-close {
