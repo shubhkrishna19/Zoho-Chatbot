@@ -4,8 +4,24 @@
   const SUPPORT_PHONE = '+918800609609';
   const SUPPORT_EMAIL = 'care@bluewud.com';
   const LOCAL_STORAGE_KEY = 'bluewud_user_data';
+  const htmlRoot = document.documentElement;
 
   window.bluewudHandoffActive = false;
+  htmlRoot.dataset.bluewudZohoHidden = '1';
+
+  const zohoHideStyle = document.createElement('style');
+  zohoHideStyle.id = 'bluewud-zoho-hide';
+  zohoHideStyle.textContent = `
+    html[data-bluewud-zoho-hidden="1"] .zsiq_float,
+    html[data-bluewud-zoho-hidden="1"] #zsiq_float,
+    html[data-bluewud-zoho-hidden="1"] .zsiq-new-theme {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+  `;
+  document.head.appendChild(zohoHideStyle);
 
   const zohoScript = document.createElement('script');
   zohoScript.id = 'zsiqscript';
@@ -17,54 +33,15 @@
   window.$zoho = window.$zoho || {};
   window.$zoho.salesiq = window.$zoho.salesiq || { ready: function () {} };
 
-  const zohoHideStyle = document.createElement('style');
-  zohoHideStyle.id = 'bluewud-zoho-hide';
-  zohoHideStyle.textContent = `
-    .zsiq_float,
-    #zsiq_float,
-    .zsiq-new-theme {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-  `;
-  document.head.appendChild(zohoHideStyle);
-
-  const observer = new MutationObserver(() => {
-    if (window.bluewudHandoffActive) return;
-    const zohoFloat = document.querySelector('.zsiq_float') || document.getElementById('zsiq_float');
-    if (zohoFloat) {
-      zohoFloat.setAttribute(
-        'style',
-        'display:none !important; visibility:hidden !important; opacity:0 !important; pointer-events:none !important;'
-      );
-    }
-  });
-  observer.observe(document.body, { childList: true, subtree: true, attributes: true });
-
-  setInterval(() => {
-    if (window.bluewudHandoffActive) return;
-    const zohoElements = document.querySelectorAll('.zsiq_float, #zsiq_float, .zsiq-new-theme');
-    zohoElements.forEach((element) => {
-      element.setAttribute(
-        'style',
-        'display:none !important; visibility:hidden !important; opacity:0 !important; pointer-events:none !important;'
-      );
-    });
-  }, 150);
-
   window.$zoho.salesiq.ready = function () {
-    window.$zoho.salesiq.floatbutton.visible('hide');
-    window.$zoho.salesiq.theme.basecolor('#0f4c81');
+    window.$zoho.salesiq?.floatbutton?.visible?.('hide');
+    window.$zoho.salesiq?.theme?.basecolor?.('#0f4c81');
 
     function restoreCustomWidget() {
       window.bluewudHandoffActive = false;
-      window.$zoho.salesiq.floatbutton.visible('hide');
-      window.$zoho.salesiq.floatwindow.visible('hide');
-      if (!document.getElementById('bluewud-zoho-hide')) {
-        document.head.appendChild(zohoHideStyle);
-      }
+      htmlRoot.dataset.bluewudZohoHidden = '1';
+      window.$zoho.salesiq?.floatbutton?.visible?.('hide');
+      window.$zoho.salesiq?.floatwindow?.visible?.('hide');
       if (chatButton) {
         chatButton.style.display = 'flex';
       }
@@ -73,9 +50,9 @@
       }
     }
 
-    window.$zoho.salesiq.floatwindow.close(restoreCustomWidget);
-    window.$zoho.salesiq.floatwindow.minimize(restoreCustomWidget);
-    window.$zoho.salesiq.chat.close(restoreCustomWidget);
+    window.$zoho.salesiq?.floatwindow?.close?.(restoreCustomWidget);
+    window.$zoho.salesiq?.floatwindow?.minimize?.(restoreCustomWidget);
+    window.$zoho.salesiq?.chat?.close?.(restoreCustomWidget);
   };
 
   const widgetStyle = document.createElement('style');
@@ -485,8 +462,7 @@
 
     try {
       window.bluewudHandoffActive = true;
-      const hideStyle = document.getElementById('bluewud-zoho-hide');
-      if (hideStyle) hideStyle.remove();
+      htmlRoot.dataset.bluewudZohoHidden = '0';
       if (window.$zoho?.salesiq?.floatbutton) {
         window.$zoho.salesiq.floatbutton.visible('show');
       }
