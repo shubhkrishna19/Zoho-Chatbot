@@ -4,17 +4,18 @@
   const SUPPORT_PHONE = '+918800609609';
   const SUPPORT_EMAIL = 'care@bluewud.com';
   const LOCAL_STORAGE_KEY = 'bluewud_user_data';
-  const htmlRoot = document.documentElement;
-
-  window.bluewudHandoffActive = false;
-  htmlRoot.dataset.bluewudZohoHidden = '1';
+  const BRAND_LOGO_URL =
+    'https://www.bluewud.com/cdn/shop/files/Bluewud_Logo_final_2_130x_2x_f579854f-34cb-4a02-b2f1-9b2ecb734e51_1204x630.png?v=1637601553';
 
   const zohoHideStyle = document.createElement('style');
   zohoHideStyle.id = 'bluewud-zoho-hide';
   zohoHideStyle.textContent = `
-    html[data-bluewud-zoho-hidden="1"] .zsiq_float,
-    html[data-bluewud-zoho-hidden="1"] #zsiq_float,
-    html[data-bluewud-zoho-hidden="1"] .zsiq-new-theme {
+    .zsiq_float,
+    #zsiq_float,
+    .zsiq-new-theme,
+    .zls-sptwndw,
+    [id^="zsiq"],
+    [class*="zsiq"] {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
@@ -22,38 +23,6 @@
     }
   `;
   document.head.appendChild(zohoHideStyle);
-
-  const zohoScript = document.createElement('script');
-  zohoScript.id = 'zsiqscript';
-  zohoScript.src =
-    'https://salesiq.zohopublic.com/widget?wc=siq4c7716da988d8cbb7d42379d1a02f9650078fd58c1092a23f0ac730cb1be0905';
-  zohoScript.defer = true;
-  document.head.appendChild(zohoScript);
-
-  window.$zoho = window.$zoho || {};
-  window.$zoho.salesiq = window.$zoho.salesiq || { ready: function () {} };
-
-  window.$zoho.salesiq.ready = function () {
-    window.$zoho.salesiq?.floatbutton?.visible?.('hide');
-    window.$zoho.salesiq?.theme?.basecolor?.('#0f4c81');
-
-    function restoreCustomWidget() {
-      window.bluewudHandoffActive = false;
-      htmlRoot.dataset.bluewudZohoHidden = '1';
-      window.$zoho.salesiq?.floatbutton?.visible?.('hide');
-      window.$zoho.salesiq?.floatwindow?.visible?.('hide');
-      if (chatButton) {
-        chatButton.style.display = 'flex';
-      }
-      if (chatModal) {
-        chatModal.style.display = 'none';
-      }
-    }
-
-    window.$zoho.salesiq?.floatwindow?.close?.(restoreCustomWidget);
-    window.$zoho.salesiq?.floatwindow?.minimize?.(restoreCustomWidget);
-    window.$zoho.salesiq?.chat?.close?.(restoreCustomWidget);
-  };
 
   const widgetStyle = document.createElement('style');
   widgetStyle.textContent = `
@@ -129,13 +98,24 @@
     }
 
     .bluewud-avatar {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.16);
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.94);
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 7px;
+      box-sizing: border-box;
+      box-shadow: inset 0 0 0 1px rgba(15, 76, 129, 0.08);
+    }
+
+    .bluewud-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 10px;
     }
 
     .bluewud-title {
@@ -295,8 +275,7 @@
 
   const chatButton = document.createElement('button');
   chatButton.id = 'bluewud-chat-btn';
-  chatButton.innerHTML =
-    '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
+  chatButton.innerHTML = `<img src="${BRAND_LOGO_URL}" alt="Bluewud" style="width:38px;height:38px;object-fit:contain;display:block;" />`;
   document.body.appendChild(chatButton);
 
   const chatModal = document.createElement('div');
@@ -306,12 +285,7 @@
       <div class="bluewud-header-row">
         <div class="bluewud-header-main">
           <div class="bluewud-avatar">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M8 15s1.5 2 4 2 4-2 4-2"></path>
-              <line x1="9" y1="9" x2="9.01" y2="9"></line>
-              <line x1="15" y1="9" x2="15.01" y2="9"></line>
-            </svg>
+            <img src="${BRAND_LOGO_URL}" alt="Bluewud logo" />
           </div>
           <div>
             <span class="bluewud-title">BlueBot</span>
@@ -456,25 +430,13 @@
 
   function triggerHandoff(originalText = '') {
     appendMessage(
-      `Connecting you to support. You can also call or WhatsApp us on ${SUPPORT_PHONE} or email ${SUPPORT_EMAIL}.`,
+      `You can reach Bluewud support on ${SUPPORT_PHONE} or ${SUPPORT_EMAIL}. Share your question or order issue there and the team will pick it up.`,
       'bot'
     );
-
-    try {
-      window.bluewudHandoffActive = true;
-      htmlRoot.dataset.bluewudZohoHidden = '0';
-      if (window.$zoho?.salesiq?.floatbutton) {
-        window.$zoho.salesiq.floatbutton.visible('show');
-      }
-      if (window.$zoho?.salesiq?.floatwindow) {
-        window.$zoho.salesiq.floatwindow.visible('show');
-      }
-      if (window.$zoho?.salesiq?.chat?.start) {
-        window.$zoho.salesiq.chat.start(originalText || 'Customer requested support from BlueBot.');
-      }
-    } catch (error) {
-      console.warn('Zoho handoff unavailable:', error);
-    }
+    appendChips([
+      { label: 'Track Order', query: 'Track my order' },
+      { label: 'Browse TV Units', query: 'Show me TV Units' },
+    ]);
   }
 
   function startOrderTracking() {
