@@ -4,6 +4,8 @@
   const SUPPORT_PHONE = '+918800609609';
   const SUPPORT_EMAIL = 'care@bluewud.com';
   const LOCAL_STORAGE_KEY = 'bluewud_user_data';
+  const BRAND_ICON_URL =
+    'https://www.bluewud.com/cdn/shop/files/Favicion_logo_32x32.png?v=1643005950';
   const BRAND_LOGO_URL =
     'https://www.bluewud.com/cdn/shop/files/Bluewud_Logo_final_2_130x_2x_f579854f-34cb-4a02-b2f1-9b2ecb734e51_1204x630.png?v=1637601553';
 
@@ -285,7 +287,7 @@
       <div class="bluewud-header-row">
         <div class="bluewud-header-main">
           <div class="bluewud-avatar">
-            <img src="${BRAND_LOGO_URL}" alt="Bluewud logo" />
+            <img src="${BRAND_ICON_URL}" alt="Bluewud logo" />
           </div>
           <div>
             <span class="bluewud-title">BlueBot</span>
@@ -314,10 +316,39 @@
   const sendButton = document.getElementById('bluewud-chat-send');
   const closeButton = document.getElementById('bluewud-chat-close');
 
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function linkifyText(value) {
+    return escapeHtml(value)
+      .replace(
+        /(https?:\/\/[^\s<]+)/gi,
+        '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">$1</a>'
+      )
+      .replace(
+        /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,})/gi,
+        '<a href="mailto:$1" style="color:inherit;text-decoration:underline;">$1</a>'
+      );
+  }
+
+  function formatMessageContent(value) {
+    const text = String(value || '');
+    if (/<[a-z][\s\S]*>/i.test(text)) {
+      return text.replace(/\n/g, '<br/>');
+    }
+    return linkifyText(text).replace(/\n/g, '<br/>');
+  }
+
   function appendMessage(text, sender) {
     const bubble = document.createElement('div');
     bubble.className = `bluewud-msg bluewud-${sender}`;
-    bubble.innerHTML = String(text || '').replace(/\n/g, '<br/>');
+    bubble.innerHTML = formatMessageContent(text);
     bodyDiv.appendChild(bubble);
     bodyDiv.scrollTop = bodyDiv.scrollHeight;
   }
