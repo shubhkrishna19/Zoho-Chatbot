@@ -1,19 +1,23 @@
 require('dotenv').config();
 const brain = require('./api/brain');
 
-// Run Test
 (async () => {
-    console.log("--- TESTING BRAIN DEBUG ---");
-    const key = process.env.GOOGLE_API_KEY;
-    console.log("API Key configured:", key ? "YES (" + key.substring(0, 5) + "...)" : "NO");
+    console.log('--- LOCAL BRAIN SMOKE TEST ---');
+    const key = process.env.MINIMAX_API_KEY;
+    console.log('MiniMax API key configured:', key ? `YES (${key.substring(0, 5)}...)` : 'NO');
 
-    const query = "how can you help me"; // User reported failure
-    console.log(`\nQ: "${query}"`);
+    const queries = [
+        'Show me TV Units',
+        'Return policy',
+        'Track my order',
+    ];
 
-    try {
+    for (const query of queries) {
         const result = await brain.processMessage(query);
-        console.log("A:", JSON.stringify(result, null, 2));
-    } catch (e) {
-        console.error("TEST CRASHED:", e);
+        console.log(`\nQ: ${query}`);
+        console.log(JSON.stringify(result, null, 2));
     }
-})();
+})().catch((error) => {
+    console.error('LOCAL TEST FAILED:', error);
+    process.exit(1);
+});

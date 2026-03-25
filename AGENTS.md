@@ -1,101 +1,73 @@
-# AGENTS.md — ZohoChatbot (BlueBot)
-# Universal AI context file. Read this first, regardless of which AI tool you are.
-# Works with: Claude Code, MiniMax, Antigravity, OpenClaw, Codex, Cursor, Copilot
-
----
+﻿# AGENTS.md - ZohoChatbot (BlueBot)
+# Universal project context for Codex, Claude, MiniMax, OpenClaw, Cursor, and Copilot.
 
 ## Project Identity
 
-- **Name:** ZohoChatbot (internally: BlueBot)
-- **Owner:** Shubh (Bluewud)
-- **Platform:** Vercel (serverless Node.js API routes)
-- **Status:** Live / Production
-- **Purpose:** AI-powered customer support chatbot for Bluewud's Shopify store. Answers product questions, shipping queries, return policies. Embedded in the storefront.
-
----
+- Name: ZohoChatbot (BlueBot)
+- Owner: Shubh (Bluewud)
+- Platform: Vercel serverless Node.js API routes
+- Status: Live / production
+- Purpose: Customer-facing Bluewud support chatbot for product help, policy guidance, and order tracking
 
 ## Tech Stack
 
-| Layer         | Tech                                             |
-|---------------|--------------------------------------------------|
-| Runtime       | Node.js (Vercel serverless functions)            |
-| AI Model      | Google Gemini 2.0 Flash (`gemini-2.0-flash`)    |
-| Product data  | Zoho Inventory / Zoho CRM API (`api/zoho.js`)   |
-| Deployment    | Vercel (`vercel --prod`)                         |
-| Auth          | Google API key (env var only — never in code)   |
+| Layer | Tech |
+|---|---|
+| Runtime | Node.js on Vercel serverless functions |
+| AI Model | MiniMax M2.5 (`MiniMax-M2.5`) |
+| Product data | Zoho Inventory / Zoho CRM context via `api/zoho.js` |
+| Order tracking | OrderHub lookup via `api/orders.js` |
+| Deployment | Vercel |
 
----
+## Critical Rules
 
-## Critical Rules — Any AI Must Follow
+1. Keep the storefront AI on `MiniMax-M2.5` unless Shubh explicitly changes providers.
+2. Keep `max_tokens` at `400` so replies stay chat-widget sized.
+3. Keep the system prompt in `api/brain.js` concise, grounded, and plain text only.
+4. Never expose raw upstream errors to users.
+5. Keep the `500` character message limit in `api/message.js`.
+6. Never commit credentials. Vercel runtime env vars are the source of truth.
+7. Do not deploy from an AI lane unless Shubh explicitly instructs it.
 
-1. **Model is `gemini-2.0-flash`** — do not downgrade or change without Shubh's approval.
-2. **`maxOutputTokens: 400`** — keep it. Responses must be concise for a chat widget.
-3. **System prompt is in `api/brain.js`** — the 3-4 sentence max rule is intentional.
-4. **Never expose raw API errors to users** — `api/zoho.js` catch blocks must return generic messages.
-5. **Message length limit is 500 chars** — enforced in `api/message.js`. Do not remove.
-6. **No credentials in code** — `GOOGLE_API_KEY` lives in Vercel environment variables.
-7. **Never call `vercel --prod`** — Shubh deploys.
+## Runtime Env Vars
 
----
+Required for live Vercel deploys:
 
-## File Structure (important files)
+- `MINIMAX_API_KEY`
+- `ORDER_HUB_BASE_URL`
 
-```
-api/
-  brain.js          ← Gemini AI integration, system prompt, model config
-  message.js        ← Message validation (500 char limit, type check)
-  zoho.js           ← Zoho CRM/Inventory API caller, product context builder
-  health.js         ← Health check endpoint
-.env.example        ← GOOGLE_API_KEY placeholder
-PROJECT_IDENTITY.md ← locked identity
-```
+Optional:
 
----
+- `MINIMAX_MODEL` (defaults to `MiniMax-M2.5`)
+- `MINIMAX_BASE_URL` (defaults to `https://api.minimax.io/v1`)
+- `DEBUG_LOGGING`
 
-## System Prompt Design (brain.js)
+## Important Files
 
-The system prompt:
-- Identifies the bot as "BlueBot" for Bluewud
-- Sets 3-4 sentence max per response
-- Instructs: answer only Bluewud-related questions, no hallucination, use product data from Zoho context
-- Format: plain text, no markdown in responses (chat widget doesn't render it)
+- `api/brain.js` -> MiniMax wiring, deterministic product/category/policy flow, system prompt
+- `api/message.js` -> request validation and message length guard
+- `api/orders.js` -> OrderHub-backed order tracking endpoint
+- `api/zoho.js` -> product context builder
+- `.env.example` -> local/Vercel env reference
+- `docs/vercel_deploy_readiness.md` -> deploy env list and post-deploy smoke tests
+- `PROJECT_IDENTITY.md` -> locked project identity and approved stack
 
-When editing the system prompt: keep it under 200 words, maintain the no-hallucination rule, and keep the 3-4 sentence constraint.
+## Request Flow
 
----
+User message -> `api/message.js` validation -> `api/brain.js`
 
-## Product Data Flow
+Deterministic flows stay local first:
 
-```
-User asks → api/message.js (validates) → api/brain.js (builds Gemini request)
-              ↓
-          api/zoho.js fetches relevant products from Zoho
-              ↓
-          Gemini 2.0 Flash answers with product context
-              ↓
-          Response returned (max 400 tokens)
-```
+- category browse
+- product/spec lookup
+- FAQ/policy answers
+- order tracking prompt
 
----
-
-## When Working on This Project
-
-- Test with real customer questions: "What are the dimensions of X?", "Do you ship to Bangalore?", "What's your return policy?"
-- Check that error messages shown to users are generic (not raw API errors)
-- Do not add markdown formatting to responses — the Shopify chat widget renders plain text
-
----
-
-## Handoff Protocol
-
-When done: summarize changes, list modified files, flag TODOs. Do not deploy.
-
+Only unresolved chat requests go to MiniMax with catalog and FAQ context.
 
 ## Session Start Checklist
 
-Every session, before writing any code:
-1. Read this AGENTS.md fully
-2. Read TASKS.md — check what's IN PROGRESS (don't duplicate work)
-3. Claim your task in TASKS.md before starting
-4. Work on a branch: feat/[agent-tag]-T[id]-[slug]
-5. Full protocol: BluewudOrchestrator/COORDINATION.md
+1. Read this file.
+2. Read `TASKS.md` and avoid duplicate work.
+3. Follow `BluewudOrchestrator/COORDINATION.md`.
+4. Do not deploy unless explicitly told to.

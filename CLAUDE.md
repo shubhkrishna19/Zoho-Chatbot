@@ -1,36 +1,38 @@
-# CLAUDE.md — ZohoChatbot / BlueBot (Claude Code Extension)
-# This file extends AGENTS.md with Claude Code-specific context.
-# READ AGENTS.md FIRST — all architecture, rules, and project identity live there.
-
----
+﻿# CLAUDE.md - ZohoChatbot / BlueBot
+# Claude Code-specific notes. Read AGENTS.md first.
 
 ## Claude Code Notes
 
-- **Vercel serverless**: each file in `api/` is a separate serverless function. No shared state between requests.
-- **Node.js only**: no build step, no TypeScript. Plain CommonJS or ESM (`require` vs `import` — check existing files).
-- **Gemini SDK**: uses `@google/generative-ai` npm package. Check package.json version before adding new Gemini features.
-- **Testing locally**: `vercel dev` spins up a local Vercel runtime. Much better than raw `node api/brain.js`.
-- **System prompt location**: `api/brain.js` → the `systemInstruction` object. Keep under 200 words.
+- Vercel serverless: every file in `api/` is its own function.
+- Node.js only: no TypeScript or build step.
+- `api/brain.js` calls the MiniMax OpenAI-compatible REST endpoint with `node-fetch`.
+- `buildAiSystemPrompt()` is the system prompt builder.
+- Deterministic category, product, FAQ, and order-tracking flows should remain local and stable.
 
-## Useful Claude Code Commands for This Project
+## Useful Local Commands
 
 ```bash
-# Run locally
+# Run locally with Vercel
 vercel dev
 
-# Check Gemini SDK version
-cat package.json | grep generative-ai
+# Syntax-check the chatbot brain
+node --check api/brain.js
 
-# Test brain endpoint
-curl -X POST http://localhost:3000/api/brain \
+# Run local verification
+node --test --test-isolation=none tests/brain.test.js
+node test_local.js
+
+# Hit the public message endpoint locally
+curl -X POST http://localhost:3000/api/message \
   -H "Content-Type: application/json" \
-  -d '{"message": "What sofas do you sell?"}'
+  -d '{"message": "Show me TV Units"}'
 ```
 
-## What to Read Before Touching Code
+## Read Before Editing
 
-1. `AGENTS.md` — project rules, product data flow, system prompt constraints
-2. `PROJECT_IDENTITY.md` — locked identity
-3. `api/brain.js` — Gemini integration + system prompt
-4. `api/message.js` — validation (500 char limit)
-5. `api/zoho.js` — Zoho product context builder
+1. `AGENTS.md`
+2. `PROJECT_IDENTITY.md`
+3. `api/brain.js`
+4. `api/message.js`
+5. `api/orders.js`
+6. `docs/vercel_deploy_readiness.md`

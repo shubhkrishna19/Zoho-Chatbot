@@ -1,493 +1,643 @@
-// public/chat-widget.js
 (() => {
-  // --- STATE MANAGEMENT ---
-  window.bluewudHandoffActive = false;
+  const CHAT_API_URL = 'https://bluewud-chatbot.vercel.app/api/message';
+  const ORDER_API_URL = 'https://bluewud-chatbot.vercel.app/api/orders';
+  const SUPPORT_PHONE = '+918800609609';
+  const SUPPORT_EMAIL = 'care@bluewud.com';
+  const LOCAL_STORAGE_KEY = 'bluewud_user_data';
+  const htmlRoot = document.documentElement;
 
-  // --- 1. Inject Zoho SalesIQ Script ---
+  window.bluewudHandoffActive = false;
+  htmlRoot.dataset.bluewudZohoHidden = '1';
+
+  const zohoHideStyle = document.createElement('style');
+  zohoHideStyle.id = 'bluewud-zoho-hide';
+  zohoHideStyle.textContent = `
+    html[data-bluewud-zoho-hidden="1"] .zsiq_float,
+    html[data-bluewud-zoho-hidden="1"] #zsiq_float,
+    html[data-bluewud-zoho-hidden="1"] .zsiq-new-theme {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+  `;
+  document.head.appendChild(zohoHideStyle);
+
   const zohoScript = document.createElement('script');
   zohoScript.id = 'zsiqscript';
-  zohoScript.src = 'https://salesiq.zohopublic.com/widget?wc=siq4c7716da988d8cbb7d42379d1a02f9650078fd58c1092a23f0ac730cb1be0905';
+  zohoScript.src =
+    'https://salesiq.zohopublic.com/widget?wc=siq4c7716da988d8cbb7d42379d1a02f9650078fd58c1092a23f0ac730cb1be0905';
   zohoScript.defer = true;
   document.head.appendChild(zohoScript);
 
   window.$zoho = window.$zoho || {};
-  window.$zoho.salesiq = window.$zoho.salesiq || { ready: function () { } };
-
-  // --- CRITICAL: Aggressively Hide Zoho Initially ---
-  const zohoHideStyle = document.createElement('style');
-  zohoHideStyle.id = 'bluewud-zoho-hide';
-  zohoHideStyle.textContent = `
-    .zsiq_float, #zsiq_float, .zsiq-new-theme { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }
-  `;
-  document.head.appendChild(zohoHideStyle);
-
-  // --- ENFORCER: MutationObserver + Interval ---
-  const observer = new MutationObserver((mutations) => {
-    if (!window.bluewudHandoffActive) {
-      const zohoFloat = document.querySelector('.zsiq_float') || document.getElementById('zsiq_float');
-      if (zohoFloat && (zohoFloat.style.display !== 'none' || zohoFloat.style.visibility !== 'hidden')) {
-        zohoFloat.setAttribute('style', 'display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;');
-      }
-    }
-  });
-  observer.observe(document.body, { childList: true, subtree: true, attributes: true });
-
-  setInterval(() => {
-    if (!window.bluewudHandoffActive) {
-      if (!document.getElementById('bluewud-zoho-hide')) {
-        document.head.appendChild(zohoHideStyle);
-      }
-      const zohoElements = document.querySelectorAll('.zsiq_float, #zsiq_float, .zsiq-new-theme');
-      zohoElements.forEach(el => {
-        el.setAttribute('style', 'display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;');
-      });
-    }
-  }, 100);
-
+  window.$zoho.salesiq = window.$zoho.salesiq || { ready: function () {} };
 
   window.$zoho.salesiq.ready = function () {
-    window.$zoho.salesiq.floatbutton.visible('hide');
-    window.$zoho.salesiq.theme.basecolor('#0066ff');
+    window.$zoho.salesiq?.floatbutton?.visible?.('hide');
+    window.$zoho.salesiq?.theme?.basecolor?.('#0f4c81');
 
     function restoreCustomWidget() {
       window.bluewudHandoffActive = false;
-      window.$zoho.salesiq.floatbutton.visible('hide');
-      window.$zoho.salesiq.floatwindow.visible('hide');
-
-      if (!document.getElementById('bluewud-zoho-hide')) {
-        document.head.appendChild(zohoHideStyle);
+      htmlRoot.dataset.bluewudZohoHidden = '1';
+      window.$zoho.salesiq?.floatbutton?.visible?.('hide');
+      window.$zoho.salesiq?.floatwindow?.visible?.('hide');
+      if (chatButton) {
+        chatButton.style.display = 'flex';
       }
-
-      const btn = document.getElementById('bluewud-chat-btn');
-      if (btn) {
-        btn.style.display = 'flex';
-        btn.style.animation = 'pulse 2s infinite';
+      if (chatModal) {
+        chatModal.style.display = 'none';
       }
-      const modal = document.getElementById('bluewud-chat-modal');
-      if (modal) modal.style.display = 'none';
     }
 
-    window.$zoho.salesiq.floatwindow.close(restoreCustomWidget);
-    window.$zoho.salesiq.floatwindow.minimize(restoreCustomWidget);
-    window.$zoho.salesiq.chat.close(restoreCustomWidget);
+    window.$zoho.salesiq?.floatwindow?.close?.(restoreCustomWidget);
+    window.$zoho.salesiq?.floatwindow?.minimize?.(restoreCustomWidget);
+    window.$zoho.salesiq?.chat?.close?.(restoreCustomWidget);
   };
 
-  // --- 2. Custom Widget Styles (Modern V2) ---
-  const style = document.createElement('style');
-  style.textContent = `
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-    
-    @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 102, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(0, 102, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 102, 255, 0); } }
-    @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  const widgetStyle = document.createElement('style');
+  widgetStyle.textContent = `
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-    #bluewud-chat-btn { 
-      position: fixed; bottom: 30px; right: 30px; 
-      background: linear-gradient(135deg, #0066ff, #0044aa); 
-      color: #fff; border: none; 
-      border-radius: 50%; width: 64px; height: 64px; 
-      cursor: pointer; font-size: 28px; 
-      z-index: 2147483647; 
-      box-shadow: 0 8px 24px rgba(0, 68, 170, 0.3);
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      display: flex; align-items: center; justify-content: center;
-      animation: pulse 2s infinite;
-    }
-    #bluewud-chat-btn:hover { transform: scale(1.1) rotate(-5deg); box-shadow: 0 12px 32px rgba(0, 68, 170, 0.4); animation: none; }
-    
-    #bluewud-chat-modal { 
-      display: none; position: fixed; bottom: 110px; right: 30px; 
-      width: 380px; height: 650px; max-height: 85vh;
-      background: #f8f9fa; border: none; border-radius: 24px; 
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15); 
-      z-index: 2147483647; 
-      flex-direction: column; overflow: hidden; 
-      font-family: 'Inter', sans-serif; 
-      border: 1px solid rgba(0,0,0,0.05);
-      animation: slideIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-    
-    #bluewud-chat-header { 
-      background: linear-gradient(135deg, #0066ff, #0044aa); 
-      color: #fff; padding: 24px; 
-      position: relative; overflow: hidden;
-      flex-shrink: 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    #bluewud-chat-header::before {
-      content: ''; position: absolute; top: -50%; right: -20%;
-      width: 200px; height: 200px; background: rgba(255,255,255,0.1);
-      border-radius: 50%; pointer-events: none;
+    @keyframes bluewud-slide-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .bluewud-header-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 16px; }
-    .bluewud-avatar { 
-      width: 48px; height: 48px; background: rgba(255,255,255,0.2); 
-      backdrop-filter: blur(4px); border-radius: 50%; 
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; color: #fff; border: 2px solid rgba(255,255,255,0.3);
-    }
-    .bluewud-title-area { display: flex; flex-direction: column; }
-    .bluewud-title { font-weight: 700; font-size: 20px; letter-spacing: -0.5px; }
-    .bluewud-subtitle { font-size: 12px; opacity: 0.85; margin-top: 4px; font-weight: 500; }
-    
-    #bluewud-chat-controls {
-      position: absolute; top: 20px; right: 20px; z-index: 2;
-      display: flex; gap: 12px; align-items: center;
-    }
-    #bluewud-chat-close { cursor: pointer; font-size: 24px; opacity: 0.8; transition: opacity 0.2s; }
-    #bluewud-chat-close:hover { opacity: 1; }
-
-    #bluewud-chat-body { 
-      flex: 1; padding: 24px; overflow-y: auto; 
-      font-size: 14px; background: #fff; 
-      display: flex; flex-direction: column; gap: 12px;
-      scroll-behavior: smooth;
-    }
-    
-    /* V2 MESSAGES */
-    .bluewud-msg { 
-      padding: 12px 16px; max-width: 85%; line-height: 1.5; font-size: 14px;
-      position: relative; animation: slideIn 0.2s ease-out;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
-    .bluewud-user { 
-      align-self: flex-end; 
-      background: linear-gradient(135deg, #0066ff, #0052cc); 
-      color: #fff; 
-      border-radius: 18px 18px 4px 18px; 
-    }
-    .bluewud-bot { 
-      align-self: flex-start; 
-      background: #f1f3f5; 
-      color: #1c1e21; 
-      border-radius: 18px 18px 18px 4px; 
+    @keyframes bluewud-pulse {
+      0% { box-shadow: 0 0 0 0 rgba(15, 76, 129, 0.35); }
+      70% { box-shadow: 0 0 0 12px rgba(15, 76, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(15, 76, 129, 0); }
     }
 
-    /* V2 CHIPS */
+    #bluewud-chat-btn {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      z-index: 2147483647;
+      width: 64px;
+      height: 64px;
+      border: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      cursor: pointer;
+      background: linear-gradient(135deg, #0f4c81, #0a2f4f);
+      box-shadow: 0 12px 30px rgba(10, 47, 79, 0.28);
+      animation: bluewud-pulse 2s infinite;
+    }
+
+    #bluewud-chat-modal {
+      position: fixed;
+      right: 28px;
+      bottom: 106px;
+      z-index: 2147483647;
+      width: 380px;
+      max-width: calc(100vw - 24px);
+      height: 650px;
+      max-height: 85vh;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 24px;
+      background: #f7f8fa;
+      box-shadow: 0 24px 64px rgba(11, 23, 38, 0.22);
+      border: 1px solid rgba(15, 76, 129, 0.08);
+      font-family: 'Inter', sans-serif;
+      animation: bluewud-slide-in 0.28s ease-out;
+    }
+
+    #bluewud-chat-header {
+      padding: 24px;
+      color: #fff;
+      background: linear-gradient(135deg, #0f4c81, #0a2f4f);
+    }
+
+    .bluewud-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .bluewud-header-main {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .bluewud-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bluewud-title {
+      display: block;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .bluewud-subtitle {
+      display: block;
+      margin-top: 4px;
+      font-size: 12px;
+      opacity: 0.86;
+    }
+
+    #bluewud-chat-close {
+      border: 0;
+      background: transparent;
+      color: #fff;
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    #bluewud-chat-body {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #fff;
+    }
+
+    .bluewud-msg {
+      max-width: 86%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      line-height: 1.5;
+      font-size: 14px;
+      animation: bluewud-slide-in 0.2s ease-out;
+      box-shadow: 0 2px 8px rgba(17, 24, 39, 0.04);
+      white-space: pre-wrap;
+    }
+
+    .bluewud-bot {
+      align-self: flex-start;
+      color: #18222f;
+      background: #f1f4f8;
+      border-radius: 18px 18px 18px 6px;
+    }
+
+    .bluewud-user {
+      align-self: flex-end;
+      color: #fff;
+      background: linear-gradient(135deg, #0f4c81, #145e99);
+      border-radius: 18px 18px 6px 18px;
+    }
+
     .bluewud-chips-container {
-      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;
-      animation: slideIn 0.3s ease-out;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 2px;
     }
+
     .bluewud-chip {
-      background: #fff; border: 1px solid #e9ecef; color: #0066ff;
-      padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 500;
-      cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      border: 1px solid #d7e0ea;
+      border-radius: 999px;
+      background: #fff;
+      color: #0f4c81;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
     }
+
     .bluewud-chip:hover {
-      background: #0066ff; color: #fff; transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(0,102,255,0.2); border-color: #0066ff;
+      color: #fff;
+      background: #0f4c81;
+      border-color: #0f4c81;
+      transform: translateY(-1px);
     }
 
-    /* V2 MENU / ACCORDION */
-    .bluewud-menu-card {
-      background: #fff; border: 1px solid #e9ecef; border-radius: 16px;
-      overflow: hidden; margin-top: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-      width: 100%; animation: slideIn 0.3s ease-out;
+    .bluewud-typing {
+      margin-left: 14px;
+      color: #8a94a6;
+      font-size: 12px;
+      font-style: italic;
     }
-    .bluewud-menu-item {
-      padding: 14px 16px; border-bottom: 1px solid #f1f3f5;
-      display: flex; align-items: center; justify-content: space-between;
-      cursor: pointer; transition: background 0.2s; font-size: 14px; color: #343a40; font-weight: 500;
-    }
-    .bluewud-menu-item:hover { background: #f8f9fa; color: #0066ff; }
-    .bluewud-menu-item:last-child { border-bottom: none; }
-    .bluewud-menu-arrow { font-size: 12px; color: #adb5bd; }
 
-    #bluewud-chat-input-area { 
-      padding: 16px; background: #fff; 
-      display: flex; align-items: center; gap: 10px;
-      border-top: 1px solid #f1f3f5;
+    #bluewud-chat-input-area {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 16px;
+      border-top: 1px solid #eef2f7;
+      background: #fff;
     }
-    #bluewud-chat-input { 
-      flex: 1; padding: 12px 18px; border: 1px solid #e9ecef; 
-      background: #f8f9fa;
-      border-radius: 24px; outline: none; font-family: inherit; font-size: 14px;
-      transition: all 0.2s;
-    }
-    #bluewud-chat-input:focus { border-color: #0066ff; background: #fff; box-shadow: 0 0 0 3px rgba(0,102,255,0.1); }
-    #bluewud-chat-send { 
-      background: #0066ff; color: #fff; border: none; 
-      width: 40px; height: 40px; border-radius: 50%; 
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: transform 0.2s, background 0.2s;
-      box-shadow: 0 4px 10px rgba(0,102,255,0.2);
-    }
-    #bluewud-chat-send:hover { background: #0052cc; transform: scale(1.05); }
 
-    .bluewud-typing { font-style: italic; color: #adb5bd; font-size: 12px; margin-left: 14px; margin-bottom: 8px; }
-    #bluewud-footer { text-align: center; font-size: 10px; color: #dee2e6; padding-bottom: 8px; background: #fff; }
-    
-    #bluewud-chat-body::-webkit-scrollbar { width: 5px; }
-    #bluewud-chat-body::-webkit-scrollbar-thumb { background: #e9ecef; border-radius: 3px; }
+    #bluewud-chat-input {
+      flex: 1;
+      border: 1px solid #d8e0ea;
+      border-radius: 999px;
+      padding: 12px 18px;
+      background: #f7f8fa;
+      font: inherit;
+      outline: none;
+    }
+
+    #bluewud-chat-input:focus {
+      background: #fff;
+      border-color: #0f4c81;
+      box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.12);
+    }
+
+    #bluewud-chat-send {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      cursor: pointer;
+      background: #0f4c81;
+      box-shadow: 0 8px 20px rgba(15, 76, 129, 0.18);
+    }
+
+    #bluewud-footer {
+      padding: 0 0 10px;
+      text-align: center;
+      font-size: 10px;
+      color: #b2bcc8;
+      background: #fff;
+    }
+
+    @media (max-width: 640px) {
+      #bluewud-chat-btn {
+        right: 18px;
+        bottom: 18px;
+      }
+
+      #bluewud-chat-modal {
+        right: 12px;
+        left: 12px;
+        bottom: 90px;
+        width: auto;
+        height: 78vh;
+      }
+    }
   `;
-  document.head.appendChild(style);
+  document.head.appendChild(widgetStyle);
 
-  // --- 3. Create Custom Widget UI ---
-  const btn = document.createElement('button');
-  btn.id = 'bluewud-chat-btn';
-  btn.innerHTML = '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
-  document.body.appendChild(btn);
+  const chatButton = document.createElement('button');
+  chatButton.id = 'bluewud-chat-btn';
+  chatButton.innerHTML =
+    '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
+  document.body.appendChild(chatButton);
 
-  const modal = document.createElement('div');
-  modal.id = 'bluewud-chat-modal';
-  modal.innerHTML = `
+  const chatModal = document.createElement('div');
+  chatModal.id = 'bluewud-chat-modal';
+  chatModal.innerHTML = `
     <div id="bluewud-chat-header">
-      <div id="bluewud-chat-controls">
-        <span id="bluewud-chat-close">×</span>
-      </div>
-      <div class="bluewud-header-content">
-        <div class="bluewud-avatar">🤖</div>
-        <div class="bluewud-title-area">
-          <span class="bluewud-title">BlueBot</span>
-          <span class="bluewud-subtitle">For all your furniture needs!</span>
+      <div class="bluewud-header-row">
+        <div class="bluewud-header-main">
+          <div class="bluewud-avatar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M8 15s1.5 2 4 2 4-2 4-2"></path>
+              <line x1="9" y1="9" x2="9.01" y2="9"></line>
+              <line x1="15" y1="9" x2="15.01" y2="9"></line>
+            </svg>
+          </div>
+          <div>
+            <span class="bluewud-title">BlueBot</span>
+            <span class="bluewud-subtitle">Product help, policy guidance, and order support</span>
+          </div>
         </div>
+        <button id="bluewud-chat-close" aria-label="Close chat">x</button>
       </div>
     </div>
     <div id="bluewud-chat-body"></div>
     <div id="bluewud-chat-input-area">
-      <input id="bluewud-chat-input" placeholder="Type a message..." autocomplete="off"/>
-      <button id="bluewud-chat-send">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      <input id="bluewud-chat-input" placeholder="Type a message..." autocomplete="off" />
+      <button id="bluewud-chat-send" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
       </button>
     </div>
     <div id="bluewud-footer">Powered by BlueBot</div>
   `;
-  document.body.appendChild(modal);
+  document.body.appendChild(chatModal);
 
-  // --- UI HELPERS ---
   const bodyDiv = document.getElementById('bluewud-chat-body');
+  const input = document.getElementById('bluewud-chat-input');
+  const sendButton = document.getElementById('bluewud-chat-send');
+  const closeButton = document.getElementById('bluewud-chat-close');
 
   function appendMessage(text, sender) {
-    const msgDiv = document.createElement('div');
-    msgDiv.className = `bluewud-msg bluewud-${sender}`;
-    msgDiv.innerHTML = text.replace(/\n/g, '<br/>'); // Simple markdown support
-    bodyDiv.appendChild(msgDiv);
+    const bubble = document.createElement('div');
+    bubble.className = `bluewud-msg bluewud-${sender}`;
+    bubble.innerHTML = String(text || '').replace(/\n/g, '<br/>');
+    bodyDiv.appendChild(bubble);
     bodyDiv.scrollTop = bodyDiv.scrollHeight;
   }
 
   function appendChips(chips) {
+    if (!Array.isArray(chips) || chips.length === 0) return;
     const container = document.createElement('div');
     container.className = 'bluewud-chips-container';
-
-    chips.forEach(chip => {
-      const btn = document.createElement('div');
-      btn.className = 'bluewud-chip';
-      btn.textContent = chip.label;
-      btn.onclick = () => {
-        // Disable after click to prevent spam
-        // btn.style.pointerEvents = 'none';
-        // btn.style.opacity = '0.7';
-        sendMessage(chip.query || chip.label);
-      };
-      container.appendChild(btn);
+    chips.forEach((chip) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'bluewud-chip';
+      button.textContent = chip.label;
+      button.addEventListener('click', () => sendMessage(chip.query || chip.label));
+      container.appendChild(button);
     });
-
     bodyDiv.appendChild(container);
     bodyDiv.scrollTop = bodyDiv.scrollHeight;
   }
 
-  function appendMenu(items) {
-    const card = document.createElement('div');
-    card.className = 'bluewud-menu-card';
-    items.forEach(item => {
-      const row = document.createElement('div');
-      row.className = 'bluewud-menu-item';
-      row.innerHTML = `<span>${item.label}</span> <span class="bluewud-menu-arrow">›</span>`;
-      row.onclick = () => sendMessage(item.query || item.label);
-      card.appendChild(row);
-    });
-    bodyDiv.appendChild(card);
-    bodyDiv.scrollTop = bodyDiv.scrollHeight;
-  }
-
-  // --- CUSTOMER RECOGNITION (LOCALSTORAGE) ---
-  const LS_KEY = 'bluewud_user_data';
-
   function safeLocalStorage() {
-    try { return window.localStorage; } catch (e) { return null; }
-  }
-
-  function saveCustomerData(data) {
-    const storage = safeLocalStorage();
-    if (!storage) return;
-    const current = JSON.parse(storage.getItem(LS_KEY) || '{}');
-    storage.setItem(LS_KEY, JSON.stringify({ ...current, ...data, lastVisit: new Date().toISOString() }));
+    try {
+      return window.localStorage;
+    } catch (error) {
+      return null;
+    }
   }
 
   function loadCustomerData() {
     const storage = safeLocalStorage();
     if (!storage) return null;
-    return JSON.parse(storage.getItem(LS_KEY) || 'null');
+    return JSON.parse(storage.getItem(LOCAL_STORAGE_KEY) || 'null');
   }
 
-  // --- CONTEXT AWARENESS ---
-  function getContextGreeting() {
-    const path = window.location.pathname.toLowerCase();
-    if (path.includes('tv-units')) return "Looking for the perfect **TV Unit**? I can help you compare models.";
-    if (path.includes('coffee-tables')) return "Need a **Coffee Table** to complete your living room? Ask me anything.";
-    if (path.includes('study-tables')) return "Planning your home office? Check out our **Study Tables**.";
-    if (path.includes('shoe-racks')) return "Organizing your footwear? Let's find a **Shoe Rack**.";
-    return "Hi! Welcome to Bluewud. I'm your furniture expert. How can I help you today?";
+  function saveCustomerData(data) {
+    const storage = safeLocalStorage();
+    if (!storage) return;
+    const current = JSON.parse(storage.getItem(LOCAL_STORAGE_KEY) || '{}');
+    storage.setItem(
+      LOCAL_STORAGE_KEY,
+      JSON.stringify({ ...current, ...data, lastVisit: new Date().toISOString() })
+    );
   }
 
-  // --- INITIALIZE CHAT ---
-  function initChat() {
-    bodyDiv.innerHTML = ''; // Clear context
+  function resetInputMode() {
+    input.placeholder = 'Type a message...';
+    input.dataset.mode = 'chat';
+    delete input.dataset.orderId;
+  }
 
-    // 1. Check Previous Customer Data
-    const customer = loadCustomerData();
-    let greeting = getContextGreeting();
-
-    if (customer && customer.lastOrderId) {
-      greeting = `Welcome back! Do you want to check the status of **Order #${customer.lastOrderId}** again?`;
+  function normalizeContactPayload(value) {
+    const text = String(value || '').trim();
+    if (!text) return {};
+    if (text.includes('@')) {
+      return { email: text.toLowerCase() };
     }
+    return { phone: text.replace(/\D/g, '') };
+  }
+
+  function getContextGreeting() {
+    const pathname = window.location.pathname.toLowerCase();
+    if (pathname.includes('tv-units')) {
+      return 'Looking at TV Units? I can help you compare sizes, collections, and the right fit for your room.';
+    }
+    if (pathname.includes('coffee-tables')) {
+      return 'Need help choosing a coffee table? I can guide you through the collection.';
+    }
+    if (pathname.includes('study-tables')) {
+      return 'Shopping for a desk or study table? I can help you browse the right options.';
+    }
+    if (pathname.includes('shoe-racks')) {
+      return 'Need better shoe storage? I can point you to the best shoe rack options.';
+    }
+    return 'Hi! I can help you browse products, answer policy questions, and track a placed order.';
+  }
+
+  function initChat() {
+    bodyDiv.innerHTML = '';
+    resetInputMode();
+
+    const customer = loadCustomerData();
+    const greeting = customer?.lastOrderId
+      ? `Welcome back. Do you want to check Order #${customer.lastOrderId} again, or browse products?`
+      : getContextGreeting();
 
     appendMessage(greeting, 'bot');
-
-    // Quick Action Chips
-    const chips = [
-      { label: "📦 Track Order", query: "Track my order" },
-      { label: "🛡️ Warranty Info", query: "Warranty policy" },
-      { label: "↩️ Return Policy", query: "Return policy" },
-      { label: "📞 Support", query: "Talk to human agent" }
-    ];
-
-    // If returning user, put "Track Order" first and highlight it
-    if (customer && customer.lastOrderId) {
-      // Already first, but logic could personalize this further
-    }
-
-    appendChips(chips);
+    appendChips([
+      { label: 'Browse TV Units', query: 'Show me TV Units' },
+      { label: 'Browse Study Tables', query: 'Show me Study Tables' },
+      { label: 'Track Order', query: 'Track my order' },
+      { label: 'Warranty Info', query: 'Warranty policy' },
+      { label: 'Talk to Support', query: 'Talk to human agent' },
+    ]);
   }
 
-  // Toggle Modal
-  btn.addEventListener('click', () => {
-    if (modal.style.display !== 'flex') {
-      modal.style.display = 'flex';
-      btn.style.display = 'none';
-      if (bodyDiv.children.length === 0) initChat();
-      document.getElementById('bluewud-chat-input').focus();
+  function openWidget() {
+    chatModal.style.display = 'flex';
+    chatButton.style.display = 'none';
+    if (bodyDiv.children.length === 0) {
+      initChat();
     }
-  });
+    input.focus();
+  }
 
-  document.getElementById('bluewud-chat-close').addEventListener('click', () => {
-    modal.style.display = 'none';
-    btn.style.display = 'flex';
-  });
+  function closeWidget() {
+    chatModal.style.display = 'none';
+    chatButton.style.display = 'flex';
+    resetInputMode();
+  }
 
-  // --- TRACK ORDER LOGIC ---
-  async function handleOrderTracking(orderId) {
+  function triggerHandoff(originalText = '') {
+    appendMessage(
+      `Connecting you to support. You can also call or WhatsApp us on ${SUPPORT_PHONE} or email ${SUPPORT_EMAIL}.`,
+      'bot'
+    );
+
+    try {
+      window.bluewudHandoffActive = true;
+      htmlRoot.dataset.bluewudZohoHidden = '0';
+      if (window.$zoho?.salesiq?.floatbutton) {
+        window.$zoho.salesiq.floatbutton.visible('show');
+      }
+      if (window.$zoho?.salesiq?.floatwindow) {
+        window.$zoho.salesiq.floatwindow.visible('show');
+      }
+      if (window.$zoho?.salesiq?.chat?.start) {
+        window.$zoho.salesiq.chat.start(originalText || 'Customer requested support from BlueBot.');
+      }
+    } catch (error) {
+      console.warn('Zoho handoff unavailable:', error);
+    }
+  }
+
+  function startOrderTracking() {
+    appendMessage('Please enter your Order ID to begin tracking.', 'bot');
+    input.placeholder = 'Enter Order ID here...';
+    input.dataset.mode = 'order_tracking';
+    input.focus();
+  }
+
+  function promptOrderVerification(orderId) {
     appendMessage(orderId, 'user');
+    appendMessage(
+      'Please enter the phone number or email used on that order so I can verify the latest status.',
+      'bot'
+    );
+    input.placeholder = 'Enter phone number or email...';
+    input.dataset.mode = 'order_tracking_verify';
+    input.dataset.orderId = orderId;
+    input.focus();
+  }
 
-    const typingDiv = document.createElement('div');
-    typingDiv.className = 'bluewud-typing';
-    typingDiv.textContent = 'Checking order status...';
-    bodyDiv.appendChild(typingDiv);
+  async function lookupOrderStatus(orderId, contactValue) {
+    appendMessage(contactValue, 'user');
+
+    const typing = document.createElement('div');
+    typing.className = 'bluewud-typing';
+    typing.textContent = 'Checking order status...';
+    bodyDiv.appendChild(typing);
     bodyDiv.scrollTop = bodyDiv.scrollHeight;
 
     try {
-      const resp = await fetch('https://bluewud-chatbot.vercel.app/api/orders', {
+      const payload = { orderId, ...normalizeContactPayload(contactValue) };
+      const response = await fetch(ORDER_API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId: orderId })
+        body: JSON.stringify(payload),
       });
-      const data = await resp.json();
+      const data = await response.json();
 
-      if (bodyDiv.contains(typingDiv)) bodyDiv.removeChild(typingDiv);
-
-      if (data.found) {
-        // SAVE TO LOCALSTORAGE
-        saveCustomerData({ lastOrderId: data.orderId });
-
-        const statusHtml = `
-                  <div style="background:#f0f9ff; padding:12px; border-radius:8px; border:1px solid #bae6fd;">
-                      <strong style="color:#0284c7;">📦 Order #${data.orderId}</strong><br/>
-                      <div style="margin-top:8px; font-size:16px;">${data.status}</div>
-                      <div style="font-size:12px; color:#64748b; margin-top:4px;">Date: ${data.date}</div>
-                  </div>
-              `;
-        appendMessage(statusHtml, 'bot');
-      } else {
-        appendMessage(`❌ ${data.message}`, 'bot');
+      if (bodyDiv.contains(typing)) {
+        bodyDiv.removeChild(typing);
       }
 
-      // Reset Input Mode
-      const input = document.getElementById('bluewud-chat-input');
-      input.placeholder = "Type a message...";
-      input.dataset.mode = "chat";
+      if (data.found) {
+        saveCustomerData({ lastOrderId: data.orderId });
+        appendMessage(
+          `<div style="background:#f0f7ff; border:1px solid #c9def2; border-radius:14px; padding:12px;">
+            <strong style="color:#0f4c81;">Order #${data.orderId}</strong><br/>
+            <div style="margin-top:8px; font-size:16px;">${data.status}</div>
+            <div style="margin-top:4px; font-size:12px; color:#64748b;">Last updated: ${data.date}</div>
+          </div>`,
+          'bot'
+        );
+        appendChips([
+          { label: 'Track another order', query: 'Track my order' },
+          { label: 'Talk to Support', query: 'Talk to human agent' },
+        ]);
+        resetInputMode();
+        return;
+      }
 
-    } catch (e) {
-      if (bodyDiv.contains(typingDiv)) bodyDiv.removeChild(typingDiv);
-      appendMessage("⚠️ Connection failed. Please try again.", 'bot');
+      appendMessage(
+        data.requiresVerification
+          ? data.message
+          : `I could not confirm that order yet. ${data.message || 'Please check the details and try again.'}`,
+        'bot'
+      );
+      appendChips([
+        { label: 'Track again', query: 'Track my order' },
+        { label: 'Talk to Support', query: 'Talk to human agent' },
+      ]);
+      resetInputMode();
+    } catch (error) {
+      if (bodyDiv.contains(typing)) {
+        bodyDiv.removeChild(typing);
+      }
+      appendMessage(
+        'There was a connection issue while checking that order. Please try again or talk to support.',
+        'bot'
+      );
+      appendChips([
+        { label: 'Track again', query: 'Track my order' },
+        { label: 'Talk to Support', query: 'Talk to human agent' },
+      ]);
+      resetInputMode();
     }
   }
 
-  // --- COMMUNICATION LOGIC ---
-  const apiUrl = 'https://bluewud-chatbot.vercel.app/api/message';
+  async function sendMessage(rawText) {
+    const text = String(rawText || '').trim();
+    if (!text) return;
 
-  async function sendMessage(text) {
-    const input = document.getElementById('bluewud-chat-input');
-
-    // SPECIAL MODES
     if (input.dataset.mode === 'order_tracking') {
-      handleOrderTracking(text);
       input.value = '';
+      promptOrderVerification(text);
       return;
     }
 
-    if (text === "Track my order" || text === "📦 Track Order") {
+    if (input.dataset.mode === 'order_tracking_verify') {
+      input.value = '';
+      lookupOrderStatus(input.dataset.orderId, text);
+      return;
+    }
+
+    if (text === 'Track my order' || text === 'Track Order') {
       appendMessage(text, 'user');
-      setTimeout(() => {
-        appendMessage("Please enter your 5-digit **Order ID** (e.g., 12345).", 'bot');
-        input.placeholder = "Enter Order ID here...";
-        input.dataset.mode = "order_tracking";
-        input.focus();
-      }, 500);
+      input.value = '';
+      window.setTimeout(startOrderTracking, 300);
       return;
     }
 
-    // NORMAL CHAT FLOW
     appendMessage(text, 'user');
     input.value = '';
 
-    const typingDiv = document.createElement('div');
-    typingDiv.className = 'bluewud-typing';
-    typingDiv.textContent = 'Bluewud is typing...';
-    bodyDiv.appendChild(typingDiv);
+    const typing = document.createElement('div');
+    typing.className = 'bluewud-typing';
+    typing.textContent = 'BlueBot is typing...';
+    bodyDiv.appendChild(typing);
     bodyDiv.scrollTop = bodyDiv.scrollHeight;
 
     try {
-      const resp = await fetch(apiUrl, {
+      const response = await fetch(CHAT_API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text })
+        body: JSON.stringify({ message: text }),
       });
-      const data = await resp.json();
+      const data = await response.json();
 
-      if (bodyDiv.contains(typingDiv)) bodyDiv.removeChild(typingDiv);
+      if (bodyDiv.contains(typing)) {
+        bodyDiv.removeChild(typing);
+      }
 
       if (data.action === 'handoff') {
         triggerHandoff(text);
-      } else {
-        appendMessage(data.reply, 'bot');
+        return;
       }
 
-    } catch (e) {
-      if (bodyDiv.contains(typingDiv)) bodyDiv.removeChild(typingDiv);
-      appendMessage('Connection issue. Contact us at +918800609609', 'bot');
+      appendMessage(data.reply, 'bot');
+      if (Array.isArray(data.chips) && data.chips.length > 0) {
+        appendChips(data.chips);
+      }
+    } catch (error) {
+      if (bodyDiv.contains(typing)) {
+        bodyDiv.removeChild(typing);
+      }
+      appendMessage(
+        `There was a connection issue. You can reach us on ${SUPPORT_PHONE} or ${SUPPORT_EMAIL}.`,
+        'bot'
+      );
+      appendChips([{ label: 'Talk to Support', query: 'Talk to human agent' }]);
     }
   }
 
-  const input = document.getElementById('bluewud-chat-input');
-  const sendBtn = document.getElementById('bluewud-chat-send');
-
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && input.value.trim()) sendMessage(input.value.trim());
+  chatButton.addEventListener('click', openWidget);
+  closeButton.addEventListener('click', closeWidget);
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && input.value.trim()) {
+      sendMessage(input.value.trim());
+    }
   });
-
-  sendBtn.addEventListener('click', () => {
-    if (input.value.trim()) sendMessage(input.value.trim());
+  sendButton.addEventListener('click', () => {
+    if (input.value.trim()) {
+      sendMessage(input.value.trim());
+    }
   });
-
 })();
