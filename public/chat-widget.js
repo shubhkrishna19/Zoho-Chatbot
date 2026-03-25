@@ -4,8 +4,6 @@
   const SUPPORT_PHONE = '+918800609609';
   const SUPPORT_EMAIL = 'care@bluewud.com';
   const LOCAL_STORAGE_KEY = 'bluewud_user_data';
-  const BRAND_ICON_URL =
-    'https://www.bluewud.com/cdn/shop/files/Favicion_logo_32x32.png?v=1643005950';
   const BRAND_LOGO_URL =
     'https://www.bluewud.com/cdn/shop/files/Bluewud_Logo_final_2_130x_2x_f579854f-34cb-4a02-b2f1-9b2ecb734e51_1204x630.png?v=1637601553';
 
@@ -100,16 +98,17 @@
     }
 
     .bluewud-avatar {
-      width: 54px;
-      height: 54px;
-      border-radius: 16px;
+      width: 118px;
+      height: 50px;
+      border-radius: 14px;
       background: rgba(255, 255, 255, 0.94);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 7px;
+      padding: 8px 12px;
       box-sizing: border-box;
       box-shadow: inset 0 0 0 1px rgba(15, 76, 129, 0.08);
+      flex-shrink: 0;
     }
 
     .bluewud-avatar img {
@@ -117,7 +116,6 @@
       height: 100%;
       object-fit: contain;
       display: block;
-      border-radius: 10px;
     }
 
     .bluewud-title {
@@ -287,7 +285,7 @@
       <div class="bluewud-header-row">
         <div class="bluewud-header-main">
           <div class="bluewud-avatar">
-            <img src="${BRAND_ICON_URL}" alt="Bluewud logo" />
+            <img src="${BRAND_LOGO_URL}" alt="Bluewud logo" />
           </div>
           <div>
             <span class="bluewud-title">BlueBot</span>
